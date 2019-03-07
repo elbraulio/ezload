@@ -4,7 +4,7 @@
 
 load data from formatted files to a relational data base.
 
-# How to use
+# Install
 
 #### maven
 
@@ -37,3 +37,13 @@ allprojects {
 	}
 }
 ```
+
+# Bots
+
+We are using several bots, this is the current list:
+
+| name                                                         | description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Release Drafter](https://github.com/toolmantim/release-drafter) | Drafts your next release notes as pull requests are merged into master. Built with [Probot](https://github.com/probot/probot). |
+| [wip](https://github.com/wip/app)                            | By default, WIP is setting a pull request status to pending if it finds one of the following terms in the pull request titles: wip, work in progress, 🚧.<br />The pending status can be overwritten by adding `@wip ready for review` to the pull request body. |
+| [Stale](https://github.com/probot/stale)                     | A GitHub App built with [Probot](https://github.com/probot/probot) that closes abandoned Issues and Pull Requests after a period of inactivity. |
