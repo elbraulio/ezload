@@ -1,0 +1,4 @@
+# Configuration for todo - https://github.com/JasonEtco/todo
+todo:
+  autoAssign: false
+  blobLines: 10

@@ -38,6 +38,22 @@ allprojects {
 }
 ```
 
+# Logs
+
+This tool print logs only when testing. If you want to print them, you must implement `EzLogger` with your favorite log tool and give it as argument to `Ezload`.
+
+```java
+new Ezload(new MyLogger());
+
+class MyLogger implements EZLogger {
+    @Override
+    public void info(String msg, String claz) {
+        Logger.getLogger(claz).info(msg);
+    }
+    ...
+}
+```
+
 # Bots
 
 We are using several bots, this is the current list:
@@ -47,3 +63,5 @@ We are using several bots, this is the current list:
 | [Release Drafter](https://github.com/toolmantim/release-drafter) | Drafts your next release notes as pull requests are merged into master. Built with [Probot](https://github.com/probot/probot). |
 | [wip](https://github.com/wip/app)                            | By default, WIP is setting a pull request status to pending if it finds one of the following terms in the pull request titles: wip, work in progress, 🚧.<br />The pending status can be overwritten by adding `@wip ready for review` to the pull request body. |
 | [Stale](https://github.com/probot/stale)                     | A GitHub App built with [Probot](https://github.com/probot/probot) that closes abandoned Issues and Pull Requests after a period of inactivity. |
+| [todo](https://github.com/JasonEtco/todo)                    | Using **todo** should be really simple. Once you've installed it in your repository, simply push some code (to your default branch, a PR; doesn't matter). If the code you pushed includes one of the configured keywords (defaults are `@todo` and `TODO`), then the integration will create a new issue for you using the comment your wrote in your code!<br/>To reduce noise and keep your **todo** notes in the right context, **todo** comments made in commits that are part of a pull request will be converted into comments on that pull request. When the PR is merged, **todo**will determine which of those **todo**s have yet to be resolved and open an appropriate issue. |
+
