@@ -38,6 +38,42 @@ allprojects {
 }
 ```
 
+# How to use
+
+To load your data, you need to set the file format. To do that you have to define each column of the file including the separation expression like this:
+
+```java
+EzLoad.parse(file, ",", numberOfCols)
+    .withCol(
+        EzCol.integer(
+            0, "units", new NoConstrain<>(), new ToInt()
+        )
+    ).withCol(
+        EzCol.string(
+            0, "names", new NoConstrain<>(), new ToString()
+        )
+).parser();
+```
+
+The final argument `ToString` and `ToInt` is included to make possible to add more complex transformations, these are the default ones. For instance you can make a decorator where you take the value plus 100 from a number:
+
+```java
+class Percent implements Transform<Integer> {
+    private final Transform<Integer> origin;
+    Percent(Transform<Integer> origin) {
+        this.origin = origin;
+    }
+    @Override
+    public int from(String value) {
+        return 100 + this.origin.from(value);
+    }
+}
+
+EzCol.integer(
+	0, "units", new NoConstrain<>(), new Percent(new ToInt())
+);
+```
+
 # Logs
 
 This tool print logs only when testing. If you want to print them, you must implement `EzLogger` with your favorite log tool and give it as argument to `Ezload`.
