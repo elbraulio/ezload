@@ -60,7 +60,7 @@ public final class GenericColumn<T> implements Column<T> {
         return this.constrain.isValid(value(value));
     }
 
-    /**
+    /*
      * @todo do not know how to test this
      * @body how to check if parameters were actually saved?
      */
