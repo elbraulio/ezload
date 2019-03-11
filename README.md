@@ -50,17 +50,17 @@ EzLoad.parse(file, ",", numberOfCols)
         )
     ).withCol(
         EzCol.string(
-            0, "names", new NoConstrain<>(), new ToString()
+            1, "names", new NoConstrain<>(), new ToString()
         )
 ).parser();
 ```
 
-The final argument `ToString` and `ToInt` is included to make possible to add more complex transformations, these are the default ones. For instance you can make a decorator where you take the value plus 100 from a number:
+The final argument `ToString` and `ToInt` is included to make possible to add more complex transformations, these are the default ones. For instance, you can make a decorator where you take the value plus 100 from a number:
 
 ```java
-class Percent implements Transform<Integer> {
+class PlusHundred implements Transform<Integer> {
     private final Transform<Integer> origin;
-    Percent(Transform<Integer> origin) {
+    PlusHundred(Transform<Integer> origin) {
         this.origin = origin;
     }
     @Override
@@ -70,7 +70,7 @@ class Percent implements Transform<Integer> {
 }
 
 EzCol.integer(
-	0, "units", new NoConstrain<>(), new Percent(new ToInt())
+	0, "units", new NoConstrain<>(), new PlusHundred(new ToInt())
 );
 ```
 
