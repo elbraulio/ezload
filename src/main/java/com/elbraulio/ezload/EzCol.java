@@ -10,7 +10,7 @@ import com.elbraulio.ezload.model.transform.Transform;
 /**
  * @todo EzCol needs test
  * @body Just for sake of time it can be included at this time but it is
- * necessary to do that.
+ * @body necessary to do that.
  */
 
 /**
