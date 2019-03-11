@@ -14,7 +14,7 @@ public final class DefaultParser implements Parser {
     /**
      * @todo DefaultParser needs a line-reader
      * @body file, expression and columnsNumber are variables related to the
-     * File reading. So may be the Ctor can be changed.
+     * @body File reading. So may be the Ctor can be changed.
      */
     private final File file;
     private final String expression;

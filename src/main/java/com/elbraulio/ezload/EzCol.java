@@ -75,7 +75,7 @@ public final class EzCol {
         /**
          * @todo The order and column match are unique combination
          * @body EzCol:newCol does not validate the fact that the order and
-         * column match are unique combination.
+         * @body column match are unique combination.
          */
         return new GenericColumn<>(
                 order, name, constrain, transform, addBatch
