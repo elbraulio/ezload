@@ -52,11 +52,11 @@ public interface Column<T> {
      *
      * @param ps    {@link PreparedStatement}
      * @param index index to add to {@link PreparedStatement}.
-     * @param value value to add.
+     * @param value raw value to add.
      * @return {@link PreparedStatement}
      * @throws SQLException {@link PreparedStatement} error.
      */
     PreparedStatement addToPreparedStatement(
-            PreparedStatement ps, int index, T value
+            PreparedStatement ps, int index, String value
     ) throws SQLException;
 }
