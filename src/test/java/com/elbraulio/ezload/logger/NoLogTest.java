@@ -1,6 +1,5 @@
 package com.elbraulio.ezload.logger;
 
-import com.elbraulio.ezload.model.transform.ToInt;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

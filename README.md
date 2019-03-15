@@ -40,10 +40,10 @@ allprojects {
 
 # How to use
 
-To load your data, you need to set the file format. To do that you have to define each column of the file including the separation expression like this:
+To load your data, you can use **EzLoad** and **EzCol** to set the file format. To do that you have to define each column of the file including the separation expression like this:
 
 ```java
-EzLoad.parse(file, ",", numberOfCols)
+Parser parser = EzLoad.parse(file, ",", numberOfCols)
     .withCol(
         EzCol.integer(
             0, "units", new NoConstrain<>(), new ToInt()
@@ -71,6 +71,14 @@ class PlusHundred implements Transform<Integer> {
 
 EzCol.integer(
 	0, "units", new NoConstrain<>(), new PlusHundred(new ToInt())
+);
+```
+
+Now you can insert this using **EzInsert**. This allow you to insert from source to a data base like your are using the `executeBatch()`.
+
+```java
+int[] batchResult = EzInsert.fromParser(
+   	connection, "table_name", parser, bufferedReader
 );
 ```
 

@@ -44,4 +44,9 @@ public final class DefaultParser implements Parser {
     public List<Column> columns() {
         return this.columns;
     }
+
+    @Override
+    public String separator() {
+        return this.expression;
+    }
 }

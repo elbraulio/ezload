@@ -17,4 +17,11 @@ public interface Parser {
      * @return columns.
      */
     List<Column> columns();
+
+    /**
+     * Expression that defines how the data is separated in a single line.
+     *
+     * @return separation expression.
+     */
+    String separator();
 }

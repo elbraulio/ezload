@@ -66,8 +66,14 @@ public final class GenericColumn<T> implements Column<T> {
      */
     @Override
     public PreparedStatement addToPreparedStatement(
-            PreparedStatement ps, int index, T value
+            PreparedStatement ps, int index, String value
     ) throws SQLException {
-        return this.addBatch.addValue(ps, index, value);
+        /*
+         * @todo value method on column is not necessary
+         * @body is too much information to the user. The only thing that care about
+         * @body the transformed value is the this column. So in this example
+         * @body it can just be used `this.transform.from(value)`.
+         */
+        return this.addBatch.addValue(ps, index, value(value));
     }
 }
