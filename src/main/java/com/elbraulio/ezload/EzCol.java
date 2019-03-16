@@ -7,11 +7,6 @@ import com.elbraulio.ezload.model.batch.AddBatch;
 import com.elbraulio.ezload.model.batch.IntBatch;
 import com.elbraulio.ezload.model.batch.StringBatch;
 import com.elbraulio.ezload.model.transform.Transform;
-/**
- * @todo EzCol needs test
- * @body Just for sake of time it can be included at this time but it is
- * @body necessary to do that.
- */
 
 /**
  * {@link Column} factory. This design come from the fact that we need to
