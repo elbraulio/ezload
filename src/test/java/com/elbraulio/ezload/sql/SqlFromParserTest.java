@@ -18,8 +18,9 @@ public class SqlFromParserTest {
         MatcherAssert.assertThat(
                 "empty queries doesn't make columns",
                 new SqlFromParser(
-                        "name", new DefaultParseBuild(null, null, 0
-                ).parser()
+                        "name",
+                        new DefaultParseBuild(null, 0
+                        ).parser()
                 ).sql(),
                 CoreMatchers.is("INSERT INTO name () VALUES ();")
         );
@@ -32,7 +33,7 @@ public class SqlFromParserTest {
                 new SqlFromParser(
                         "name",
                         new DefaultParseBuild(
-                                null, null, 0
+                                null, 0
                         ).withCol(
                                 new GenericColumn<>(
                                         0, "first", new NoConstrain<>(),
@@ -51,7 +52,7 @@ public class SqlFromParserTest {
                 new SqlFromParser(
                         "name",
                         new DefaultParseBuild(
-                                null, null, 0
+                                null, 0
                         ).withCol(
                                 new GenericColumn<>(
                                         0, "first", new NoConstrain<>(),

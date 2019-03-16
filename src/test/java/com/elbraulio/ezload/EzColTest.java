@@ -7,8 +7,6 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
