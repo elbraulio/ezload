@@ -64,13 +64,19 @@ public final class InsertFromParser implements Insert {
                 final String[] split = line.split(this.parser.separator());
                 int index = 1;
                 for (Column col : this.parser.columns()) {
-                    /*
-                    @todo check if order is on bounds
-                    @body this is not checking if the index actually exists.
-                     */
+                    if (col.order() >= split.length || col.order() < 0) {
+                        throw new EzException(
+                                "column order " + col.order() + " must be " +
+                                        "on range [0, " + split.length + "]."
+                        );
+                    }
                     final String raw = split[col.order()];
                     if (col.isValid(raw)) {
                         col.addToPreparedStatement(psmt, index++, raw);
+                    } else {
+                        throw new EzException(
+                                "raw value '" + raw + "' is not valid."
+                        );
                     }
                 }
                 psmt.addBatch();
