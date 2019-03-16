@@ -16,7 +16,7 @@ public class DefaultParseBuildTest {
     public void noColumns() {
         MatcherAssert.assertThat(
                 "no columns, has 0 info about columns",
-                new DefaultParseBuild(null, "", 0)
+                new DefaultParseBuild("", 0)
                         .parser().columns().size(),
                 CoreMatchers.is(0)
         );
@@ -26,7 +26,7 @@ public class DefaultParseBuildTest {
     public void withCols() {
         MatcherAssert.assertThat(
                 "2 columns, has 2 info about columns",
-                new DefaultParseBuild(null, "", 2)
+                new DefaultParseBuild("", 2)
                         .withCol(
                                 new GenericColumn<>(
                                         0, "", new NoConstrain<>(),

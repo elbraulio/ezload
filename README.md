@@ -43,7 +43,7 @@ allprojects {
 To load your data, you can use **EzLoad** and **EzCol** to set the file format. To do that you have to define each column of the file including the separation expression like this:
 
 ```java
-Parser parser = EzLoad.parse(file, ",", numberOfCols)
+Parser parser = EzLoad.parse(",", numberOfCols)
     .withCol(
         EzCol.integer(
             0, "units", new NoConstrain<>(), new ToInt()

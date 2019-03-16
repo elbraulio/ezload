@@ -28,7 +28,7 @@ public class DefaultParserTest {
         MatcherAssert.assertThat(
                 "parser with one column",
                 new DefaultParser(
-                        null, ",", 0, list
+                        ",", 0, list
                 ).columns().get(0).value("1"),
                 CoreMatchers.is(1)
         );

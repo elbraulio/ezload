@@ -2,7 +2,6 @@ package com.elbraulio.ezload.parse;
 
 import com.elbraulio.ezload.model.Column;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public final class DefaultParseBuild implements ParseBuild {
-    private final File file;
     private final String expression;
     private final int columnsNumber;
     private final List<Column> columns;
@@ -20,28 +18,24 @@ public final class DefaultParseBuild implements ParseBuild {
     /**
      * Ctor.
      *
-     * @param file          file to read.
      * @param expression    separator expression.
      * @param columnsNumber number of columns.
      */
-    public DefaultParseBuild(File file, String expression, int columnsNumber) {
-        this(file, expression, columnsNumber, new LinkedList<>());
+    public DefaultParseBuild(String expression, int columnsNumber) {
+        this(expression, columnsNumber, new LinkedList<>());
     }
 
     /**
      * Ctor.
      *
-     * @param file          file to read.
      * @param expression    separator expression.
      * @param columnsNumber number of columns.
      * @param columns       columns formats.
      */
     public DefaultParseBuild(
-            File file, String expression, int columnsNumber,
-            List<Column> columns
+            String expression, int columnsNumber, List<Column> columns
     ) {
 
-        this.file = file;
         this.expression = expression;
         this.columnsNumber = columnsNumber;
         this.columns = columns;
@@ -56,7 +50,7 @@ public final class DefaultParseBuild implements ParseBuild {
     @Override
     public Parser parser() {
         return new DefaultParser(
-                this.file, this.expression, this.columnsNumber, this.columns
+                this.expression, this.columnsNumber, this.columns
         );
     }
 }
