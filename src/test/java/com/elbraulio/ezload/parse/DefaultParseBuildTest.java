@@ -9,6 +9,8 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
+ * Unit test for {@link DefaultParseBuild}.
+ *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class DefaultParseBuildTest {

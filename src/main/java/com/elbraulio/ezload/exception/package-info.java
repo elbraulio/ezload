@@ -1,5 +1,5 @@
 /**
- * This package contains all exception that <cod>ezload</cod> can throw.
+ * This package contains all exception that <code>ezload</code> can throw.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */

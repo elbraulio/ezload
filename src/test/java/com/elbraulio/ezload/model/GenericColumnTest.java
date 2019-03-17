@@ -8,6 +8,8 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
+ * Unit test for {@link GenericColumn}.
+ *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class GenericColumnTest {

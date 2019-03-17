@@ -13,6 +13,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Unit test for {@link DefaultParser}.
+ *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class DefaultParserTest {

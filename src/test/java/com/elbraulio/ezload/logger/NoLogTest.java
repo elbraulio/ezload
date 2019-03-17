@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 /**
- * {@link NoLog} should not print any logs to console.
+ * Unit test for {@link NoLog}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */

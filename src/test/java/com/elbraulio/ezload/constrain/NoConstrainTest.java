@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.constrain;
 
 import com.elbraulio.ezload.constrain.NoConstrain;
 import org.hamcrest.CoreMatchers;
@@ -6,6 +6,8 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
+ * Unit test for {@link NoConstrain}.
+ *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class NoConstrainTest {
