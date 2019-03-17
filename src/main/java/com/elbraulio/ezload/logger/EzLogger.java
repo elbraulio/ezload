@@ -5,6 +5,7 @@ package com.elbraulio.ezload.logger;
  * what ezload logs, the user must implement this EzLogger with any log tool.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 1.0.0
  */
 public interface EzLogger {
     /**

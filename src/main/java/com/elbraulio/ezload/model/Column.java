@@ -7,6 +7,7 @@ import java.sql.SQLException;
  * A Column represent the format that a value from a column should check.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 1.0.0
  */
 public interface Column<T> {
 

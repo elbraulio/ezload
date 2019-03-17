@@ -9,6 +9,7 @@ import java.sql.Connection;
  * Represent the action of executing the store process.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 1.0.0
  */
 public interface Insert {
 

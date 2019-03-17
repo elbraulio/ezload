@@ -4,6 +4,7 @@ package com.elbraulio.ezload.model;
  * Checks if a value is valid or not depending on the type.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 1.0.0
  */
 public interface Constrain<T> {
     /**

@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * Add {@link String} values to the {@link PreparedStatement}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 1.0.0
  */
 public final class StringBatch implements AddBatch<String> {
     @Override
