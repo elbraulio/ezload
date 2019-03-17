@@ -3,4 +3,4 @@
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-package com.elbraulio.ezload.model.transform;
+package com.elbraulio.ezload.transform;
