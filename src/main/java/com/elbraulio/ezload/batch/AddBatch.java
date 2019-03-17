@@ -22,37 +22,18 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.logger;
+package com.elbraulio.ezload.batch;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
- * Represent the logger that ezload will use. Then, if the user wants to log
- * what ezload logs, the user must implement this EzLogger with any log tool.
+ * Add a value depending on the type.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 1.0.0
  */
-public interface EzLogger {
-    /**
-     * Print an info message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void info(String msg, String clazz);
-
-    /**
-     * Print an warning message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void warning(String msg, String clazz);
-
-    /**
-     * Print an error message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void error(String msg, String clazz);
+public interface AddBatch<T> {
+    PreparedStatement addValue(PreparedStatement ps, int index, T value)
+            throws SQLException;
 }

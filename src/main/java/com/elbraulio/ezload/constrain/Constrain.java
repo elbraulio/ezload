@@ -22,37 +22,20 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.logger;
+package com.elbraulio.ezload.constrain;
 
 /**
- * Represent the logger that ezload will use. Then, if the user wants to log
- * what ezload logs, the user must implement this EzLogger with any log tool.
+ * Checks if a value is valid or not depending on the type.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 1.0.0
  */
-public interface EzLogger {
+public interface Constrain<T> {
     /**
-     * Print an info message.
+     * Check if the value is valid or not.
      *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
+     * @param value value to check.
+     * @return true if it is valid, false if it is not.
      */
-    void info(String msg, String clazz);
-
-    /**
-     * Print an warning message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void warning(String msg, String clazz);
-
-    /**
-     * Print an error message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void error(String msg, String clazz);
+    boolean isValid(T value);
 }

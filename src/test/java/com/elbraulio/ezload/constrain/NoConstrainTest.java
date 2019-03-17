@@ -22,37 +22,33 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.logger;
+package com.elbraulio.ezload.constrain;
+
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Represent the logger that ezload will use. Then, if the user wants to log
- * what ezload logs, the user must implement this EzLogger with any log tool.
+ * Unit test for {@link NoConstrain}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
  */
-public interface EzLogger {
-    /**
-     * Print an info message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void info(String msg, String clazz);
+public class NoConstrainTest {
+    @Test
+    public void returnTrue() {
+        MatcherAssert.assertThat(
+                "always return true",
+                new NoConstrain<>().isValid(false),
+                CoreMatchers.is(true)
+        );
+    }
 
-    /**
-     * Print an warning message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void warning(String msg, String clazz);
-
-    /**
-     * Print an error message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void error(String msg, String clazz);
+    @Test
+    public void supportDifferentTypes() {
+        MatcherAssert.assertThat(
+                "No matters the type, it is the same result",
+                new NoConstrain<>().isValid(1),
+                CoreMatchers.is(new NoConstrain<>().isValid(false))
+        );
+    }
 }

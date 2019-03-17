@@ -22,37 +22,28 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.logger;
+package com.elbraulio.ezload.batch;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
- * Represent the logger that ezload will use. Then, if the user wants to log
- * what ezload logs, the user must implement this EzLogger with any log tool.
+ * @todo do not know how to test prepared statements.
+ * @body do not know how to check if the value was added.
+ */
+
+/**
+ * Add {@link String} values to the {@link PreparedStatement}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 1.0.0
  */
-public interface EzLogger {
-    /**
-     * Print an info message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void info(String msg, String clazz);
-
-    /**
-     * Print an warning message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void warning(String msg, String clazz);
-
-    /**
-     * Print an error message.
-     *
-     * @param msg   message to print.
-     * @param clazz class name to identify the message.
-     */
-    void error(String msg, String clazz);
+public final class StringBatch implements AddBatch<String> {
+    @Override
+    public PreparedStatement addValue(
+            PreparedStatement ps, int index, String value
+    ) throws SQLException {
+        ps.setString(index, value);
+        return ps;
+    }
 }
