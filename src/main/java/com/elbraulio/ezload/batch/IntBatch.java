@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model.batch;
+package com.elbraulio.ezload.batch;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,17 +9,17 @@ import java.sql.SQLException;
  */
 
 /**
- * Add {@link String} values to the {@link PreparedStatement}.
+ * Add {@link Integer} values to the {@link PreparedStatement}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 1.0.0
  */
-public final class StringBatch implements AddBatch<String> {
+public final class IntBatch implements AddBatch<Integer> {
     @Override
     public PreparedStatement addValue(
-            PreparedStatement ps, int index, String value
+            PreparedStatement ps, int index, Integer value
     ) throws SQLException {
-        ps.setString(index, value);
+        ps.setInt(index, value);
         return ps;
     }
 }

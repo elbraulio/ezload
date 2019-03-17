@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.constrain;
 
 /**
  * Checks if a value is valid or not depending on the type.

@@ -1,6 +1,6 @@
 package com.elbraulio.ezload.model;
 
-import com.elbraulio.ezload.model.transform.ToString;
+import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

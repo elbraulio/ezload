@@ -1,9 +1,9 @@
 package com.elbraulio.ezload.sql;
 
 import com.elbraulio.ezload.model.GenericColumn;
-import com.elbraulio.ezload.model.NoConstrain;
-import com.elbraulio.ezload.model.batch.StringBatch;
-import com.elbraulio.ezload.model.transform.ToString;
+import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.parse.DefaultParseBuild;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;

@@ -1,12 +1,12 @@
 package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.Constrain;
+import com.elbraulio.ezload.constrain.Constrain;
 import com.elbraulio.ezload.model.GenericColumn;
-import com.elbraulio.ezload.model.batch.AddBatch;
-import com.elbraulio.ezload.model.batch.IntBatch;
-import com.elbraulio.ezload.model.batch.StringBatch;
-import com.elbraulio.ezload.model.transform.Transform;
+import com.elbraulio.ezload.batch.AddBatch;
+import com.elbraulio.ezload.batch.IntBatch;
+import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.transform.Transform;
 
 /**
  * {@link Column} factory. This design come from the fact that we need to

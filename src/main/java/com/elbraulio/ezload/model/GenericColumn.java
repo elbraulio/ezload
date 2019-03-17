@@ -1,7 +1,8 @@
 package com.elbraulio.ezload.model;
 
-import com.elbraulio.ezload.model.batch.AddBatch;
-import com.elbraulio.ezload.model.transform.Transform;
+import com.elbraulio.ezload.batch.AddBatch;
+import com.elbraulio.ezload.constrain.Constrain;
+import com.elbraulio.ezload.transform.Transform;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

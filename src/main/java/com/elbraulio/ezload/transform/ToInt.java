@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model.transform;
+package com.elbraulio.ezload.transform;
 
 /**
  * Transform input to Integer.

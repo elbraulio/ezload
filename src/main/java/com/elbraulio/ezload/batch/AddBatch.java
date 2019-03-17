@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model.batch;
+package com.elbraulio.ezload.batch;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

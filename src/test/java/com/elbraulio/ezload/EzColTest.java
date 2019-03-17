@@ -1,8 +1,8 @@
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.model.NoConstrain;
-import com.elbraulio.ezload.model.transform.ToInt;
-import com.elbraulio.ezload.model.transform.ToString;
+import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

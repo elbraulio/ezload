@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model.transform;
+package com.elbraulio.ezload.transform;
 
 /**
  * Represents transform input to string.

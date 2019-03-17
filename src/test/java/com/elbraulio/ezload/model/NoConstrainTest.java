@@ -1,5 +1,6 @@
 package com.elbraulio.ezload.model;
 
+import com.elbraulio.ezload.constrain.NoConstrain;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

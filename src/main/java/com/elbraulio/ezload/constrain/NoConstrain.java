@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.constrain;
 
 /**
  * Represent no constrain needed.

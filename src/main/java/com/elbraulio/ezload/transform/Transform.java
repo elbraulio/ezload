@@ -1,4 +1,4 @@
-package com.elbraulio.ezload.model.transform;
+package com.elbraulio.ezload.transform;
 
 /**
  * Transform a value depending on its type.
