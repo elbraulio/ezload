@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package log;
+package util;
 
 import com.elbraulio.ezload.logger.EzLogger;
 import org.apache.log4j.Logger;
