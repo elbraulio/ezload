@@ -35,6 +35,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import util.DropData;
+import util.Log4j;
 import util.ReadValue;
 import util.SqliteConnection;
 
@@ -62,7 +63,7 @@ public class InsertFromParserTest {
                     )
             );
             new InsertFromParser(
-                    "test", new DefaultParser(",", 1, columns)
+                    "test", new DefaultParser(",", 1, columns), new Log4j()
             ).execute(
                     connection,
                     new BufferedReader(new StringReader("hello!"))

@@ -24,6 +24,8 @@
 
 package com.elbraulio.ezload.sql;
 
+import com.elbraulio.ezload.logger.EzLogger;
+import com.elbraulio.ezload.logger.NoLog;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.parse.Parser;
 
@@ -39,6 +41,7 @@ import java.util.List;
 public final class SqlFromParser implements BuildSql {
     private final String name;
     private final Parser parser;
+    private final EzLogger logger;
 
     /**
      * Ctor.
@@ -47,9 +50,21 @@ public final class SqlFromParser implements BuildSql {
      * @param parser parser with columns format.
      */
     public SqlFromParser(String name, Parser parser) {
+        this(name, parser, new NoLog());
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param name   table name.
+     * @param parser parser with columns format.
+     * @param logger logger.
+     */
+    public SqlFromParser(String name, Parser parser, EzLogger logger) {
 
         this.name = name;
         this.parser = parser;
+        this.logger = logger;
     }
 
     @Override
@@ -80,6 +95,9 @@ public final class SqlFromParser implements BuildSql {
         }
         // end with ');'
         query.append(");");
+        this.logger.info(
+                "query generated: " + query.toString(), "SqlFromParser"
+        );
         return query.toString();
     }
 }

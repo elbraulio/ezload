@@ -33,18 +33,25 @@ import org.apache.log4j.Logger;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public final class Log4j implements EzLogger {
+
+    private final Logger logger;
+
+    public Log4j() {
+        this.logger = Logger.getLogger(Log4j.class);
+    }
+
     @Override
     public void info(String msg, String clazz) {
-        Logger.getLogger(clazz).info(msg);
+        this.logger.info(clazz + ": " + msg);
     }
 
     @Override
     public void warning(String msg, String clazz) {
-        Logger.getLogger(clazz).warn(msg);
+        this.logger.warn(clazz + ": " + msg);
     }
 
     @Override
     public void error(String msg, String clazz) {
-        Logger.getLogger(clazz).error(msg);
+        this.logger.error(clazz + ": " + msg);
     }
 }
