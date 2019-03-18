@@ -28,11 +28,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * @todo do not know how to test prepared statements.
- * @body do not know how to check if the value was added.
- */
-
-/**
  * Add {@link Integer} values to the {@link PreparedStatement}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)

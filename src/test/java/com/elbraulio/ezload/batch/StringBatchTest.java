@@ -22,13 +22,8 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.batch;
 
-import com.elbraulio.ezload.batch.IntBatch;
-import com.elbraulio.ezload.batch.StringBatch;
-import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -41,75 +36,28 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Unit test for {@link GenericColumn}.
+ * Unit test for {@link StringBatch}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public class GenericColumnTest {
-
-    private final Column<String> col = new GenericColumn<>(
-            0, "column_name",
-            new NoConstrain<>(), new ToString(),
-            new StringBatch()
-    );
-
+public class StringBatchTest {
     @Test
-    public void plainTextValueWithNoConstrains() {
-        MatcherAssert.assertThat(
-                "a plain text with no constrains and transformations" +
-                        "should keep the same",
-                col.value("plain text"),
-                CoreMatchers.is("plain text")
-        );
-    }
-
-    @Test
-    public void orderNotChange() {
-        MatcherAssert.assertThat(
-                "order always is the same",
-                col.order(),
-                CoreMatchers.is(0)
-        );
-    }
-
-    @Test
-    public void nameNotChange() {
-        MatcherAssert.assertThat(
-                "name always is the same",
-                col.name(),
-                CoreMatchers.is("column_name")
-        );
-    }
-
-    @Test
-    public void validationTrueWithNoConstrains() {
-        MatcherAssert.assertThat(
-                "always is valid",
-                col.isValid("some input"),
-                CoreMatchers.is(true)
-        );
-    }
-
-    @Test
-    public void addValueToBatch() {
+    public void addString() {
         try (
                 Connection connection = new SqliteConnection().connection();
                 PreparedStatement psmt = connection.prepareStatement(
-                        "INSERT INTO test (int_val) VALUES (?);"
+                        "INSERT INTO test (string_val) VALUES (?);"
                 )
         ) {
-            new GenericColumn<>(
-                    0, "name", new NoConstrain<>(), new ToInt(),
-                    new IntBatch()
-            ).addToPreparedStatement(psmt, 1, "2");
+            new StringBatch().addValue(psmt, 1, "hi!");
             psmt.addBatch();
             psmt.executeBatch();
             MatcherAssert.assertThat(
                     "values must be added to batch",
                     new ReadValue(
-                            "SELECT int_val FROM test;", connection
-                    ).value((rs) -> rs.getInt(1)).get(0),
-                    CoreMatchers.is(2)
+                            "SELECT string_val FROM test;", connection
+                    ).value((rs) -> rs.getString(1)).get(0),
+                    CoreMatchers.is("hi!")
             );
         } catch (SQLException e) {
             e.printStackTrace();

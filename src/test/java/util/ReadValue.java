@@ -22,40 +22,53 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload;
+package util;
 
-import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.parse.Parser;
-import com.elbraulio.ezload.sql.InsertFromParser;
-
-import java.io.BufferedReader;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Factory to insert to a data base from EzLoad tools.
+ * Read a value from a connection with a given query.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
  */
-public final class EzInsert {
+public final class ReadValue {
+    private final String sql;
+    private final Connection connection;
 
     /**
-     * Insert a source to a data base.
+     * Ctor.
      *
-     * @param connection     connection to data base.
-     * @param table          table name to insert.
-     * @param parser         source format.
-     * @param bufferedReader read the source.
-     * @return an array of update counts containing one element for each
-     * command in the batch.  The elements of the array are ordered according
-     * to the order in which commands were added to the batch.
-     * @throws EzException EzLoad error.
+     * @param sql        query to retrieve data.
+     * @param connection connection to database.
      */
-    public static int[] fromParser(
-            Connection connection, String table, Parser parser,
-            BufferedReader bufferedReader
-    ) throws EzException {
-        return new InsertFromParser(table, parser)
-                .execute(connection, bufferedReader);
+    public ReadValue(String sql, Connection connection) {
+        this.sql = sql;
+        this.connection = connection;
+    }
+
+    /**
+     * Retrieve data from database.
+     *
+     * @param rq  user specification to take the data.
+     * @param <T> data type to return.
+     * @return list of results.
+     */
+    public <T> List<T> value(ResultGet<T> rq) {
+        try (
+                ResultSet rs = this.connection.createStatement()
+                        .executeQuery(this.sql)
+        ) {
+            final List<T> result = new LinkedList<>();
+            while (rs.next()) {
+                result.add(rq.get(rs));
+            }
+            return result;
+        } catch (SQLException e) {
+            return new LinkedList<>();
+        }
     }
 }

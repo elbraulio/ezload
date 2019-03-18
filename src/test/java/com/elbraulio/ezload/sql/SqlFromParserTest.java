@@ -24,11 +24,11 @@
 
 package com.elbraulio.ezload.sql;
 
-import com.elbraulio.ezload.model.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.batch.StringBatch;
-import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParseBuild;
+import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

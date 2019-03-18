@@ -24,10 +24,10 @@
 
 package com.elbraulio.ezload.parse;
 
+import com.elbraulio.ezload.batch.IntBatch;
+import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.model.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.batch.IntBatch;
 import com.elbraulio.ezload.transform.ToInt;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;

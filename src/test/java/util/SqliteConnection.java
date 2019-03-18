@@ -22,40 +22,28 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload;
+package util;
 
-import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.parse.Parser;
-import com.elbraulio.ezload.sql.InsertFromParser;
-
-import java.io.BufferedReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Factory to insert to a data base from EzLoad tools.
+ * SQLite connection for testing.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
  */
-public final class EzInsert {
+public final class SqliteConnection {
 
     /**
-     * Insert a source to a data base.
+     * Create a connection to the resource.
      *
-     * @param connection     connection to data base.
-     * @param table          table name to insert.
-     * @param parser         source format.
-     * @param bufferedReader read the source.
-     * @return an array of update counts containing one element for each
-     * command in the batch.  The elements of the array are ordered according
-     * to the order in which commands were added to the batch.
-     * @throws EzException EzLoad error.
+     * @return test db connection.
+     * @throws SQLException connection fails.
      */
-    public static int[] fromParser(
-            Connection connection, String table, Parser parser,
-            BufferedReader bufferedReader
-    ) throws EzException {
-        return new InsertFromParser(table, parser)
-                .execute(connection, bufferedReader);
+    public Connection connection() throws SQLException {
+        return DriverManager.getConnection(
+                "jdbc:sqlite:src/test/resources/test.db"
+        );
     }
 }
