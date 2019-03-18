@@ -33,7 +33,7 @@ import java.sql.SQLException;
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public final class SqliteConneciton {
+public final class SqliteConnection {
 
     /**
      * Create a connection to the resource.

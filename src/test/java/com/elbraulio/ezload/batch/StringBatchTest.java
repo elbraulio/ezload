@@ -29,7 +29,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import util.DropData;
 import util.ReadValue;
-import util.SqliteConneciton;
+import util.SqliteConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,9 +42,9 @@ import java.sql.SQLException;
  */
 public class StringBatchTest {
     @Test
-    public void addSting() {
+    public void addString() {
         try (
-                Connection connection = new SqliteConneciton().connection();
+                Connection connection = new SqliteConnection().connection();
                 PreparedStatement psmt = connection.prepareStatement(
                         "INSERT INTO test (string_val) VALUES (?);"
                 )
@@ -63,7 +63,7 @@ public class StringBatchTest {
             e.printStackTrace();
         } finally {
             try {
-                new DropData("test", new SqliteConneciton().connection())
+                new DropData("test", new SqliteConnection().connection())
                         .drop();
             } catch (SQLException e) {
                 e.printStackTrace();

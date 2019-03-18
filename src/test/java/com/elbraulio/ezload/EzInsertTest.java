@@ -35,7 +35,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import util.DropData;
-import util.SqliteConneciton;
+import util.SqliteConnection;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -52,7 +52,7 @@ import java.util.List;
 public class EzInsertTest {
     @Test
     public void insertString() {
-        try (Connection connection = new SqliteConneciton().connection()) {
+        try (Connection connection = new SqliteConnection().connection()) {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
@@ -73,7 +73,7 @@ public class EzInsertTest {
             e.printStackTrace();
         } finally {
             try {
-                new DropData("test", new SqliteConneciton().connection())
+                new DropData("test", new SqliteConnection().connection())
                         .drop();
             } catch (SQLException e) {
                 e.printStackTrace();
