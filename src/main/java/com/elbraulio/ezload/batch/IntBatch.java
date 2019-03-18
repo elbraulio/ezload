@@ -24,6 +24,9 @@
 
 package com.elbraulio.ezload.batch;
 
+import com.elbraulio.ezload.logger.EzLogger;
+import com.elbraulio.ezload.logger.NoLog;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -34,10 +37,30 @@ import java.sql.SQLException;
  * @since 1.0.0
  */
 public final class IntBatch implements AddBatch<Integer> {
+
+    private final EzLogger logger;
+
+    /**
+     * Ctor.
+     */
+    public IntBatch() {
+        this(new NoLog());
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param logger logger.
+     */
+    public IntBatch(EzLogger logger) {
+        this.logger = logger;
+    }
+
     @Override
     public PreparedStatement addValue(
             PreparedStatement ps, int index, Integer value
     ) throws SQLException {
+        this.logger.info("setInt of " + value, "IntBatch");
         ps.setInt(index, value);
         return ps;
     }

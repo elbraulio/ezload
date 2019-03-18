@@ -28,6 +28,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import util.DropData;
+import util.Log4j;
 import util.ReadValue;
 import util.SqliteConnection;
 
@@ -49,7 +50,7 @@ public class StringBatchTest {
                         "INSERT INTO test (string_val) VALUES (?);"
                 )
         ) {
-            new StringBatch().addValue(psmt, 1, "hi!");
+            new StringBatch(new Log4j()).addValue(psmt, 1, "hi!");
             psmt.addBatch();
             psmt.executeBatch();
             MatcherAssert.assertThat(

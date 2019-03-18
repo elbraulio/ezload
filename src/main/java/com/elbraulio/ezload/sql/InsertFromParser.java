@@ -25,6 +25,8 @@
 package com.elbraulio.ezload.sql;
 
 import com.elbraulio.ezload.exception.EzException;
+import com.elbraulio.ezload.logger.EzLogger;
+import com.elbraulio.ezload.logger.NoLog;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.parse.Parser;
 
@@ -44,6 +46,7 @@ public final class InsertFromParser implements Insert {
 
     private final Parser parser;
     private final BuildSql buildSql;
+    private final EzLogger logger;
 
     /**
      * Ctor.
@@ -52,7 +55,18 @@ public final class InsertFromParser implements Insert {
      * @param parser parser with format.
      */
     public InsertFromParser(String name, Parser parser) {
-        this(parser, new SqlFromParser(name, parser));
+        this(parser, new SqlFromParser(name, parser), new NoLog());
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param name   table name.
+     * @param parser parser with format.
+     * @param logger logger.
+     */
+    public InsertFromParser(String name, Parser parser, EzLogger logger) {
+        this(parser, new SqlFromParser(name, parser), new NoLog());
     }
 
     /**
@@ -62,8 +76,22 @@ public final class InsertFromParser implements Insert {
      * @param buildSql sql builder.
      */
     public InsertFromParser(Parser parser, BuildSql buildSql) {
+        this(parser, buildSql, new NoLog());
+    }
+
+
+    /**
+     * Ctor.
+     *
+     * @param parser   table name.
+     * @param buildSql sql builder.
+     * @param logger   logger.
+     */
+    public InsertFromParser(Parser parser, BuildSql buildSql, EzLogger logger) {
+
         this.parser = parser;
         this.buildSql = buildSql;
+        this.logger = logger;
     }
 
     /*
@@ -82,6 +110,7 @@ public final class InsertFromParser implements Insert {
         ) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+                this.logger.info("line read: " + line, "InsertFromParser");
                 final String[] split = line.split(this.parser.separator());
                 int index = 1;
                 for (Column col : this.parser.columns()) {
@@ -110,11 +139,6 @@ public final class InsertFromParser implements Insert {
             @body to data base according his available memory.
              */
             return psmt.executeBatch();
-            /*
-            @todo add logs for testing
-            @body no classes has logs, for instance this exception will never
-            @body be thrown.
-             */
         } catch (SQLException e) {
             throw new EzException("Sql error", e);
         } catch (IOException e) {
