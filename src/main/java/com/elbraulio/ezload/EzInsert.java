@@ -30,10 +30,6 @@ import com.elbraulio.ezload.sql.InsertFromParser;
 
 import java.io.BufferedReader;
 import java.sql.Connection;
-/*
-@todo test EzInsert
-@body this API should be tested.
- */
 
 /**
  * Factory to insert to a data base from EzLoad tools.
