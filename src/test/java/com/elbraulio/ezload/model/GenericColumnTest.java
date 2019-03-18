@@ -24,12 +24,23 @@
 
 package com.elbraulio.ezload.model;
 
+import com.elbraulio.ezload.batch.IntBatch;
 import com.elbraulio.ezload.batch.StringBatch;
 import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import util.DropData;
+import util.ReadValue;
+import util.SqliteConneciton;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Unit test for {@link GenericColumn}.
@@ -79,5 +90,38 @@ public class GenericColumnTest {
                 col.isValid("some input"),
                 CoreMatchers.is(true)
         );
+    }
+
+    @Test
+    public void addValueToBatch() {
+        try (
+                Connection connection = new SqliteConneciton().connection();
+                PreparedStatement psmt = connection.prepareStatement(
+                        "INSERT INTO test (int_val) VALUES (?);"
+                )
+        ) {
+            new GenericColumn<>(
+                    0, "name", new NoConstrain<>(), new ToInt(),
+                    new IntBatch()
+            ).addToPreparedStatement(psmt, 1, "2");
+            psmt.addBatch();
+            psmt.executeBatch();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "SELECT int_val FROM test;", connection
+                    ).value((rs) -> rs.getInt(1)).get(0),
+                    CoreMatchers.is(2)
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConneciton().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
