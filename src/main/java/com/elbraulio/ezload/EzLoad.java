@@ -27,11 +27,6 @@ package com.elbraulio.ezload;
 import com.elbraulio.ezload.parse.DefaultParseBuild;
 import com.elbraulio.ezload.parse.ParseBuild;
 import com.elbraulio.ezload.parse.Parser;
-/**
- * @todo EzLoad needs test
- * @body Just for sake of time it can be included at this time but it is
- * @body necessary to do that.
- */
 
 /**
  * Main API to use Ezload tool.
