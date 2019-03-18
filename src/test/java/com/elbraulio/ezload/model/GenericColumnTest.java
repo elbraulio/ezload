@@ -31,8 +31,6 @@ import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import util.DropData;
 import util.ReadValue;
