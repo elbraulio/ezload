@@ -42,7 +42,7 @@ import java.sql.SQLException;
  */
 public class StringBatchTest {
     @Test
-    public void addInt() {
+    public void addSting() {
         try (
                 Connection connection = new SqliteConneciton().connection();
                 PreparedStatement psmt = connection.prepareStatement(
