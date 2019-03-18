@@ -24,21 +24,50 @@
 
 package com.elbraulio.ezload.batch;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
+import util.DropData;
+import util.ReadValue;
+import util.SqliteConneciton;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Add {@link Integer} values to the {@link PreparedStatement}.
+ * Unit test for {@link IntBatch}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
  */
-public final class IntBatch implements AddBatch<Integer> {
-    @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, Integer value
-    ) throws SQLException {
-        ps.setInt(index, value);
-        return ps;
+public class IntBatchTest {
+    @Test
+    public void addInt() {
+        try (
+                Connection connection = new SqliteConneciton().connection();
+                PreparedStatement psmt = connection.prepareStatement(
+                        "INSERT INTO test (int_val) VALUES (?);"
+                )
+        ) {
+            new IntBatch().addValue(psmt, 1, 1);
+            psmt.addBatch();
+            psmt.executeBatch();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "SELECT int_val FROM test;", connection
+                    ).value((rs) -> rs.getInt(1)).get(0),
+                    CoreMatchers.is(1)
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConneciton().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
