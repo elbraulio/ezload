@@ -33,10 +33,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-/*
-@todo how to test prepared statements on InsertFromParser
-@body how can it be tested?
- */
 
 /**
  * This implementation build a SQL query from a {@link Parser}.
