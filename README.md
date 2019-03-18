@@ -82,22 +82,6 @@ int[] batchResult = EzInsert.fromParser(
 );
 ```
 
-# Logs
-
-This tool print logs only when testing. If you want to print them, you must implement `EzLogger` with your favorite log tool and give it as argument to `Ezload`.
-
-```java
-new Ezload(new MyLogger());
-
-class MyLogger implements EZLogger {
-    @Override
-    public void info(String msg, String claz) {
-        Logger.getLogger(claz).info(msg);
-    }
-    ...
-}
-```
-
 # Bots
 
 We are using several bots, this is the current list:
