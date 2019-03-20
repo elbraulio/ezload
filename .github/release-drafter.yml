@@ -2,11 +2,11 @@ name-template: v$NEXT_PATCH_VERSION 🌈
 tag-template: v$NEXT_PATCH_VERSION
 categories:
   - title: 🚀 Features
-    label: pr-feature
+    label: 't: feature'
   - title: 🐛 Bug Fixes
-    label: pr-fix
+    label: 't: bug'
   - title: 🧰 Maintenance
-    label: pr-chore
+    label: 't: maintenance'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 template: |
   ## Changes
