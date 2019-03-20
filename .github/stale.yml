@@ -30,7 +30,7 @@ markComment: >
 
 # Comment to post when removing the stale label.
 unmarkComment: >
-  Activity registered. This is not considered as abandoned now. **s:
+  Registered activity. Now, this is not considered as abandoned. **s:
   abandoned** label removed.
 
 # Comment to post when closing a stale Issue or Pull Request.
