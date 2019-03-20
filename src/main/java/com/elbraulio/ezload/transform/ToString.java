@@ -28,7 +28,7 @@ package com.elbraulio.ezload.transform;
  * Represents transform input to string.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
+ * @since 0.1.0
  */
 public final class ToString implements Transform<String> {
     @Override

@@ -28,7 +28,7 @@ package com.elbraulio.ezload.transform;
  * Transform a value depending on its type.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
+ * @since 0.1.0
  */
 public interface Transform<T> {
 

@@ -32,7 +32,7 @@ import com.elbraulio.ezload.parse.Parser;
  * Main API to use Ezload tool.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
+ * @since 0.1.0
  */
 public final class EzLoad {
     /**
