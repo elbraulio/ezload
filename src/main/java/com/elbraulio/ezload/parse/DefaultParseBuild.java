@@ -33,7 +33,7 @@ import java.util.List;
  * Default parser builder.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 1.0.0
+ * @since 0.1.0
  */
 public final class DefaultParseBuild implements ParseBuild {
     private final String expression;
