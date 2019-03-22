@@ -100,7 +100,7 @@ public final class InsertFromParser implements Insert {
         ) {
             String line;
             int lines = 0;
-            int modified = 0;
+            long modified = 0L;
             while ((line = bufferedReader.readLine()) != null) {
                 lines++;
                 this.logger.info("line read: " + line, "InsertFromParser");
