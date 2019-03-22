@@ -105,7 +105,7 @@ public final class InsertFromParser implements Insert {
             throws EzException {
         /*
          * @todo this method from InsertFromParser is too complex
-         * @body # from #40
+         * @body > from #40
          * @body
          * @body must be refactored and decoupled on different objects.
          */
