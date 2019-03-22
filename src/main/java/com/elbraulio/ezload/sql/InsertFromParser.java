@@ -103,13 +103,21 @@ public final class InsertFromParser implements Insert {
     @Override
     public int[] execute(Connection connection, BufferedReader bufferedReader)
             throws EzException {
+        /*
+         * @todo this method from InsertFromParser is too complex
+         * @body > from #40
+         * @body
+         * @body must be refactored and decoupled on different objects.
+         */
         try (
                 PreparedStatement psmt = connection.prepareStatement(
                         this.buildSql.sql()
                 )
         ) {
             String line;
+            int lines = 0;
             while ((line = bufferedReader.readLine()) != null) {
+                lines++;
                 this.logger.info("line read: " + line, "InsertFromParser");
                 final String[] split = line.split(this.parser.separator());
                 int index = 1;
@@ -121,13 +129,21 @@ public final class InsertFromParser implements Insert {
                         );
                     }
                     final String raw = split[col.order()];
-                    if (col.isValid(raw)) {
-                        col.addToPreparedStatement(psmt, index++, raw);
-                    } else {
+                    try {
+                        if (col.isValid(raw)) {
+                            col.addToPreparedStatement(psmt, index, raw);
+                        } else {
+                            throw new EzException(
+                                    "raw value '" + raw + "' is not valid."
+                            );
+                        }
+                    } catch (Exception e) {
                         throw new EzException(
-                                "raw value '" + raw + "' is not valid."
+                                "(column " + col.order() + ", row " +
+                                        (lines - 1) + ") --> " + e.toString()
                         );
                     }
+                    index++;
                 }
                 psmt.addBatch();
             }
