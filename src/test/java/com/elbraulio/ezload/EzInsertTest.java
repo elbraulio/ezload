@@ -24,12 +24,14 @@
 
 package com.elbraulio.ezload;
 
+import com.elbraulio.ezload.batch.IntBatch;
 import com.elbraulio.ezload.batch.StringBatch;
 import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
+import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -43,6 +45,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.fail;
 
 /**
  * Unit test for {@link EzInsert}.
@@ -71,6 +75,85 @@ public class EzInsertTest {
             );
         } catch (SQLException | EzException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void exceptionsIncludeDetails() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "int_val", new NoConstrain<>(),
+                            new ToInt(), new IntBatch()
+                    )
+            );
+            EzInsert.fromParser(
+                    connection, "test",
+                    new DefaultParser(",", 1, columns),
+                    new BufferedReader(new StringReader("hi!"))
+            );
+            fail("Exception must be thrown");
+        } catch (SQLException | EzException | NumberFormatException e) {
+            //e.printStackTrace();
+            MatcherAssert.assertThat(
+                    "exception must contain descriptions",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "(column 0, row 0) --> java.lang" +
+                                    ".NumberFormatException: For input " +
+                                    "string: \"hi!\""
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void exceptionWithMultipleCols() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            1, "int_val", new NoConstrain<>(),
+                            new ToInt(), new IntBatch()
+                    )
+            );
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), new StringBatch()
+                    )
+            );
+            EzInsert.fromParser(
+                    connection, "test",
+                    new DefaultParser(",", 2, columns),
+                    new BufferedReader(new StringReader("1,bye"))
+            );
+            fail("Exception must be thrown");
+        } catch (SQLException | EzException | NumberFormatException e) {
+            MatcherAssert.assertThat(
+                    "exception must contain descriptions",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "(column 1, row 0) --> java.lang" +
+                                    ".NumberFormatException: For input " +
+                                    "string: \"bye\""
+                    )
+            );
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())
