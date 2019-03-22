@@ -30,7 +30,6 @@ import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
-import com.elbraulio.ezload.parse.ParseBuild;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
