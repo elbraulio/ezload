@@ -30,6 +30,8 @@ import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
+import com.elbraulio.ezload.parse.ParseBuild;
+import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -62,8 +64,10 @@ public class InsertFromParserTest {
                             new ToString(), new StringBatch()
                     )
             );
+            Parser parser = new DefaultParser(",", 1, columns);
             new InsertFromParser(
-                    "test", new DefaultParser(",", 1, columns), new Log4j()
+                    parser, new SqlFromParser("test", parser),
+                    Integer.MAX_VALUE, new Log4j()
             ).execute(
                     connection,
                     new BufferedReader(new StringReader("hello!"))

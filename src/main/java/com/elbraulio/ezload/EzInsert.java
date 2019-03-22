@@ -27,6 +27,7 @@ package com.elbraulio.ezload;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.sql.InsertFromParser;
+import com.elbraulio.ezload.sql.SqlFromParser;
 
 import java.io.BufferedReader;
 import java.sql.Connection;
@@ -46,16 +47,35 @@ public final class EzInsert {
      * @param table          table name to insert.
      * @param parser         source format.
      * @param bufferedReader read the source.
-     * @return an array of update counts containing one element for each
-     * command in the batch.  The elements of the array are ordered according
-     * to the order in which commands were added to the batch.
+     * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
-    public static int[] fromParser(
+    public static long fromParser(
             Connection connection, String table, Parser parser,
             BufferedReader bufferedReader
     ) throws EzException {
-        return new InsertFromParser(table, parser)
-                .execute(connection, bufferedReader);
+        return new InsertFromParser(
+                parser, new SqlFromParser(table, parser), Integer.MAX_VALUE
+        ).execute(connection, bufferedReader);
+    }
+
+    /**
+     * Insert a source to a data base.
+     *
+     * @param connection     connection to data base.
+     * @param table          table name to insert.
+     * @param parser         source format.
+     * @param bufferedReader read the source.
+     * @param chunkSize      chunk size to execute batch.
+     * @return total batch added to database.
+     * @throws EzException EzLoad error.
+     */
+    public static long fromParser(
+            Connection connection, String table, Parser parser,
+            BufferedReader bufferedReader, int chunkSize
+    ) throws EzException {
+        return new InsertFromParser(
+                parser, new SqlFromParser(table, parser), chunkSize
+        ).execute(connection, bufferedReader);
     }
 }
