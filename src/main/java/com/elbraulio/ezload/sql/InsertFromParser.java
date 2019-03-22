@@ -103,6 +103,12 @@ public final class InsertFromParser implements Insert {
     @Override
     public int[] execute(Connection connection, BufferedReader bufferedReader)
             throws EzException {
+        /*
+         * @todo this method from InsertFromParser is too complex
+         * @body # from #40
+         * @body
+         * @body must be refactored and decoupled on different objects.
+         */
         try (
                 PreparedStatement psmt = connection.prepareStatement(
                         this.buildSql.sql()
