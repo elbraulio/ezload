@@ -49,11 +49,9 @@ public interface Insert {
      *
      * @param connection     connection to data base.
      * @param bufferedReader source reader.
-     * @return an array of update counts containing one element for each
-     * command in the batch.  The elements of the array are ordered according
-     * to the order in which commands were added to the batch.
+     * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
-    int[] execute(Connection connection, BufferedReader bufferedReader)
+    long execute(Connection connection, BufferedReader bufferedReader)
             throws EzException;
 }

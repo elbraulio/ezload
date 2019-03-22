@@ -70,8 +70,8 @@ public class EzInsertTest {
                             connection, "test",
                             new DefaultParser(",", 1, columns),
                             new BufferedReader(new StringReader("hi!"))
-                    )[0],
-                    CoreMatchers.is(1)
+                    ),
+                    CoreMatchers.is(1L)
             );
         } catch (SQLException | EzException e) {
             e.printStackTrace();

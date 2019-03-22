@@ -65,8 +65,8 @@ public class EzLoadTest {
                                     )
                             ).parser(),
                             new BufferedReader(new StringReader("1,dos"))
-                    )[0],
-                    CoreMatchers.is(1));
+                    ),
+                    CoreMatchers.is(1L));
         } catch (SQLException | EzException e) {
             e.printStackTrace();
         } finally {

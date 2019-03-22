@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * This implementation build a SQL query from a {@link Parser}.
@@ -46,51 +47,34 @@ public final class InsertFromParser implements Insert {
 
     private final Parser parser;
     private final BuildSql buildSql;
+    private final int chunkSize;
     private final EzLogger logger;
 
     /**
      * Ctor.
      *
-     * @param name   table name.
-     * @param parser parser with format.
+     * @param parser    parser with format.
+     * @param buildSql  sql query builder.
+     * @param chunkSize size to split the batch.
      */
-    public InsertFromParser(String name, Parser parser) {
-        this(parser, new SqlFromParser(name, parser), new NoLog());
+    public InsertFromParser(Parser parser, BuildSql buildSql, int chunkSize) {
+        this(parser, buildSql, chunkSize, new NoLog());
     }
 
     /**
      * Ctor.
      *
-     * @param name   table name.
-     * @param parser parser with format.
-     * @param logger logger.
+     * @param parser    table name.
+     * @param buildSql  sql builder.
+     * @param chunkSize size to split the batch.
+     * @param logger    logger.
      */
-    public InsertFromParser(String name, Parser parser, EzLogger logger) {
-        this(parser, new SqlFromParser(name, parser), new NoLog());
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param parser   parser with format.
-     * @param buildSql sql builder.
-     */
-    public InsertFromParser(Parser parser, BuildSql buildSql) {
-        this(parser, buildSql, new NoLog());
-    }
-
-
-    /**
-     * Ctor.
-     *
-     * @param parser   table name.
-     * @param buildSql sql builder.
-     * @param logger   logger.
-     */
-    public InsertFromParser(Parser parser, BuildSql buildSql, EzLogger logger) {
+    public InsertFromParser(
+            Parser parser, BuildSql buildSql, int chunkSize, EzLogger logger) {
 
         this.parser = parser;
         this.buildSql = buildSql;
+        this.chunkSize = chunkSize;
         this.logger = logger;
     }
 
@@ -101,7 +85,7 @@ public final class InsertFromParser implements Insert {
     @body is read.
      */
     @Override
-    public int[] execute(Connection connection, BufferedReader bufferedReader)
+    public long execute(Connection connection, BufferedReader bufferedReader)
             throws EzException {
         /*
          * @todo this method from InsertFromParser is too complex
@@ -116,6 +100,7 @@ public final class InsertFromParser implements Insert {
         ) {
             String line;
             int lines = 0;
+            long modified = 0L;
             while ((line = bufferedReader.readLine()) != null) {
                 lines++;
                 this.logger.info("line read: " + line, "InsertFromParser");
@@ -146,15 +131,14 @@ public final class InsertFromParser implements Insert {
                     index++;
                 }
                 psmt.addBatch();
+                if (lines % chunkSize == 0) {
+                    modified += Arrays.stream(psmt.executeBatch()).sum();
+                }
             }
-            /*
-            @todo unique executeBatch can produce memory issues
-            @body what if the source file is giant? It can be stored on memory
-            @body until all the data goes together to the data base. It will
-            @body useful that the user could customize the chunk size to save
-            @body to data base according his available memory.
-             */
-            return psmt.executeBatch();
+            if (lines % chunkSize != 0) {
+                modified += Arrays.stream(psmt.executeBatch()).sum();
+            }
+            return modified;
         } catch (SQLException e) {
             throw new EzException("Sql error", e);
         } catch (IOException e) {
