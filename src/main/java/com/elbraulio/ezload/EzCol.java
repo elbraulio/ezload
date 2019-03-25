@@ -25,6 +25,7 @@
 package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.batch.AddBatch;
+import com.elbraulio.ezload.batch.DoubleBatch;
 import com.elbraulio.ezload.batch.IntBatch;
 import com.elbraulio.ezload.batch.StringBatch;
 import com.elbraulio.ezload.constrain.Constrain;
@@ -56,6 +57,24 @@ public final class EzCol {
     ) {
         return EzCol.newCol(
                 order, name, constrain, transform, new IntBatch()
+        );
+    }
+
+    /**
+     * create a new Double column.
+     *
+     * @param order     column position from left to right, starting from 0.
+     * @param name      column name
+     * @param constrain column constrain.
+     * @param transform column transform.
+     * @return {@link Column}
+     */
+    public static Column<Double> doublee(
+            int order, String name, Constrain<Double> constrain,
+            Transform<Double> transform
+    ) {
+        return EzCol.newCol(
+                order, name, constrain, transform, new DoubleBatch()
         );
     }
 
