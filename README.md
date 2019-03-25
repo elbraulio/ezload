@@ -74,11 +74,11 @@ EzCol.integer(
 );
 ```
 
-Now you can insert this using **EzInsert**. This allow you to insert from source to a data base like your are using the `executeBatch()`.
+Now you can insert this using **EzInsert**. This allow you to insert from source to a data base like your are using the `executeBatch()`. Also, optionally, you can specify a chunk size to insert data when your files a large.
 
 ```java
-int[] batchResult = EzInsert.fromParser(
-   	connection, "table_name", parser, bufferedReader
+long insertedRows = EzInsert.fromParser(
+   	connection, "table_name", parser, bufferedReader, chunkSize
 );
 ```
 

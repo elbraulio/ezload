@@ -22,52 +22,24 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload;
+package com.elbraulio.ezload.transform;
 
-import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.transform.ToDouble;
-import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
- * Unit test for {@link EzCol}.
+ * Unit test for {@link ToDouble}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public class EzColTest {
+public class ToDoubleTest {
     @Test
-    public void intCol() {
+    public void doNotChangeTheOriginalValue() {
         MatcherAssert.assertThat(
-                "integer as integer",
-                EzCol.integer(
-                        0, "name", new NoConstrain<>(), new ToInt()
-                ).value("1"),
-                CoreMatchers.is(1)
-        );
-    }
-
-    @Test
-    public void stringCol() {
-        MatcherAssert.assertThat(
-                "string as string",
-                EzCol.string(
-                        0, "name", new NoConstrain<>(), new ToString()
-                ).value("1"),
-                CoreMatchers.is("1")
-        );
-    }
-
-    @Test
-    public void doubleCol() {
-        MatcherAssert.assertThat(
-                "double as double",
-                EzCol.doublee(
-                        0, "name", new NoConstrain<>(), new ToDouble()
-                ).value("1.8"),
-                CoreMatchers.is(1.8)
+                "transform raw value to double",
+                new ToDouble().from("1.09"),
+                CoreMatchers.is(1.09)
         );
     }
 }
