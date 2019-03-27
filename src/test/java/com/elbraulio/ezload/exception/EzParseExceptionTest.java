@@ -58,4 +58,17 @@ public class EzParseExceptionTest {
                 CoreMatchers.is("error 1")
         );
     }
+
+    @Test
+    public void chainedExceptions() {
+        final List<String> errors = new LinkedList<>();
+        errors.add("error 1");
+        MatcherAssert.assertThat(
+                "should keep the initial message",
+                new EzParseException(
+                        "a message", errors, new NumberFormatException("error")
+                ).errors().get(0),
+                CoreMatchers.is("error 1")
+        );
+    }
 }
