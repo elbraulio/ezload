@@ -36,6 +36,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static org.junit.Assert.fail;
+
 /**
  * Unit test for {@link AddPreparedStatement}.
  *
@@ -57,10 +59,13 @@ public class AddPreparedStatementTest {
                     ).value(rs -> rs.getInt(1)).get(0),
                     CoreMatchers.is(42)
             );
+            ps.close();
         } catch (SQLException | EzException e) {
             e.printStackTrace();
+            fail();
         } finally {
             try {
+
                 new DropData("test", new SqliteConnection().connection())
                         .drop();
             } catch (SQLException e) {
@@ -84,8 +89,10 @@ public class AddPreparedStatementTest {
                     ).value(rs -> rs.getDouble(1)).get(0),
                     CoreMatchers.is(42.0)
             );
+            ps.close();
         } catch (SQLException | EzException e) {
             e.printStackTrace();
+            fail();
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())
@@ -111,8 +118,96 @@ public class AddPreparedStatementTest {
                     ).value(rs -> rs.getString(1)).get(0),
                     CoreMatchers.is("value")
             );
+            ps.close();
         } catch (SQLException | EzException e) {
             e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void stringFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute("value");
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setString error with value 'value': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void intFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (int_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute(1);
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setInt error with value '1': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @Test
+    public void doubleFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (double_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute(1.0);
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setDouble error with value '1.0': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())
