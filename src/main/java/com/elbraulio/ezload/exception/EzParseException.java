@@ -30,6 +30,7 @@ import java.util.List;
  * Thrown when a parse error occurs.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 0.3.0
  */
 public final class EzParseException extends Exception {
     private final List<String> errors;
