@@ -89,4 +89,41 @@ public class InsertFromParserTest {
             }
         }
     }
+
+    @Test
+    public void insertWithChunkSize() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), StringValue::new
+                    )
+            );
+            Parser parser = new DefaultParser(",", 1, columns);
+            new InsertFromParser(
+                    parser, new SqlFromParser("test", parser),
+                    1, new Log4j()
+            ).execute(
+                    connection,
+                    new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
+            );
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "SELECT count(string_val) FROM test;", connection
+                    ).value((rs) -> rs.getInt(1)).get(0),
+                    CoreMatchers.is(6)
+            );
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

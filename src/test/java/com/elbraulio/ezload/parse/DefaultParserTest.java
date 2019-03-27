@@ -24,17 +24,23 @@
 
 package com.elbraulio.ezload.parse;
 
+import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.exception.EzParseException;
 import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.value.IntValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.fail;
 
 /**
  * Unit test for {@link DefaultParser}.
@@ -58,5 +64,60 @@ public class DefaultParserTest {
                 ).columns().get(0).parse("1"),
                 CoreMatchers.is(1)
         );
+    }
+
+    @Test
+    public void dontChangeExpression() {
+        MatcherAssert.assertThat(
+                "expression cant change",
+                new DefaultParser(";", 0, null).separator(),
+                Matchers.is(";")
+        );
+    }
+
+    @Test
+    public void checkColumnNumber() {
+        try {
+            new DefaultParser(";", 2, null).parse("");
+            fail();
+        } catch (EzParseException e) {
+            MatcherAssert.assertThat(
+                    "parser must check column number",
+                    e.errors().toString(),
+                    Matchers.is(
+                            "[line length is 1, must be greater than 2" +
+                                    " on line: []]"
+                    )
+            );
+        }
+    }
+
+    @Test
+    public void returnColErrors() {
+        try {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    EzCol.integer(
+                            0, "a", n -> n < 10, new ToInt()
+                    )
+            );
+            columns.add(
+                    EzCol.string(
+                            1, "b", String::isEmpty, new ToString()
+                    )
+            );
+            new DefaultParser(",", 2, columns)
+                    .parse("11,notEmpty");
+            fail();
+        } catch (EzParseException e) {
+            MatcherAssert.assertThat(
+                    "parser must check column number",
+                    e.errors().toString(),
+                    Matchers.is(
+                            "[column 0 does not accept value '11', column 1 " +
+                                    "does not accept value 'notEmpty']"
+                    )
+            );
+        }
     }
 }
