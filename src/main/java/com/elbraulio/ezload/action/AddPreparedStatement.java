@@ -35,7 +35,7 @@ import java.sql.SQLException;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.3.0
  */
-public final class AddPreparedStatement implements Action<PreparedStatement> {
+public final class AddPreparedStatement implements Action {
     private final PreparedStatement psmt;
     private final int index;
 
@@ -51,7 +51,7 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
     }
 
     @Override
-    public PreparedStatement execute(Integer value) throws EzException {
+    public void execute(Integer value) throws EzException {
         try {
             this.psmt.setInt(this.index, value);
         } catch (SQLException e) {
@@ -60,11 +60,10 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
                     e
             );
         }
-        return this.psmt;
     }
 
     @Override
-    public PreparedStatement execute(Double value) throws EzException {
+    public void execute(Double value) throws EzException {
         try {
             this.psmt.setDouble(this.index, value);
         } catch (SQLException e) {
@@ -74,11 +73,10 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
                     e
             );
         }
-        return this.psmt;
     }
 
     @Override
-    public PreparedStatement execute(String value) throws EzException {
+    public void execute(String value) throws EzException {
         try {
             this.psmt.setString(this.index, value);
         } catch (SQLException e) {
@@ -88,6 +86,5 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
                     e
             );
         }
-        return this.psmt;
     }
 }

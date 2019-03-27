@@ -32,32 +32,29 @@ import com.elbraulio.ezload.exception.EzException;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.3.0
  */
-public interface Action<T> {
+public interface Action {
 
     /**
      * Execute an action for Integer.
      *
      * @param value integer value.
-     * @return generic value.
      * @throws EzException when action fails.
      */
-    T execute(Integer value) throws EzException;
+    void execute(Integer value) throws EzException;
 
     /**
      * Execute an action for Double.
      *
      * @param value integer value.
-     * @return generic value.
      * @throws EzException when action fails.
      */
-    T execute(Double value) throws EzException;
+    void execute(Double value) throws EzException;
 
     /**
      * Execute an action for String.
      *
      * @param value integer value.
-     * @return generic value.
      * @throws EzException when action fails.
      */
-    T execute(String value) throws EzException;
+    void execute(String value) throws EzException;
 }
