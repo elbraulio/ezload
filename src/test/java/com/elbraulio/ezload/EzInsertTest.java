@@ -86,6 +86,38 @@ public class EzInsertTest {
     }
 
     @Test
+    public void insertWithChunk() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), StringValue::new
+                    )
+            );
+            MatcherAssert.assertThat(
+                    "values must be added to batch by chunks",
+                    EzInsert.fromParser(
+                            connection, "test",
+                            new DefaultParser(",", 1, columns),
+                            new BufferedReader(new StringReader("1\nb\nc")),
+                            1
+                    ),
+                    CoreMatchers.is(3L)
+            );
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
     public void exceptionsIncludeDetails() {
         try (Connection connection = new SqliteConnection().connection()) {
             final List<Column> columns = new LinkedList<>();
