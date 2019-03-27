@@ -55,7 +55,10 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
         try {
             this.psmt.setInt(this.index, value);
         } catch (SQLException e) {
-            throw new EzException("setInt error with value '" + "'", e);
+            throw new EzException(
+                    "setInt error with value '" + value + "': " + e.toString(),
+                    e
+            );
         }
         return this.psmt;
     }
@@ -65,7 +68,11 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
         try {
             this.psmt.setDouble(this.index, value);
         } catch (SQLException e) {
-            throw new EzException("setDouble error with value '" + "'", e);
+            throw new EzException(
+                    "setDouble error with value '" + value + "': " +
+                            e.toString(),
+                    e
+            );
         }
         return this.psmt;
     }
@@ -75,7 +82,11 @@ public final class AddPreparedStatement implements Action<PreparedStatement> {
         try {
             this.psmt.setString(this.index, value);
         } catch (SQLException e) {
-            throw new EzException("setString error with value '" + "'", e);
+            throw new EzException(
+                    "setString error with value '" + value + "': " +
+                            e.toString(),
+                    e
+            );
         }
         return this.psmt;
     }
