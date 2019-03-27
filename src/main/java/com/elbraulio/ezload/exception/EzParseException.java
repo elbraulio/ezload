@@ -22,18 +22,47 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
+package com.elbraulio.ezload.exception;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
- * Add a value depending on the type.
+ * Thrown when a parse error occurs.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
  */
-public interface AddBatch<T> {
-    PreparedStatement addValue(PreparedStatement ps, int index, T value)
-            throws SQLException;
+public final class EzParseException extends Exception {
+    private final List<String> errors;
+
+    /**
+     * Ctor.
+     *
+     * @param msg    exception message.
+     * @param errors list of errors.
+     */
+    public EzParseException(String msg, List<String> errors) {
+        super(msg);
+        this.errors = errors;
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param msg       exception message.
+     * @param errors    list of errors.
+     * @param throwable chained exception.
+     */
+    public EzParseException(String msg, List<String> errors, Throwable throwable) {
+        super(msg, throwable);
+        this.errors = errors;
+    }
+
+    /**
+     * Return list of errors.
+     *
+     * @return errors.
+     */
+    public List<String> errors() {
+        return this.errors;
+    }
 }

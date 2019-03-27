@@ -24,14 +24,14 @@
 
 package com.elbraulio.ezload.sql;
 
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.column.Column;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -60,7 +60,7 @@ public class InsertFromParserTest {
             columns.add(
                     new GenericColumn<>(
                             0, "string_val", new NoConstrain<>(),
-                            new ToString(), new StringBatch()
+                            new ToString(), StringValue::new
                     )
             );
             Parser parser = new DefaultParser(",", 1, columns);

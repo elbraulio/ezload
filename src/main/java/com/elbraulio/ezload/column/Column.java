@@ -22,26 +22,25 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.column;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import com.elbraulio.ezload.value.Value;
 
 /**
  * A Column represent the format that a value from a column should check.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0 moved from model package.
  */
 public interface Column<T> {
 
     /**
-     * Column's value.
+     * Parsed value.
      *
      * @param value original value.
-     * @return transformed value.
+     * @return parsed value.
      */
-    T value(String value);
+    T parse(String value);
 
     /**
      * Position from left to right of the column on a line separated by a
@@ -73,15 +72,10 @@ public interface Column<T> {
     boolean isValid(String value);
 
     /**
-     * Add a value to the {@link PreparedStatement} then returns it.
+     * Return a {@link Value} to execute actions.
      *
-     * @param ps    {@link PreparedStatement}
-     * @param index index to add to {@link PreparedStatement}.
-     * @param value raw value to add.
-     * @return {@link PreparedStatement}
-     * @throws SQLException {@link PreparedStatement} error.
+     * @param raw raw value.
+     * @return a {@link Value}.
      */
-    PreparedStatement addToPreparedStatement(
-            PreparedStatement ps, int index, String value
-    ) throws SQLException;
+    Value value(String raw);
 }

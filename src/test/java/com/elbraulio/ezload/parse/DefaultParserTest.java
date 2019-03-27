@@ -24,11 +24,11 @@
 
 package com.elbraulio.ezload.parse;
 
-import com.elbraulio.ezload.batch.IntBatch;
+import com.elbraulio.ezload.column.Column;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.value.IntValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -48,14 +48,14 @@ public class DefaultParserTest {
         list.add(
                 new GenericColumn<Integer>(
                         0, "col", new NoConstrain<>(),
-                        new ToInt(), new IntBatch()
+                        new ToInt(), IntValue::new
                 )
         );
         MatcherAssert.assertThat(
                 "parser with one column",
                 new DefaultParser(
                         ",", 0, list
-                ).columns().get(0).value("1"),
+                ).columns().get(0).parse("1"),
                 CoreMatchers.is(1)
         );
     }

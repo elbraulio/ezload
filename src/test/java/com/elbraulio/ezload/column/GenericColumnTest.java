@@ -22,13 +22,15 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.column;
 
-import com.elbraulio.ezload.batch.IntBatch;
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.action.AddPreparedStatement;
 import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.value.IntValue;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -40,6 +42,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static org.junit.Assert.fail;
+
 /**
  * Unit test for {@link GenericColumn}.
  *
@@ -50,7 +54,7 @@ public class GenericColumnTest {
     private final Column<String> col = new GenericColumn<>(
             0, "column_name",
             new NoConstrain<>(), new ToString(),
-            new StringBatch()
+            StringValue::new
     );
 
     @Test
@@ -58,7 +62,7 @@ public class GenericColumnTest {
         MatcherAssert.assertThat(
                 "a plain text with no constrains and transformations" +
                         "should keep the same",
-                col.value("plain text"),
+                col.parse("plain text"),
                 CoreMatchers.is("plain text")
         );
     }
@@ -100,8 +104,8 @@ public class GenericColumnTest {
         ) {
             new GenericColumn<>(
                     0, "name", new NoConstrain<>(), new ToInt(),
-                    new IntBatch()
-            ).addToPreparedStatement(psmt, 1, "2");
+                    IntValue::new
+            ).value("2").accept(new AddPreparedStatement(psmt, 1));
             psmt.addBatch();
             psmt.executeBatch();
             MatcherAssert.assertThat(
@@ -111,8 +115,9 @@ public class GenericColumnTest {
                     ).value((rs) -> rs.getInt(1)).get(0),
                     CoreMatchers.is(2)
             );
-        } catch (SQLException e) {
+        } catch (SQLException | EzException e) {
             e.printStackTrace();
+            fail();
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())

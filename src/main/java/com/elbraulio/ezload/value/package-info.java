@@ -23,9 +23,9 @@
  */
 
 /**
- * This package has representations of a sql table as
- * {@link com.elbraulio.ezload.model.Column}.
+ * Values that execute actions to different types.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @see com.elbraulio.ezload.action
  */
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.value;

@@ -44,7 +44,7 @@ public class EzColTest {
                 "integer as integer",
                 EzCol.integer(
                         0, "name", new NoConstrain<>(), new ToInt()
-                ).value("1"),
+                ).parse("1"),
                 CoreMatchers.is(1)
         );
     }
@@ -55,7 +55,7 @@ public class EzColTest {
                 "string as string",
                 EzCol.string(
                         0, "name", new NoConstrain<>(), new ToString()
-                ).value("1"),
+                ).parse("1"),
                 CoreMatchers.is("1")
         );
     }
@@ -66,7 +66,7 @@ public class EzColTest {
                 "double as double",
                 EzCol.doublee(
                         0, "name", new NoConstrain<>(), new ToDouble()
-                ).value("1.8"),
+                ).parse("1.8"),
                 CoreMatchers.is(1.8)
         );
     }

@@ -22,46 +22,31 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
+package com.elbraulio.ezload.value;
 
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import com.elbraulio.ezload.action.Action;
+import com.elbraulio.ezload.exception.EzException;
 
 /**
- * Add {@link Double} values to the {@link PreparedStatement}.
+ * String value.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.3.0
  */
-public final class DoubleBatch implements AddBatch<Double> {
-
-    private final EzLogger logger;
-
-    /**
-     * Ctor.
-     */
-    public DoubleBatch() {
-        this(new NoLog());
-    }
+public final class StringValue implements Value {
+    private final String value;
 
     /**
      * Ctor.
      *
-     * @param logger logger.
+     * @param value value.
      */
-    public DoubleBatch(EzLogger logger) {
-        this.logger = logger;
+    public StringValue(String value) {
+        this.value = value;
     }
 
     @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, Double value
-    ) throws SQLException {
-        this.logger.info("setDouble of " + value, "DoubleBatch");
-        ps.setDouble(index, value);
-        return ps;
+    public void accept(Action action) throws EzException {
+        action.execute(this.value);
     }
 }

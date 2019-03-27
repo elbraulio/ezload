@@ -24,10 +24,10 @@
 
 package com.elbraulio.ezload.parse;
 
-import com.elbraulio.ezload.batch.IntBatch;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.value.IntValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -56,13 +56,13 @@ public class DefaultParseBuildTest {
                         .withCol(
                                 new GenericColumn<>(
                                         0, "", new NoConstrain<>(),
-                                        new ToInt(), new IntBatch()
+                                        new ToInt(), IntValue::new
                                 )
                         )
                         .withCol(
                                 new GenericColumn<>(
                                         0, "", new NoConstrain<>(),
-                                        new ToInt(), new IntBatch()
+                                        new ToInt(), IntValue::new
                                 )
                         )
                         .parser().columns().size(),

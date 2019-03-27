@@ -22,42 +22,42 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.parse;
+package com.elbraulio.ezload.action;
 
-import com.elbraulio.ezload.column.Column;
-import com.elbraulio.ezload.exception.EzParseException;
-import com.elbraulio.ezload.line.Line;
-
-import java.util.List;
+import com.elbraulio.ezload.exception.EzException;
 
 /**
- * Parse data from a given file.
+ * Executes an action depending on the given value.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0
  */
-public interface Parser {
+public interface Action<T> {
 
     /**
-     * List of formatted columns.
+     * Execute an action for Integer.
      *
-     * @return columns.
+     * @param value integer value.
+     * @return generic value.
+     * @throws EzException when action fails.
      */
-    List<Column> columns();
+    T execute(Integer value) throws EzException;
 
     /**
-     * Expression that defines how the data is separated in a single line.
+     * Execute an action for Double.
      *
-     * @return separation expression.
+     * @param value integer value.
+     * @return generic value.
+     * @throws EzException when action fails.
      */
-    String separator();
+    T execute(Double value) throws EzException;
 
     /**
-     * Parse a raw line.
+     * Execute an action for String.
      *
-     * @param line raw line.
-     * @return parsed line.
-     * @throws EzParseException when raw line has format errors.
+     * @param value integer value.
+     * @return generic value.
+     * @throws EzException when action fails.
      */
-    Line parse(String line) throws EzParseException;
+    T execute(String value) throws EzException;
 }

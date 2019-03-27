@@ -22,46 +22,10 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
-
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
- * Add {@link String} values to the {@link PreparedStatement}.
+ * Actions to execute over different types. This types are defined by
+ * {@link com.elbraulio.ezload.action.Action}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
  */
-public final class StringBatch implements AddBatch<String> {
-
-    private final EzLogger logger;
-
-    /**
-     * Ctor.
-     */
-    public StringBatch() {
-        this(new NoLog());
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param logger logger.
-     */
-    public StringBatch(EzLogger logger) {
-        this.logger = logger;
-    }
-
-    @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, String value
-    ) throws SQLException {
-        this.logger.info("setString of " + value, "StringBatch");
-        ps.setString(index, value);
-        return ps;
-    }
-}
+package com.elbraulio.ezload.action;

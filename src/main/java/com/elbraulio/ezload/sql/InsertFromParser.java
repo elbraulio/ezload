@@ -24,11 +24,14 @@
 
 package com.elbraulio.ezload.sql;
 
+import com.elbraulio.ezload.action.AddPreparedStatement;
 import com.elbraulio.ezload.exception.EzException;
+import com.elbraulio.ezload.exception.EzParseException;
+import com.elbraulio.ezload.line.Line;
 import com.elbraulio.ezload.logger.EzLogger;
 import com.elbraulio.ezload.logger.NoLog;
-import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.parse.Parser;
+import com.elbraulio.ezload.value.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -87,49 +90,22 @@ public final class InsertFromParser implements Insert {
     @Override
     public long execute(Connection connection, BufferedReader bufferedReader)
             throws EzException {
-        /*
-         * @todo this method from InsertFromParser is too complex
-         * @body > from #40
-         * @body
-         * @body must be refactored and decoupled on different objects.
-         */
+        String raw;
+        int lines = 0;
+        long modified = 0L;
         try (
                 PreparedStatement psmt = connection.prepareStatement(
                         this.buildSql.sql()
                 )
         ) {
-            String line;
-            int lines = 0;
-            long modified = 0L;
-            while ((line = bufferedReader.readLine()) != null) {
-                lines++;
-                this.logger.info("line read: " + line, "InsertFromParser");
-                final String[] split = line.split(this.parser.separator());
+            while ((raw = bufferedReader.readLine()) != null) {
+                Line parsedLine = this.parser.parse(raw);
+                this.logger.info("line read: " + raw, "InsertFromParser");
                 int index = 1;
-                for (Column col : this.parser.columns()) {
-                    if (col.order() >= split.length || col.order() < 0) {
-                        throw new EzException(
-                                "column order " + col.order() + " must be " +
-                                        "on range [0, " + split.length + "]."
-                        );
-                    }
-                    final String raw = split[col.order()];
-                    try {
-                        if (col.isValid(raw)) {
-                            col.addToPreparedStatement(psmt, index, raw);
-                        } else {
-                            throw new EzException(
-                                    "raw value '" + raw + "' is not valid."
-                            );
-                        }
-                    } catch (Exception e) {
-                        throw new EzException(
-                                "(column " + col.order() + ", row " +
-                                        (lines - 1) + ") --> " + e.toString()
-                        );
-                    }
-                    index++;
+                for (Value value : parsedLine.values()) {
+                    value.accept(new AddPreparedStatement(psmt, index++));
                 }
+                lines++;
                 psmt.addBatch();
                 if (lines % chunkSize == 0) {
                     modified += Arrays.stream(psmt.executeBatch()).sum();
@@ -143,6 +119,11 @@ public final class InsertFromParser implements Insert {
             throw new EzException("Sql error", e);
         } catch (IOException e) {
             throw new EzException("IO error", e);
+        } catch (EzParseException e) {
+            throw new EzException(
+                    "errors on row " + lines + " --> " +
+                            e.errors().toString()
+            );
         }
     }
 }
