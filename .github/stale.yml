@@ -29,9 +29,9 @@ markComment: >
   Thank you for your contributions.
 
 # Comment to post when removing the stale label.
-unmarkComment: >
-  Registered activity. Now, this is not considered as abandoned. **s:
-  abandoned** label removed.
+# unmarkComment: >
+#   Registered activity. Now, this is not considered as abandoned. **s:
+#   abandoned** label removed.
 
 # Comment to post when closing a stale Issue or Pull Request.
 closeComment: >
