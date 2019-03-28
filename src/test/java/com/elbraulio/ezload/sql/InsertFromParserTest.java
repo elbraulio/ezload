@@ -24,14 +24,14 @@
 
 package com.elbraulio.ezload.sql;
 
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.column.Column;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -60,7 +60,7 @@ public class InsertFromParserTest {
             columns.add(
                     new GenericColumn<>(
                             0, "string_val", new NoConstrain<>(),
-                            new ToString(), new StringBatch()
+                            new ToString(), StringValue::new
                     )
             );
             Parser parser = new DefaultParser(",", 1, columns);
@@ -77,6 +77,43 @@ public class InsertFromParserTest {
                             "SELECT string_val FROM test;", connection
                     ).value((rs) -> rs.getString(1)).get(0),
                     CoreMatchers.is("hello!")
+            );
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void insertWithChunkSize() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), StringValue::new
+                    )
+            );
+            Parser parser = new DefaultParser(",", 1, columns);
+            new InsertFromParser(
+                    parser, new SqlFromParser("test", parser),
+                    1, new Log4j()
+            ).execute(
+                    connection,
+                    new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
+            );
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "SELECT count(string_val) FROM test;", connection
+                    ).value((rs) -> rs.getInt(1)).get(0),
+                    CoreMatchers.is(6)
             );
         } catch (SQLException | EzException e) {
             e.printStackTrace();

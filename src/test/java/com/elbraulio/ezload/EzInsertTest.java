@@ -24,15 +24,15 @@
 
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.batch.IntBatch;
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.column.Column;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
 import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.value.IntValue;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class EzInsertTest {
             columns.add(
                     new GenericColumn<>(
                             0, "string_val", new NoConstrain<>(),
-                            new ToString(), new StringBatch()
+                            new ToString(), StringValue::new
                     )
             );
             MatcherAssert.assertThat(
@@ -86,13 +86,45 @@ public class EzInsertTest {
     }
 
     @Test
+    public void insertWithChunk() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), StringValue::new
+                    )
+            );
+            MatcherAssert.assertThat(
+                    "values must be added to batch by chunks",
+                    EzInsert.fromParser(
+                            connection, "test",
+                            new DefaultParser(",", 1, columns),
+                            new BufferedReader(new StringReader("1\nb\nc")),
+                            1
+                    ),
+                    CoreMatchers.is(3L)
+            );
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
     public void exceptionsIncludeDetails() {
         try (Connection connection = new SqliteConnection().connection()) {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
                             0, "int_val", new NoConstrain<>(),
-                            new ToInt(), new IntBatch()
+                            new ToInt(), IntValue::new
                     )
             );
             EzInsert.fromParser(
@@ -107,9 +139,9 @@ public class EzInsertTest {
                     "exception must contain descriptions",
                     e.getMessage(),
                     CoreMatchers.is(
-                            "(column 0, row 0) --> java.lang" +
+                            "errors on row 0 --> [column 0: java.lang" +
                                     ".NumberFormatException: For input " +
-                                    "string: \"hi!\""
+                                    "string: \"hi!\"]"
                     )
             );
         } finally {
@@ -129,13 +161,13 @@ public class EzInsertTest {
             columns.add(
                     new GenericColumn<>(
                             1, "int_val", new NoConstrain<>(),
-                            new ToInt(), new IntBatch()
+                            new ToInt(), IntValue::new
                     )
             );
             columns.add(
                     new GenericColumn<>(
                             0, "string_val", new NoConstrain<>(),
-                            new ToString(), new StringBatch()
+                            new ToString(), StringValue::new
                     )
             );
             EzInsert.fromParser(
@@ -149,9 +181,9 @@ public class EzInsertTest {
                     "exception must contain descriptions",
                     e.getMessage(),
                     CoreMatchers.is(
-                            "(column 1, row 0) --> java.lang" +
+                            "errors on row 0 --> [column 1: java.lang" +
                                     ".NumberFormatException: For input " +
-                                    "string: \"bye\""
+                                    "string: \"bye\"]"
                     )
             );
         } finally {

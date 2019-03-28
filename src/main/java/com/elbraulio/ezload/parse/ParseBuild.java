@@ -24,7 +24,7 @@
 
 package com.elbraulio.ezload.parse;
 
-import com.elbraulio.ezload.model.Column;
+import com.elbraulio.ezload.column.Column;
 
 /**
  * Parser builder.

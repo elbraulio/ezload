@@ -22,18 +22,10 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
- * Add a value depending on the type.
+ * This package has tools to define a Column format to parse and validate.
+ * {@link com.elbraulio.ezload.column.Column}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
  */
-public interface AddBatch<T> {
-    PreparedStatement addValue(PreparedStatement ps, int index, T value)
-            throws SQLException;
-}
+package com.elbraulio.ezload.column;

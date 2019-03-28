@@ -22,52 +22,50 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.model;
+package com.elbraulio.ezload.column;
 
-import com.elbraulio.ezload.batch.AddBatch;
 import com.elbraulio.ezload.constrain.Constrain;
 import com.elbraulio.ezload.transform.Transform;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import com.elbraulio.ezload.value.Value;
+import com.elbraulio.ezload.value.ValueFactory;
 
 /**
- * This implementation works as a generic representation of the value and
- * format that a column (or cell) stores.
+ * This implementation works as a generic representation of the format that a
+ * column (or cell) stores.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0 moved from model package.
  */
 public final class GenericColumn<T> implements Column<T> {
     private final int order;
     private final String name;
     private final Constrain<T> constrain;
     private final Transform<T> transform;
-    private final AddBatch<T> addBatch;
+    private final ValueFactory<T> valueFactory;
 
     /**
      * Ctor.
      *
-     * @param order     position on file, from left to right starting from 0.
-     * @param name      column name.
-     * @param constrain value constrain.
-     * @param transform value transform.
-     * @param addBatch  batch operation to add value.
+     * @param order        position on file, from left to right starting from 0.
+     * @param name         column name.
+     * @param constrain    value constrain.
+     * @param transform    value transform.
+     * @param valueFactory value factory.
      */
     public GenericColumn(
             int order, String name, Constrain<T> constrain,
-            Transform<T> transform, AddBatch<T> addBatch
+            Transform<T> transform, ValueFactory<T> valueFactory
     ) {
 
         this.order = order;
         this.name = name;
         this.constrain = constrain;
         this.transform = transform;
-        this.addBatch = addBatch;
+        this.valueFactory = valueFactory;
     }
 
     @Override
-    public T value(String value) {
+    public T parse(String value) {
         return this.transform.from(value);
     }
 
@@ -83,19 +81,11 @@ public final class GenericColumn<T> implements Column<T> {
 
     @Override
     public boolean isValid(String value) {
-        return this.constrain.isValid(value(value));
+        return this.constrain.isValid(parse(value));
     }
 
     @Override
-    public PreparedStatement addToPreparedStatement(
-            PreparedStatement ps, int index, String value
-    ) throws SQLException {
-        /*
-         * @todo value method on column is not necessary
-         * @body is too much information to the user. The only thing that care about
-         * @body the transformed value is the this column. So in this example
-         * @body it can just be used `this.transform.from(value)`.
-         */
-        return this.addBatch.addValue(ps, index, value(value));
+    public Value value(String raw) {
+        return this.valueFactory.newValue(parse(raw));
     }
 }

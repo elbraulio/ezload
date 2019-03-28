@@ -22,60 +22,33 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.parse;
+package com.elbraulio.ezload.value;
 
-import com.elbraulio.ezload.column.Column;
-
-import java.util.LinkedList;
-import java.util.List;
+import com.elbraulio.ezload.action.Action;
+import com.elbraulio.ezload.exception.EzException;
 
 /**
- * Default parser builder.
+ * Integer value.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0
  */
-public final class DefaultParseBuild implements ParseBuild {
-    private final String expression;
-    private final int columnsNumber;
-    private final List<Column> columns;
+public final class IntValue implements Value {
+
+    private final Integer value;
 
     /**
      * Ctor.
      *
-     * @param expression    separator expression.
-     * @param columnsNumber number of columns.
+     * @param value value.
      */
-    public DefaultParseBuild(String expression, int columnsNumber) {
-        this(expression, columnsNumber, new LinkedList<>());
-    }
+    public IntValue(Integer value) {
 
-    /**
-     * Ctor.
-     *
-     * @param expression    separator expression.
-     * @param columnsNumber number of columns.
-     * @param columns       columns formats.
-     */
-    public DefaultParseBuild(
-            String expression, int columnsNumber, List<Column> columns
-    ) {
-
-        this.expression = expression;
-        this.columnsNumber = columnsNumber;
-        this.columns = columns;
+        this.value = value;
     }
 
     @Override
-    public ParseBuild withCol(Column col) {
-        this.columns.add(col);
-        return this;
-    }
-
-    @Override
-    public Parser parser() {
-        return new DefaultParser(
-                this.expression, this.columnsNumber, this.columns
-        );
+    public void accept(Action action) throws EzException {
+        action.execute(this.value);
     }
 }

@@ -22,42 +22,26 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.parse;
+package com.elbraulio.ezload.line;
 
-import com.elbraulio.ezload.column.Column;
-import com.elbraulio.ezload.exception.EzParseException;
-import com.elbraulio.ezload.line.Line;
+import com.elbraulio.ezload.value.Value;
 
 import java.util.List;
 
 /**
- * Parse data from a given file.
+ * Line that contains values that can execute actions.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @see Value
+ * @see com.elbraulio.ezload.action.Action
+ * @since 0.3.0
  */
-public interface Parser {
+public interface Line {
 
     /**
-     * List of formatted columns.
+     * Return the list of values.
      *
-     * @return columns.
+     * @return list of {@link Value}
      */
-    List<Column> columns();
-
-    /**
-     * Expression that defines how the data is separated in a single line.
-     *
-     * @return separation expression.
-     */
-    String separator();
-
-    /**
-     * Parse a raw line.
-     *
-     * @param line raw line.
-     * @return parsed line.
-     * @throws EzParseException when raw line has format errors.
-     */
-    Line parse(String line) throws EzParseException;
+    List<Value> values();
 }

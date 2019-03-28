@@ -22,42 +22,21 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.parse;
-
-import com.elbraulio.ezload.column.Column;
-import com.elbraulio.ezload.exception.EzParseException;
-import com.elbraulio.ezload.line.Line;
-
-import java.util.List;
+package com.elbraulio.ezload.value;
 
 /**
- * Parse data from a given file.
+ * Factory to build {@link Value}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0
  */
-public interface Parser {
+public interface ValueFactory<T> {
 
     /**
-     * List of formatted columns.
+     * Create a Value.
      *
-     * @return columns.
+     * @param value value to store.
+     * @return new Value.
      */
-    List<Column> columns();
-
-    /**
-     * Expression that defines how the data is separated in a single line.
-     *
-     * @return separation expression.
-     */
-    String separator();
-
-    /**
-     * Parse a raw line.
-     *
-     * @param line raw line.
-     * @return parsed line.
-     * @throws EzParseException when raw line has format errors.
-     */
-    Line parse(String line) throws EzParseException;
+    Value newValue(T value);
 }

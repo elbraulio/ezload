@@ -22,46 +22,39 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
+package com.elbraulio.ezload.action;
 
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import com.elbraulio.ezload.exception.EzException;
 
 /**
- * Add {@link Double} values to the {@link PreparedStatement}.
+ * Executes an action depending on the given value.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.3.0
  */
-public final class DoubleBatch implements AddBatch<Double> {
-
-    private final EzLogger logger;
+public interface Action {
 
     /**
-     * Ctor.
-     */
-    public DoubleBatch() {
-        this(new NoLog());
-    }
-
-    /**
-     * Ctor.
+     * Execute an action for Integer.
      *
-     * @param logger logger.
+     * @param value integer value.
+     * @throws EzException when action fails.
      */
-    public DoubleBatch(EzLogger logger) {
-        this.logger = logger;
-    }
+    void execute(Integer value) throws EzException;
 
-    @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, Double value
-    ) throws SQLException {
-        this.logger.info("setDouble of " + value, "DoubleBatch");
-        ps.setDouble(index, value);
-        return ps;
-    }
+    /**
+     * Execute an action for Double.
+     *
+     * @param value integer value.
+     * @throws EzException when action fails.
+     */
+    void execute(Double value) throws EzException;
+
+    /**
+     * Execute an action for String.
+     *
+     * @param value integer value.
+     * @throws EzException when action fails.
+     */
+    void execute(String value) throws EzException;
 }

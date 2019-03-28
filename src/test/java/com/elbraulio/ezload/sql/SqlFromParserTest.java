@@ -24,11 +24,11 @@
 
 package com.elbraulio.ezload.sql;
 
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.parse.DefaultParseBuild;
 import com.elbraulio.ezload.transform.ToString;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class SqlFromParserTest {
                         ).withCol(
                                 new GenericColumn<>(
                                         0, "first", new NoConstrain<>(),
-                                        new ToString(), new StringBatch()
+                                        new ToString(), StringValue::new
                                 )
                         ).parser(),
                         new Log4j()
@@ -84,12 +84,12 @@ public class SqlFromParserTest {
                         ).withCol(
                                 new GenericColumn<>(
                                         0, "first", new NoConstrain<>(),
-                                        new ToString(), new StringBatch()
+                                        new ToString(), StringValue::new
                                 )
                         ).withCol(
                                 new GenericColumn<>(
                                         1, "second", new NoConstrain<>(),
-                                        new ToString(), new StringBatch()
+                                        new ToString(), StringValue::new
                                 )
                         ).parser()
                 ).sql(),

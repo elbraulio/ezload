@@ -22,46 +22,10 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
-
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
- * Add {@link Integer} values to the {@link PreparedStatement}.
+ * Values that execute actions to different types.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @see com.elbraulio.ezload.action
  */
-public final class IntBatch implements AddBatch<Integer> {
-
-    private final EzLogger logger;
-
-    /**
-     * Ctor.
-     */
-    public IntBatch() {
-        this(new NoLog());
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param logger logger.
-     */
-    public IntBatch(EzLogger logger) {
-        this.logger = logger;
-    }
-
-    @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, Integer value
-    ) throws SQLException {
-        this.logger.info("setInt of " + value, "IntBatch");
-        ps.setInt(index, value);
-        return ps;
-    }
-}
+package com.elbraulio.ezload.value;

@@ -22,46 +22,48 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.batch;
+package com.elbraulio.ezload.exception;
 
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
- * Add {@link String} values to the {@link PreparedStatement}.
+ * Thrown when a parse error occurs.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
+ * @since 0.3.0
  */
-public final class StringBatch implements AddBatch<String> {
-
-    private final EzLogger logger;
+public final class EzParseException extends Exception {
+    private final List<String> errors;
 
     /**
      * Ctor.
+     *
+     * @param msg    exception message.
+     * @param errors list of errors.
      */
-    public StringBatch() {
-        this(new NoLog());
+    public EzParseException(String msg, List<String> errors) {
+        super(msg);
+        this.errors = errors;
     }
 
     /**
      * Ctor.
      *
-     * @param logger logger.
+     * @param msg       exception message.
+     * @param errors    list of errors.
+     * @param throwable chained exception.
      */
-    public StringBatch(EzLogger logger) {
-        this.logger = logger;
+    public EzParseException(String msg, List<String> errors, Throwable throwable) {
+        super(msg, throwable);
+        this.errors = errors;
     }
 
-    @Override
-    public PreparedStatement addValue(
-            PreparedStatement ps, int index, String value
-    ) throws SQLException {
-        this.logger.info("setString of " + value, "StringBatch");
-        ps.setString(index, value);
-        return ps;
+    /**
+     * Return list of errors.
+     *
+     * @return errors.
+     */
+    public List<String> errors() {
+        return this.errors;
     }
 }

@@ -24,14 +24,14 @@
 
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.batch.AddBatch;
-import com.elbraulio.ezload.batch.DoubleBatch;
-import com.elbraulio.ezload.batch.IntBatch;
-import com.elbraulio.ezload.batch.StringBatch;
+import com.elbraulio.ezload.column.Column;
+import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constrain.Constrain;
-import com.elbraulio.ezload.model.Column;
-import com.elbraulio.ezload.model.GenericColumn;
 import com.elbraulio.ezload.transform.Transform;
+import com.elbraulio.ezload.value.DoubleValue;
+import com.elbraulio.ezload.value.IntValue;
+import com.elbraulio.ezload.value.StringValue;
+import com.elbraulio.ezload.value.ValueFactory;
 
 /**
  * {@link Column} factory. This design come from the fact that we need to
@@ -56,7 +56,7 @@ public final class EzCol {
             Transform<Integer> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, new IntBatch()
+                order, name, constrain, transform, IntValue::new
         );
     }
 
@@ -74,7 +74,7 @@ public final class EzCol {
             Transform<Double> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, new DoubleBatch()
+                order, name, constrain, transform, DoubleValue::new
         );
     }
 
@@ -92,24 +92,24 @@ public final class EzCol {
             Transform<String> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, new StringBatch()
+                order, name, constrain, transform, StringValue::new
         );
     }
 
     /**
      * Generic column creation.
      *
-     * @param order     column position from left to right, starting from 0.
-     * @param name      column name
-     * @param constrain column constrain.
-     * @param transform column transform.
-     * @param addBatch  addBatch depending on value type.
-     * @param <T>       depends on value type.
+     * @param order        column position from left to right, starting from 0.
+     * @param name         column name
+     * @param constrain    column constrain.
+     * @param transform    column transform.
+     * @param valueFactory value factory.
+     * @param <T>          depends on value type.
      * @return {@link Column}
      */
     private static <T> Column<T> newCol(
             int order, String name, Constrain<T> constrain,
-            Transform<T> transform, AddBatch<T> addBatch
+            Transform<T> transform, ValueFactory<T> valueFactory
     ) {
         /**
          * @todo The order and column match are unique combination
@@ -117,7 +117,7 @@ public final class EzCol {
          * @body column match are unique combination.
          */
         return new GenericColumn<>(
-                order, name, constrain, transform, addBatch
+                order, name, constrain, transform, valueFactory
         );
     }
 }

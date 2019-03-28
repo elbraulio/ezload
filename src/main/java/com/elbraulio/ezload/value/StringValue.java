@@ -22,10 +22,31 @@
  * SOFTWARE.
  */
 
+package com.elbraulio.ezload.value;
+
+import com.elbraulio.ezload.action.Action;
+import com.elbraulio.ezload.exception.EzException;
+
 /**
- * This package has representations of a sql table as
- * {@link com.elbraulio.ezload.model.Column}.
+ * String value.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 0.3.0
  */
-package com.elbraulio.ezload.model;
+public final class StringValue implements Value {
+    private final String value;
+
+    /**
+     * Ctor.
+     *
+     * @param value value.
+     */
+    public StringValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public void accept(Action action) throws EzException {
+        action.execute(this.value);
+    }
+}

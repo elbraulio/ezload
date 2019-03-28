@@ -22,52 +22,53 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload;
+package com.elbraulio.ezload.exception;
 
-import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.transform.ToDouble;
-import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
- * Unit test for {@link EzCol}.
+ * Unit test for {@link EzParseException}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public class EzColTest {
+public class EzParseExceptionTest {
     @Test
-    public void intCol() {
+    public void exceptionMessages() {
         MatcherAssert.assertThat(
-                "integer as integer",
-                EzCol.integer(
-                        0, "name", new NoConstrain<>(), new ToInt()
-                ).parse("1"),
-                CoreMatchers.is(1)
+                "should keep the initial message",
+                new EzParseException(
+                        "a message", new LinkedList<>()
+                ).getMessage(),
+                CoreMatchers.is("a message")
         );
     }
 
     @Test
-    public void stringCol() {
+    public void errorList() {
+        final List<String> errors = new LinkedList<>();
+        errors.add("error 1");
         MatcherAssert.assertThat(
-                "string as string",
-                EzCol.string(
-                        0, "name", new NoConstrain<>(), new ToString()
-                ).parse("1"),
-                CoreMatchers.is("1")
+                "should keep the initial message",
+                new EzParseException("a message", errors).errors().get(0),
+                CoreMatchers.is("error 1")
         );
     }
 
     @Test
-    public void doubleCol() {
+    public void chainedExceptions() {
+        final List<String> errors = new LinkedList<>();
+        errors.add("error 1");
         MatcherAssert.assertThat(
-                "double as double",
-                EzCol.doublee(
-                        0, "name", new NoConstrain<>(), new ToDouble()
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
+                "should keep the initial message",
+                new EzParseException(
+                        "a message", errors, new NumberFormatException("error")
+                ).errors().get(0),
+                CoreMatchers.is("error 1")
         );
     }
 }

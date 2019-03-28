@@ -24,9 +24,9 @@
 
 package com.elbraulio.ezload.sql;
 
+import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.logger.EzLogger;
 import com.elbraulio.ezload.logger.NoLog;
-import com.elbraulio.ezload.model.Column;
 import com.elbraulio.ezload.parse.Parser;
 
 import java.util.List;
