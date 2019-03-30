@@ -56,13 +56,7 @@ public interface Column<T> {
      * @return name.
      */
     String name();
-
-    /**
-     * @todo this method should throw an exception
-     * @body it is common that a validation check returns false, so what happens
-     * @body if it is so? that is why it should throw an exception. Not sure
-     * @body where, maybe when the File is loading.
-     */
+    
     /**
      * Checks if the value is valid or not.
      *
