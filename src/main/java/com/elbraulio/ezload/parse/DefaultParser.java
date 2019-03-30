@@ -88,18 +88,18 @@ public final class DefaultParser implements Parser {
         this.columns.forEach(
                 col -> {
                     try {
-                        final String raw = split[col.order()];
+                        final String raw = split[col.position()];
                         if (col.isValid(raw)) {
                             values.add(col.value(raw));
                         } else {
                             errors.add(
-                                    "column " + col.order() + " does not " +
+                                    "column " + col.position() + " does not " +
                                             "accept value '" + raw + "'"
                             );
                         }
                     } catch (Exception e) {
                         errors.add(
-                                "column " + col.order() + ": " +
+                                "column " + col.position() + ": " +
                                         e.toString()
                         );
                     }

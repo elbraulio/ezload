@@ -45,61 +45,61 @@ public final class EzCol {
     /**
      * create a new Integer column.
      *
-     * @param order     column position from left to right, starting from 0.
+     * @param position  column position from left to right, starting from 0.
      * @param name      column name
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<Integer> integer(
-            int order, String name, Constrain<Integer> constrain,
+            int position, String name, Constrain<Integer> constrain,
             Transform<Integer> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, IntValue::new
+                position, name, constrain, transform, IntValue::new
         );
     }
 
     /**
      * create a new Double column.
      *
-     * @param order     column position from left to right, starting from 0.
+     * @param position  column position from left to right, starting from 0.
      * @param name      column name
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<Double> doublee(
-            int order, String name, Constrain<Double> constrain,
+            int position, String name, Constrain<Double> constrain,
             Transform<Double> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, DoubleValue::new
+                position, name, constrain, transform, DoubleValue::new
         );
     }
 
     /**
      * create a new String column.
      *
-     * @param order     column position from left to right, starting from 0.
+     * @param position  column position from left to right, starting from 0.
      * @param name      column name
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<String> string(
-            int order, String name, Constrain<String> constrain,
+            int position, String name, Constrain<String> constrain,
             Transform<String> transform
     ) {
         return EzCol.newCol(
-                order, name, constrain, transform, StringValue::new
+                position, name, constrain, transform, StringValue::new
         );
     }
 
     /**
      * Generic column creation.
      *
-     * @param order        column position from left to right, starting from 0.
+     * @param position     column position from left to right, starting from 0.
      * @param name         column name
      * @param constrain    column constrain.
      * @param transform    column transform.
@@ -108,16 +108,16 @@ public final class EzCol {
      * @return {@link Column}
      */
     private static <T> Column<T> newCol(
-            int order, String name, Constrain<T> constrain,
+            int position, String name, Constrain<T> constrain,
             Transform<T> transform, ValueFactory<T> valueFactory
     ) {
         /**
-         * @todo The order and column match are unique combination
-         * @body EzCol:newCol does not validate the fact that the order and
+         * @todo The position and column match are unique combination
+         * @body EzCol:newCol does not validate the fact that the position and
          * @body column match are unique combination.
          */
         return new GenericColumn<>(
-                order, name, constrain, transform, valueFactory
+                position, name, constrain, transform, valueFactory
         );
     }
 }

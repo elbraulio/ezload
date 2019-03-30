@@ -37,7 +37,7 @@ import com.elbraulio.ezload.value.ValueFactory;
  * @since 0.3.0 moved from model package.
  */
 public final class GenericColumn<T> implements Column<T> {
-    private final int order;
+    private final int position;
     private final String name;
     private final Constrain<T> constrain;
     private final Transform<T> transform;
@@ -46,18 +46,18 @@ public final class GenericColumn<T> implements Column<T> {
     /**
      * Ctor.
      *
-     * @param order        position on file, from left to right starting from 0.
+     * @param position        position on file, from left to right starting from 0.
      * @param name         column name.
      * @param constrain    value constrain.
      * @param transform    value transform.
      * @param valueFactory value factory.
      */
     public GenericColumn(
-            int order, String name, Constrain<T> constrain,
+            int position, String name, Constrain<T> constrain,
             Transform<T> transform, ValueFactory<T> valueFactory
     ) {
 
-        this.order = order;
+        this.position = position;
         this.name = name;
         this.constrain = constrain;
         this.transform = transform;
@@ -70,8 +70,8 @@ public final class GenericColumn<T> implements Column<T> {
     }
 
     @Override
-    public int order() {
-        return this.order;
+    public int position() {
+        return this.position;
     }
 
     @Override

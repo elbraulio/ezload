@@ -48,7 +48,7 @@ public interface Column<T> {
      *
      * @return position number.
      */
-    int order();
+    int position();
 
     /**
      * Column's name.
@@ -56,7 +56,7 @@ public interface Column<T> {
      * @return name.
      */
     String name();
-    
+
     /**
      * Checks if the value is valid or not.
      *
