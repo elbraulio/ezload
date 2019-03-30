@@ -30,6 +30,7 @@ import com.elbraulio.ezload.line.DefaultLine;
 import com.elbraulio.ezload.line.Line;
 import com.elbraulio.ezload.value.Value;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public final class DefaultParser implements Parser {
 
     @Override
     public List<Column> columns() {
-        return this.columns;
+        return new ArrayList<>(this.columns);
     }
 
     @Override

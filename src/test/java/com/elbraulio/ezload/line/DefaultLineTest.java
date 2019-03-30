@@ -22,49 +22,33 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.exception;
+package com.elbraulio.ezload.line;
 
-import java.util.ArrayList;
+import com.elbraulio.ezload.value.IntValue;
+import com.elbraulio.ezload.value.Value;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Thrown when a parse error occurs.
+ * Unit test for {@link DefaultLine}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0
  */
-public final class EzParseException extends Exception {
-    private final List<String> errors;
-
-    /**
-     * Ctor.
-     *
-     * @param msg    exception message.
-     * @param errors list of errors.
-     */
-    public EzParseException(String msg, List<String> errors) {
-        super(msg);
-        this.errors = errors;
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param msg       exception message.
-     * @param errors    list of errors.
-     * @param throwable chained exception.
-     */
-    public EzParseException(String msg, List<String> errors, Throwable throwable) {
-        super(msg, throwable);
-        this.errors = errors;
-    }
-
-    /**
-     * Return list of errors.
-     *
-     * @return errors.
-     */
-    public List<String> errors() {
-        return new ArrayList<>(this.errors);
+public class DefaultLineTest {
+    @Test
+    public void immutableValues() {
+        final List<Value> values = new LinkedList<>();
+        values.add(new IntValue(0));
+        final Line line = new DefaultLine(values);
+        line.values().clear();
+        MatcherAssert.assertThat(
+                "values are immutable",
+                line.values().size(),
+                Matchers.is(1)
+        );
     }
 }

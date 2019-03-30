@@ -69,6 +69,26 @@ public class DefaultParserTest {
     }
 
     @Test
+    public void immutableColumns() {
+        final List<Column> list = new LinkedList<>();
+        list.add(
+                new GenericColumn<>(
+                        0, "col", new NoConstrain<>(),
+                        new ToInt(), IntValue::new
+                )
+        );
+        final Parser parser = new DefaultParser(
+                ",", 0, list
+        );
+        parser.columns().clear();
+        MatcherAssert.assertThat(
+                "columns are immutable",
+                parser.columns().size(),
+                CoreMatchers.is(1)
+        );
+    }
+
+    @Test
     public void dontChangeExpression() {
         MatcherAssert.assertThat(
                 "expression cant change",
