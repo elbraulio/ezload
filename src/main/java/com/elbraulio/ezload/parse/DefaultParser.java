@@ -73,7 +73,7 @@ public final class DefaultParser implements Parser {
 
     @Override
     public Line parse(String line) throws EzParseException {
-        final String[] split = line.split(this.expression);
+        final String[] split = line.split(this.expression, -1);
         final List<String> errors = new LinkedList<>();
         final List<Value> values = new LinkedList<>();
         if (split.length < this.columnsNumber) {
