@@ -32,7 +32,7 @@ import com.elbraulio.ezload.parse.Parser;
 import java.util.List;
 
 /**
- * Build a SQL query from {@link Parser}. The column order is the same as the
+ * Build a SQL query from {@link Parser}. The column position is the same as the
  * list {@link Parser#columns()}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)

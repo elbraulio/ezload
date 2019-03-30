@@ -70,8 +70,8 @@ public class GenericColumnTest {
     @Test
     public void orderNotChange() {
         MatcherAssert.assertThat(
-                "order always is the same",
-                col.order(),
+                "position always is the same",
+                col.position(),
                 CoreMatchers.is(0)
         );
     }
