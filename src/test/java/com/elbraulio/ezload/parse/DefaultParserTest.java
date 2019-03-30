@@ -32,6 +32,7 @@ import com.elbraulio.ezload.exception.EzParseException;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.value.IntValue;
+import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -40,6 +41,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -52,7 +54,7 @@ public class DefaultParserTest {
     public void singleColumn() {
         final List<Column> list = new LinkedList<>();
         list.add(
-                new GenericColumn<Integer>(
+                new GenericColumn<>(
                         0, "col", new NoConstrain<>(),
                         new ToInt(), IntValue::new
                 )
@@ -89,6 +91,36 @@ public class DefaultParserTest {
                                     " on line: []]"
                     )
             );
+        }
+    }
+
+    @Test
+    public void splitWithEmptyValues() {
+        final List<Column> list = new LinkedList<>();
+        list.add(
+                new GenericColumn<>(
+                        0, "col", new NoConstrain<>(),
+                        new ToString(), StringValue::new
+                )
+        );
+        list.add(
+                new GenericColumn<>(
+                        1, "col", new NoConstrain<>(),
+                        new ToString(), StringValue::new
+                )
+        );
+        list.add(
+                new GenericColumn<>(
+                        2, "col", new NoConstrain<>(),
+                        new ToString(), StringValue::new
+                )
+        );
+        try {
+            new DefaultParser(";", 3, list).parse(";;");
+            assertTrue(true);
+        } catch (EzParseException e) {
+            if (!e.errors().isEmpty())
+                fail();
         }
     }
 
