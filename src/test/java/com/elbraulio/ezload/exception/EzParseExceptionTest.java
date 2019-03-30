@@ -26,6 +26,7 @@ package com.elbraulio.ezload.exception;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -56,6 +57,21 @@ public class EzParseExceptionTest {
                 "should keep the initial message",
                 new EzParseException("a message", errors).errors().get(0),
                 CoreMatchers.is("error 1")
+        );
+    }
+
+    @Test
+    public void immutableErrors() {
+        final List<String> errors = new LinkedList<>();
+        errors.add("error 1");
+        final EzParseException exception = new EzParseException(
+                "a message", errors
+        );
+        exception.errors().clear();
+        MatcherAssert.assertThat(
+                "immutable errors",
+                exception.errors().size(),
+                Matchers.is(1)
         );
     }
 

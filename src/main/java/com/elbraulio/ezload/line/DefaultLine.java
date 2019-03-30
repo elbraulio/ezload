@@ -26,6 +26,7 @@ package com.elbraulio.ezload.line;
 
 import com.elbraulio.ezload.value.Value;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +49,6 @@ public final class DefaultLine implements Line {
 
     @Override
     public List<Value> values() {
-        return this.values;
+        return new ArrayList<>(this.values);
     }
 }
