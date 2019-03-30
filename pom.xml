@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.elbraulio</groupId>
     <artifactId>ezload</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
