@@ -34,6 +34,7 @@ import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import util.DropData;
 import util.Log4j;
@@ -46,6 +47,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import static junit.framework.TestCase.fail;
 
 /**
  * Unit test for {@link InsertFromParser}.
@@ -117,6 +120,46 @@ public class InsertFromParserTest {
             );
         } catch (SQLException | EzException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void sqlError() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            connection.close();
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    new GenericColumn<>(
+                            0, "string_val", new NoConstrain<>(),
+                            new ToString(), StringValue::new
+                    )
+            );
+            Parser parser = new DefaultParser(",", 1, columns);
+            new InsertFromParser(
+                    parser, new SqlFromParser("test", parser),
+                    1, new Log4j()
+            ).execute(
+                    connection,
+                    new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
+            );
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "sql errors must include message",
+                    e.toString(),
+                    Matchers.is(
+                            "com.elbraulio.ezload.exception.EzException: " +
+                                    "Sql error: java.sql.SQLException: " +
+                                    "database connection closed"
+                    )
+            );
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())

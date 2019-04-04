@@ -116,9 +116,9 @@ public final class InsertFromParser implements Insert {
             }
             return modified;
         } catch (SQLException e) {
-            throw new EzException("Sql error", e);
+            throw new EzException("Sql error: " + e.toString(), e);
         } catch (IOException e) {
-            throw new EzException("IO error", e);
+            throw new EzException("IO error: " + e.toString(), e);
         } catch (EzParseException e) {
             throw new EzException(
                     "errors on row " + lines + " --> " +
