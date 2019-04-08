@@ -111,11 +111,6 @@ public final class EzCol {
             int position, String name, Constrain<T> constrain,
             Transform<T> transform, ValueFactory<T> valueFactory
     ) {
-        /**
-         * @todo The position and column match are unique combination
-         * @body EzCol:newCol does not validate the fact that the position and
-         * @body column match are unique combination.
-         */
         return new GenericColumn<>(
                 position, name, constrain, transform, valueFactory
         );
