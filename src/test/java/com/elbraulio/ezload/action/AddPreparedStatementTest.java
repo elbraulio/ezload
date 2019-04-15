@@ -35,6 +35,7 @@ import util.SqliteConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 
 import static org.junit.Assert.fail;
 
@@ -208,6 +209,111 @@ public class AddPreparedStatementTest {
                                     ".SQLException: statement is not executing"
                     )
             );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void doubleNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (double_val) values (?);"
+            );
+            Double nullDouble = null;
+            new AddPreparedStatement(ps, 1).execute(nullDouble);
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "accept null values",
+                    new ReadValue(
+                            "select double_val from test;", connection
+                    ).value(
+                        rs -> {
+                            rs.getDouble(1);
+                            return rs.wasNull();
+                        }
+                    ).get(0),
+                    CoreMatchers.is(true)
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void stringNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            String nullString = null;
+            new AddPreparedStatement(ps, 1).execute(nullString);
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "accept null values",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(
+                        rs -> {
+                            rs.getString(1);
+                            return rs.wasNull();
+                        }
+                    ).get(0),
+                    CoreMatchers.is(true)
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void integerNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (int_val) values (?);"
+            );
+            Integer nullInteger = null;
+            new AddPreparedStatement(ps, 1).execute(nullInteger);
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "accept null values",
+                    new ReadValue(
+                            "select int_val from test;", connection
+                    ).value(
+                        rs -> {
+                            rs.getInt(1);
+                            return rs.wasNull();
+                        }
+                    ).get(0),
+                    CoreMatchers.is(true)
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())
