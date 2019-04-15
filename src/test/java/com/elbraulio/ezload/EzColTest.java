@@ -70,4 +70,18 @@ public class EzColTest {
                 CoreMatchers.is(1.8)
         );
     }
+
+    @Test
+    public void nullableCol() {
+        MatcherAssert.assertThat(
+                "null col double as double",
+                EzCol.nullable(
+                        "NULL", 
+                        EzCol.doublee(
+                                0, "name", new NoConstrain<>(), new ToDouble()
+                        )
+                ).parse("1.8"),
+                CoreMatchers.is(1.8)
+        );
+    }
 }
