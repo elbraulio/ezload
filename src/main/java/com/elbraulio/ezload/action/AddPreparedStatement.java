@@ -28,6 +28,8 @@ import com.elbraulio.ezload.exception.EzException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLType;
+import java.sql.Types;
 
 /**
  * This action add a value to a PreparedStatement.
@@ -53,7 +55,10 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(Integer value) throws EzException {
         try {
-            this.psmt.setInt(this.index, value);
+            if(value != null) 
+                this.psmt.setInt(this.index, value);
+            else
+                this.psmt.setNull(this.index, Types.INTEGER);
         } catch (SQLException e) {
             throw new EzException(
                     "setInt error with value '" + value + "': " + e.toString(),
@@ -65,7 +70,10 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(Double value) throws EzException {
         try {
-            this.psmt.setDouble(this.index, value);
+            if(value != null)
+                this.psmt.setDouble(this.index, value);
+            else
+                this.psmt.setNull(this.index, Types.DOUBLE);
         } catch (SQLException e) {
             throw new EzException(
                     "setDouble error with value '" + value + "': " +
@@ -78,7 +86,10 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(String value) throws EzException {
         try {
-            this.psmt.setString(this.index, value);
+            if(value != null)
+                this.psmt.setString(this.index, value);
+            else
+                this.psmt.setNull(this.index, Types.VARCHAR);
         } catch (SQLException e) {
             throw new EzException(
                     "setString error with value '" + value + "': " +
