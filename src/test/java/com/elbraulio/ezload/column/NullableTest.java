@@ -22,66 +22,59 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload;
+package com.elbraulio.ezload.column;
 
+import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.constrain.NoConstrain;
-import com.elbraulio.ezload.transform.ToDouble;
 import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
-import org.hamcrest.CoreMatchers;
+
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Unit test for {@link EzCol}.
- *
+ * Unit test for {@link Nullable}
+ * 
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public class EzColTest {
+public class NullableTest {
     @Test
-    public void intCol() {
+    public void nullValuesDoesNotAffectTypes() {
         MatcherAssert.assertThat(
-                "integer as integer",
+            "accept null values",
+            new Nullable<>(
+                "null", 
                 EzCol.integer(
-                        0, "name", new NoConstrain<>(), new ToInt()
+                    0, "c1", new NoConstrain<>(), new ToInt()                    
+                )
+            ).isValid("null"),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    public void nullValuesDoesNotAffectValues() {
+        MatcherAssert.assertThat(
+            "accept no null values",
+                new Nullable<>(
+                    "null", 
+                    EzCol.integer(
+                        0, "c1", new NoConstrain<>(), new ToInt()
+                    )
                 ).parse("1"),
-                CoreMatchers.is(1)
-        );
+                Matchers.is(1));
     }
 
     @Test
-    public void stringCol() {
+    public void returnNullValues() {
         MatcherAssert.assertThat(
-                "string as string",
-                EzCol.string(
-                        0, "name", new NoConstrain<>(), new ToString()
-                ).parse("1"),
-                CoreMatchers.is("1")
-        );
-    }
-
-    @Test
-    public void doubleCol() {
-        MatcherAssert.assertThat(
-                "double as double",
-                EzCol.doublee(
-                        0, "name", new NoConstrain<>(), new ToDouble()
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
-        );
-    }
-
-    @Test
-    public void nullableCol() {
-        MatcherAssert.assertThat(
-                "null col double as double",
-                EzCol.nullable(
-                        "NULL", 
-                        EzCol.doublee(
-                                0, "name", new NoConstrain<>(), new ToDouble()
-                        )
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
-        );
+            "identifies null values",
+                new Nullable<>(
+                    "null", 
+                    EzCol.integer(
+                        0, "c1", new NoConstrain<>(), new ToInt()
+                    )
+                ).parse("null"),
+                Matchers.nullValue());
     }
 }

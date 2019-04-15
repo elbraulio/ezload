@@ -26,6 +26,7 @@ package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
+import com.elbraulio.ezload.column.Nullable;
 import com.elbraulio.ezload.constrain.Constrain;
 import com.elbraulio.ezload.transform.Transform;
 import com.elbraulio.ezload.value.DoubleValue;
@@ -43,7 +44,7 @@ import com.elbraulio.ezload.value.ValueFactory;
 public final class EzCol {
 
     /**
-     * create a new Integer column.
+     * Create a new Integer column.
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name
@@ -61,7 +62,7 @@ public final class EzCol {
     }
 
     /**
-     * create a new Double column.
+     * Create a new Double column.
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name
@@ -79,7 +80,7 @@ public final class EzCol {
     }
 
     /**
-     * create a new String column.
+     * Create a new String column.
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name
@@ -94,6 +95,19 @@ public final class EzCol {
         return EzCol.newCol(
                 position, name, constrain, transform, StringValue::new
         );
+    }
+
+    /**
+     * Make a column nullable. It means that if the given expression is found, it 
+     * will return a null.
+     * 
+     * @param <T>           column type.
+     * @param nullExpression null identifier.
+     * @param column        nullable column.
+     * @return column that can return null values.
+     */
+    public static <T> Column<T> nullable(String nullExpression, Column<T> column) {
+        return new Nullable<>(nullExpression, column);
     }
 
     /**

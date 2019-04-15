@@ -82,6 +82,23 @@ long insertedRows = EzInsert.fromParser(
 );
 ```
 
+## Null values
+
+A csv can have null values but they must be defined as a fixed text e.g. *null*, *NULL*, *none* or even empty string. Here you can identify them if you want. 
+
+```java
+EzLoad.parse(",", numberOfCols).withCol(
+    EzCol.nullable(
+        "null",
+        EzCol.integer(
+            0, "units", new NoConstrain<>(), new ToInt()
+        )
+    )
+);
+```
+
+By doing that **ezload** checks if a null value has been found in order to parse it as a `null` and not throw an exception for trying to parse *null* to int.
+
 # Bots
 
 We are using several bots, this is the current list:

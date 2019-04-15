@@ -28,3 +28,9 @@ hs_err_pid*
 
 # maven
 target
+
+# vscode
+.vscode
+.project
+.classpath
+.settings
