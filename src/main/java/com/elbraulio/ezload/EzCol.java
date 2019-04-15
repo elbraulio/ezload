@@ -102,12 +102,12 @@ public final class EzCol {
      * will return a null.
      * 
      * @param <T>           column type.
-     * @param nullExpresion null identifier.
+     * @param nullExpression null identifier.
      * @param column        nullable column.
      * @return column that can return null values.
      */
-    public static <T> Column<T> nullable(String nullExpresion, Column<T> column) {
-        return new Nullable<>(nullExpresion, column);
+    public static <T> Column<T> nullable(String nullExpression, Column<T> column) {
+        return new Nullable<>(nullExpression, column);
     }
 
     /**
