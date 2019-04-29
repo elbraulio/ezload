@@ -28,6 +28,9 @@ import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.column.Nullable;
 import com.elbraulio.ezload.constrain.Constrain;
+import com.elbraulio.ezload.transform.ToDouble;
+import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.transform.Transform;
 import com.elbraulio.ezload.value.DoubleValue;
 import com.elbraulio.ezload.value.IntValue;
@@ -47,7 +50,23 @@ public final class EzCol {
      * Create a new Integer column.
      *
      * @param position  column position from left to right, starting from 0.
-     * @param name      column name
+     * @param name      column name.
+     * @param constrain column constrain.
+     * @return {@link Column}
+     */
+    public static Column<Integer> integer(
+            int position, String name, Constrain<Integer> constrain
+    ) {
+        return EzCol.newCol(
+                position, name, constrain, new ToInt(), IntValue::new
+        );
+    }
+
+    /**
+     * Create a new Integer column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
@@ -65,7 +84,23 @@ public final class EzCol {
      * Create a new Double column.
      *
      * @param position  column position from left to right, starting from 0.
-     * @param name      column name
+     * @param name      column name.
+     * @param constrain column constrain.
+     * @return {@link Column}
+     */
+    public static Column<Double> doublee(
+            int position, String name, Constrain<Double> constrain
+    ) {
+        return EzCol.newCol(
+                position, name, constrain, new ToDouble(), DoubleValue::new
+        );
+    }
+
+    /**
+     * Create a new Double column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
@@ -83,7 +118,23 @@ public final class EzCol {
      * Create a new String column.
      *
      * @param position  column position from left to right, starting from 0.
-     * @param name      column name
+     * @param name      column name.
+     * @param constrain column constrain.
+     * @return {@link Column}
+     */
+    public static Column<String> string(
+            int position, String name, Constrain<String> constrain
+    ) {
+        return EzCol.newCol(
+                position, name, constrain, new ToString(), StringValue::new
+        );
+    }
+
+    /**
+     * Create a new String column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
      * @param constrain column constrain.
      * @param transform column transform.
      * @return {@link Column}
@@ -98,12 +149,12 @@ public final class EzCol {
     }
 
     /**
-     * Make a column nullable. It means that if the given expression is found, it 
-     * will return a null.
-     * 
-     * @param <T>           column type.
+     * Make a column nullable. It means that if the given expression is
+     * found,  it will return a null.
+     *
+     * @param <T>            column type.
      * @param nullExpression null identifier.
-     * @param column        nullable column.
+     * @param column         nullable column.
      * @return column that can return null values.
      */
     public static <T> Column<T> nullable(String nullExpression, Column<T> column) {
@@ -114,7 +165,7 @@ public final class EzCol {
      * Generic column creation.
      *
      * @param position     column position from left to right, starting from 0.
-     * @param name         column name
+     * @param name         column name.
      * @param constrain    column constrain.
      * @param transform    column transform.
      * @param valueFactory value factory.
