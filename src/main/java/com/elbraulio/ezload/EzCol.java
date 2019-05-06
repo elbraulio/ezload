@@ -156,6 +156,7 @@ public final class EzCol {
      * @param nullExpression null identifier.
      * @param column         nullable column.
      * @return column that can return null values.
+     * @since 0.4.0
      */
     public static <T> Column<T> nullable(String nullExpression, Column<T> column) {
         return new Nullable<>(nullExpression, column);
