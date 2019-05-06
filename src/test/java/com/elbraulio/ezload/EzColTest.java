@@ -76,10 +76,43 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "null col double as double",
                 EzCol.nullable(
-                        "NULL", 
+                        "NULL",
                         EzCol.doublee(
                                 0, "name", new NoConstrain<>(), new ToDouble()
                         )
+                ).parse("1.8"),
+                CoreMatchers.is(1.8)
+        );
+    }
+
+    @Test
+    public void optionalIntCol() {
+        MatcherAssert.assertThat(
+                "integer as integer",
+                EzCol.integer(
+                        0, "name", new NoConstrain<>()
+                ).parse("1"),
+                CoreMatchers.is(1)
+        );
+    }
+
+    @Test
+    public void optionalStringCol() {
+        MatcherAssert.assertThat(
+                "string as string",
+                EzCol.string(
+                        0, "name", new NoConstrain<>()
+                ).parse("1"),
+                CoreMatchers.is("1")
+        );
+    }
+
+    @Test
+    public void optionalDoubleCol() {
+        MatcherAssert.assertThat(
+                "double as double",
+                EzCol.doublee(
+                        0, "name", new NoConstrain<>()
                 ).parse("1.8"),
                 CoreMatchers.is(1.8)
         );
