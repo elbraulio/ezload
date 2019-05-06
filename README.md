@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/elbraulio/ezload/blob/master/LICENSE) [![Build Status](https://travis-ci.org/elbraulio/ezload.svg?branch=master)](https://travis-ci.org/elbraulio/ezload) [![](https://jitpack.io/v/com.elbraulio/ezload.svg)](https://jitpack.io/#com.elbraulio/ezload/0.3.2) [![](https://img.shields.io/badge/javadocs-ok-green.svg)](https://jitpack.io/com/elbraulio/ezload/latest/javadoc/) [![codecov](https://codecov.io/gh/elbraulio/ezload/branch/master/graph/badge.svg)](https://codecov.io/gh/elbraulio/ezload) [![codebeat badge](https://codebeat.co/badges/de82b3a8-e191-4a7e-8728-b829a4cf1484)](https://codebeat.co/projects/github-com-elbraulio-ezload-master)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/elbraulio/ezload/blob/master/LICENSE) [![Build Status](https://travis-ci.org/elbraulio/ezload.svg?branch=master)](https://travis-ci.org/elbraulio/ezload) [![](https://jitpack.io/v/com.elbraulio/ezload.svg)](https://jitpack.io/#com.elbraulio/ezload/0.4.0) [![](https://img.shields.io/badge/javadocs-ok-green.svg)](https://jitpack.io/com/elbraulio/ezload/latest/javadoc/) [![codecov](https://codecov.io/gh/elbraulio/ezload/branch/master/graph/badge.svg)](https://codecov.io/gh/elbraulio/ezload) [![codebeat badge](https://codebeat.co/badges/de82b3a8-e191-4a7e-8728-b829a4cf1484)](https://codebeat.co/projects/github-com-elbraulio-ezload-master)
 
 # ezload
 
@@ -13,7 +13,7 @@ load data from formatted files to a relational data base.
     <dependency>
         <groupId>com.elbraulio</groupId>
         <artifactId>ezload</artifactId>
-        <version>0.3.2</version>
+        <version>0.4.0</version>
     </dependency>
 </dependencies>
 <!-- for elbraulio's tools -->
@@ -29,7 +29,7 @@ load data from formatted files to a relational data base.
 
 ```groovy
 dependencies {
-        implementation 'com.elbraulio:ezload:0.3.2'
+        implementation 'com.elbraulio:ezload:0.4.0'
 }
 allprojects {
 	repositories {
