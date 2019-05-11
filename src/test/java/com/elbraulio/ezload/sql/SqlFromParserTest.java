@@ -32,7 +32,6 @@ import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import util.Log4j;
 
 /**
  * Unit test for {@link SqlFromParser}.
@@ -66,8 +65,7 @@ public class SqlFromParserTest {
                                         0, "first", new NoConstrain<>(),
                                         new ToString(), StringValue::new
                                 )
-                        ).parser(),
-                        new Log4j()
+                        ).parser()
                 ).sql(),
                 CoreMatchers.is("INSERT INTO name (first) VALUES (?);")
         );

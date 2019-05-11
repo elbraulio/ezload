@@ -28,8 +28,6 @@ import com.elbraulio.ezload.action.AddPreparedStatement;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.exception.EzParseException;
 import com.elbraulio.ezload.line.Line;
-import com.elbraulio.ezload.logger.EzLogger;
-import com.elbraulio.ezload.logger.NoLog;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.value.Value;
 
@@ -51,18 +49,6 @@ public final class InsertFromParser implements Insert {
     private final Parser parser;
     private final BuildSql buildSql;
     private final int chunkSize;
-    private final EzLogger logger;
-
-    /**
-     * Ctor.
-     *
-     * @param parser    parser with format.
-     * @param buildSql  sql query builder.
-     * @param chunkSize size to split the batch.
-     */
-    public InsertFromParser(Parser parser, BuildSql buildSql, int chunkSize) {
-        this(parser, buildSql, chunkSize, new NoLog());
-    }
 
     /**
      * Ctor.
@@ -70,15 +56,12 @@ public final class InsertFromParser implements Insert {
      * @param parser    table name.
      * @param buildSql  sql builder.
      * @param chunkSize size to split the batch.
-     * @param logger    logger.
      */
-    public InsertFromParser(
-            Parser parser, BuildSql buildSql, int chunkSize, EzLogger logger) {
+    public InsertFromParser(Parser parser, BuildSql buildSql, int chunkSize) {
 
         this.parser = parser;
         this.buildSql = buildSql;
         this.chunkSize = chunkSize;
-        this.logger = logger;
     }
 
     /*
@@ -100,7 +83,6 @@ public final class InsertFromParser implements Insert {
         ) {
             while ((raw = bufferedReader.readLine()) != null) {
                 Line parsedLine = this.parser.parse(raw);
-                this.logger.info("line read: " + raw, "InsertFromParser");
                 int index = 1;
                 for (Value value : parsedLine.values()) {
                     value.accept(new AddPreparedStatement(psmt, index++));

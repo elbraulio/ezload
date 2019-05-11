@@ -37,7 +37,6 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import util.DropData;
-import util.Log4j;
 import util.ReadValue;
 import util.SqliteConnection;
 
@@ -69,7 +68,7 @@ public class InsertFromParserTest {
             Parser parser = new DefaultParser(",", 1, columns);
             new InsertFromParser(
                     parser, new SqlFromParser("test", parser),
-                    Integer.MAX_VALUE, new Log4j()
+                    Integer.MAX_VALUE
             ).execute(
                     connection,
                     new BufferedReader(new StringReader("hello!"))
@@ -106,7 +105,7 @@ public class InsertFromParserTest {
             Parser parser = new DefaultParser(",", 1, columns);
             new InsertFromParser(
                     parser, new SqlFromParser("test", parser),
-                    1, new Log4j()
+                    1
             ).execute(
                     connection,
                     new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
@@ -144,7 +143,7 @@ public class InsertFromParserTest {
             Parser parser = new DefaultParser(",", 1, columns);
             new InsertFromParser(
                     parser, new SqlFromParser("test", parser),
-                    1, new Log4j()
+                    1
             ).execute(
                     connection,
                     new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
