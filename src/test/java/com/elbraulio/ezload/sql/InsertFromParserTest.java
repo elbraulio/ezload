@@ -26,7 +26,7 @@ package com.elbraulio.ezload.sql;
 
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.parse.Parser;
@@ -61,7 +61,7 @@ public class InsertFromParserTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );
@@ -98,7 +98,7 @@ public class InsertFromParserTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );
@@ -136,7 +136,7 @@ public class InsertFromParserTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );

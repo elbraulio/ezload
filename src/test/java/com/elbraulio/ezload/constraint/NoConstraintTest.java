@@ -22,17 +22,33 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.constrain;
+package com.elbraulio.ezload.constraint;
+
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
- * Represent no constrain needed.
+ * Unit test for {@link NoConstraint}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.1.0
  */
-public final class NoConstrain<T> implements Constrain<T> {
-    @Override
-    public boolean isValid(T value) {
-        return true;
+public class NoConstraintTest {
+    @Test
+    public void returnTrue() {
+        MatcherAssert.assertThat(
+                "always return true",
+                new NoConstraint<>().isValid(false),
+                CoreMatchers.is(true)
+        );
+    }
+
+    @Test
+    public void supportDifferentTypes() {
+        MatcherAssert.assertThat(
+                "No matters the type, it is the same result",
+                new NoConstraint<>().isValid(1),
+                CoreMatchers.is(new NoConstraint<>().isValid(false))
+        );
     }
 }

@@ -22,9 +22,20 @@
  * SOFTWARE.
  */
 
+package com.elbraulio.ezload.constraint;
+
 /**
- * This package contains constrains for values.
+ * Checks if a value is valid or not depending on the type.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 0.1.0
  */
-package com.elbraulio.ezload.constrain;
+public interface Constraint<T> {
+    /**
+     * Check if the value is valid or not.
+     *
+     * @param value value to check.
+     * @return true if it is valid, false if it is not.
+     */
+    boolean isValid(T value);
+}

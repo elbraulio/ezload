@@ -24,7 +24,7 @@
 
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.transform.ToDouble;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
@@ -43,7 +43,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "integer as integer",
                 EzCol.integer(
-                        0, "name", new NoConstrain<>(), new ToInt()
+                        0, "name", new NoConstraint<>(), new ToInt()
                 ).parse("1"),
                 CoreMatchers.is(1)
         );
@@ -54,7 +54,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "string as string",
                 EzCol.string(
-                        0, "name", new NoConstrain<>(), new ToString()
+                        0, "name", new NoConstraint<>(), new ToString()
                 ).parse("1"),
                 CoreMatchers.is("1")
         );
@@ -65,7 +65,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "double as double",
                 EzCol.doublee(
-                        0, "name", new NoConstrain<>(), new ToDouble()
+                        0, "name", new NoConstraint<>(), new ToDouble()
                 ).parse("1.8"),
                 CoreMatchers.is(1.8)
         );
@@ -78,7 +78,7 @@ public class EzColTest {
                 EzCol.nullable(
                         "NULL",
                         EzCol.doublee(
-                                0, "name", new NoConstrain<>(), new ToDouble()
+                                0, "name", new NoConstraint<>(), new ToDouble()
                         )
                 ).parse("1.8"),
                 CoreMatchers.is(1.8)
@@ -90,7 +90,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "integer as integer",
                 EzCol.integer(
-                        0, "name", new NoConstrain<>()
+                        0, "name", new NoConstraint<>()
                 ).parse("1"),
                 CoreMatchers.is(1)
         );
@@ -101,7 +101,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "string as string",
                 EzCol.string(
-                        0, "name", new NoConstrain<>()
+                        0, "name", new NoConstraint<>()
                 ).parse("1"),
                 CoreMatchers.is("1")
         );
@@ -112,7 +112,7 @@ public class EzColTest {
         MatcherAssert.assertThat(
                 "double as double",
                 EzCol.doublee(
-                        0, "name", new NoConstrain<>()
+                        0, "name", new NoConstraint<>()
                 ).parse("1.8"),
                 CoreMatchers.is(1.8)
         );
