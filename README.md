@@ -46,11 +46,9 @@ Load and validate formatted files with *EzLoad* and *EzCol*. You only have to de
   - Number of columns
 
 - **For each column**:
-- Position (starting at 0)
-  
-- Name
-  
-- Constraint
+  - Position (starting at 0)
+  - Name
+  - Constraint
 
 For instance, we have this csv:
 
