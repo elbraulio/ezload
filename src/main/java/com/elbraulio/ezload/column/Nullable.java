@@ -26,13 +26,13 @@ package com.elbraulio.ezload.column;
 
 import com.elbraulio.ezload.value.Value;
 
- /**
-  * Allows a given column to return <code>null</code> values. 
-  * This overrides parse and isValid in order to support null values.
-  *
-  * @author Braulio Lopez (brauliop.3@gmail.com)
-  * @since 0.4.0
-  */
+/**
+ * Allows a given column to return <code>null</code> values.
+ * This overrides parse and isValid in order to support null values.
+ *
+ * @author Braulio Lopez (brauliop.3@gmail.com)
+ * @since 0.4.0
+ */
 public class Nullable<T> implements Column<T> {
 
     private final String expression;
@@ -40,7 +40,7 @@ public class Nullable<T> implements Column<T> {
 
     /**
      * Ctor.
-     * 
+     *
      * @param expression text that represents null.
      * @param decorated  nullable {@link Column}.
      */
@@ -51,9 +51,9 @@ public class Nullable<T> implements Column<T> {
 
     @Override
     public T parse(String value) {
-        return this.expression.equals(value) 
-            ? null 
-            : this.decorated.parse(value);
+        return this.expression.equals(value)
+                ? null
+                : this.decorated.parse(value);
     }
 
     @Override
@@ -68,13 +68,11 @@ public class Nullable<T> implements Column<T> {
 
     @Override
     public boolean isValid(String value) {
-        return this.expression.equals(value)
-            ? true
-            : this.decorated.isValid(value);
+        return this.expression.equals(value) || this.decorated.isValid(value);
     }
 
     @Override
     public Value value(String raw) {
         return this.decorated.value(raw);
     }
- }
+}
