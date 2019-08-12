@@ -2,11 +2,11 @@
 
 # ezload
 
-load data from formatted files to a relational data base.
+Load, verify and use your line-formatted files easily.
 
 # Install
 
-#### maven
+**maven**
 
 ```xml
 <dependencies>
@@ -16,7 +16,6 @@ load data from formatted files to a relational data base.
         <version>0.4.0</version>
     </dependency>
 </dependencies>
-<!-- for elbraulio's tools -->
 <repositories>
 	<repository>
 	    <id>jitpack.io</id>
@@ -25,7 +24,7 @@ load data from formatted files to a relational data base.
 </repositories>
 ```
 
-#### gradle
+**gradle**
 
 ```groovy
 dependencies {
@@ -38,43 +37,73 @@ allprojects {
 }
 ```
 
-# How to use
+# Review
 
-To load your data, you can use **EzLoad** and **EzCol** to set the file format. To do that you have to define each column of the file including the separation expression like this:
+Load and validate formatted files with *EzLoad* and *EzCol*. You only have to define the file format by setting:
+
+- **For file**:
+  - Separation expression
+  - Number of columns
+
+- **For each column**:
+- Position (starting at 0)
+  
+- Name
+  
+- Constraint
+
+For instance, we have this csv:
+
+```csv
+2; Speed
+3; Celcius
+```
+
+Then we can parse it like this:
 
 ```java
-Parser parser = EzLoad.parse(",", numberOfCols)
+String separation = ";";
+int numberOfCols = 2;
+Parser parser = EzLoad.parse(separation, numberOfCols)
     .withCol(
         EzCol.integer(
-            0, "units", new NoConstrain<>(), new ToInt()
+            0, "value", new NoConstraint<>()
         )
     ).withCol(
         EzCol.string(
-            1, "names", new NoConstrain<>(), new ToString()
+            1, "name", s -> !s.isEmpty()
         )
-).parser();
+    ).parser();
 ```
 
-The final argument `ToString` and `ToInt` is included to make possible to add more complex transformations, these are the default ones. For instance, you can make a decorator where you take the value plus 100 from a number:
+Of course, a CSV may have **null values** and they must be defined as fixed text e.g. `null`, `NULL`, `none` or even `""` (empty string). See this example:
+
+```csv
+2; Speed
+3; null
+```
 
 ```java
-class PlusHundred implements Transform<Integer> {
-    private final Transform<Integer> origin;
-    PlusHundred(Transform<Integer> origin) {
-        this.origin = origin;
-    }
-    @Override
-    public int from(String value) {
-        return 100 + this.origin.from(value);
-    }
-}
-
-EzCol.integer(
-	0, "units", new NoConstrain<>(), new PlusHundred(new ToInt())
+EzLoad.parse(";", numberOfCols)
+    .withCol(
+        EzCol.integer(
+            0, "value", new NoConstraint<>()
+        )
+    ).withCol(
+        EzCol.nullable(
+            "null",
+            EzCol.integer(
+                1, "name", s -> !s.isEmpty()
+            )
+    )
 );
 ```
 
-Now you can insert this using **EzInsert**. This allow you to insert from source to a data base like your are using the `executeBatch()`. Also, optionally, you can specify a chunk size to insert data when your files a large.
+This notation allows **ezload** to check if a null value has been found in order to parse it as  `null` and not misread it as *String* in this case.
+
+## EzInsert
+
+Another important feature is the implementation of actions to process your CSV using the *Parser*. For instance, **ezload** provide *EzInsert* action. This allows you to insert data from file source to a database. Also, optionally, you can specify a size to insert data by chunks when your files are large.
 
 ```java
 long insertedRows = EzInsert.fromParser(
@@ -82,24 +111,82 @@ long insertedRows = EzInsert.fromParser(
 );
 ```
 
-## Null values
+To implement your own actions, keep reading and check the detailed explanation of them.
 
-A csv can have null values but they must be defined as a fixed text e.g. *null*, *NULL*, *none* or even empty string. Here you can identify them if you want. 
+# How does it work?
+
+As we know, a CSV is a file formatted by columns. So you have to define what those columns are. To do that you can use *EzCol*.
+
+## EzCol
+
+It defines the column's data type and constraint. You need to set the column format by providing its position on each CSV's line, name, constrain and optionally a way to transform the raw value.
 
 ```java
-EzLoad.parse(",", numberOfCols).withCol(
-    EzCol.nullable(
-        "null",
-        EzCol.integer(
-            0, "units", new NoConstrain<>(), new ToInt()
-        )
-    )
+EzCol.integer(
+    0, // column position
+    "name", // column name
+    i -> i > 0, // constraint
+    Integer::parseInt // transform the raw string to a type
 );
 ```
 
-By doing that **ezload** checks if a null value has been found in order to parse it as a `null` and not throw an exception for trying to parse *null* to int.
+Currently, these are the supported columns types
 
-# Bots
+|  Type  |      EzCol       |
+| :----: | :--------------: |
+|  int   | `EzCol.integer`  |
+| double | `EzCol.doublee`  |
+| String |  `EzCol.string`  |
+|  null  | `EzCol.nullable` |
+
+This allows **ezload** to check if a given column is right formatted. If it isn't, throws an *Exception* and gives you detailed information about what is wrong with the column.
+
+## Parser
+
+You can define a *Parser* to check and parse a CSV. To build a *Parser* you must define the expression that splits the CSV, the number of columns and the format for each column using *EzCol*.
+
+```java
+String separation = ";";
+int numberOfCols = 2;
+Parser parser = EzLoad.parse(separation, numberOfCols)
+    .withCol(
+        EzCol.integer(
+            0, "value", new NoConstraint<>()
+        )
+    ).withCol(
+        EzCol.string(
+            1, "name", s -> !s.isEmpty()
+        )
+    ).parser();
+```
+
+Now you can parse a raw line using `parser.parse(rawLine)` and get a *Line* wich is a list of *Values* that can accept an *Action*. Check [InsertFromParser](https://github.com/elbraulio/ezload/blob/5e41c79e9431faad325fd55e32fb5cbdab337e7d/src/main/java/com/elbraulio/ezload/sql/InsertFromParser.java#L88) implementation:
+
+```java
+String raw;
+while ((raw = bufferedReader.readLine()) != null) {
+	Line parsedLine = this.parser.parse(raw);
+	int index = 1;
+	for (Value value : parsedLine.values()) {
+  	value.accept(new AddPreparedStatement(psmt, index++));
+  }
+  // ...
+}
+```
+
+## Actions
+
+An *Action* make an operation over a *Value* depending on its type. [Here](https://github.com/elbraulio/ezload/blob/5e41c79e9431faad325fd55e32fb5cbdab337e7d/src/main/java/com/elbraulio/ezload/sql/InsertFromParser.java#L84) you can see an example:
+
+```java
+for (Value value : parsedLine.values()) {
+        value.accept(new SomeAction(...));
+}
+```
+
+This means an *Action* must define what to do for each supported type. You can see [here](https://github.com/elbraulio/ezload/blob/5e41c79e9431faad325fd55e32fb5cbdab337e7d/src/main/java/com/elbraulio/ezload/action/Action.java#L35) the *Action*'s interface with has a method for each supported type.
+
+# Contribute
 
 We are using several bots, this is the current list:
 
