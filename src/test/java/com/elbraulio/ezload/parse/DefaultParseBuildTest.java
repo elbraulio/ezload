@@ -25,7 +25,7 @@
 package com.elbraulio.ezload.parse;
 
 import com.elbraulio.ezload.column.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.value.IntValue;
 import org.hamcrest.CoreMatchers;
@@ -55,13 +55,13 @@ public class DefaultParseBuildTest {
                 new DefaultParseBuild("", 2)
                         .withCol(
                                 new GenericColumn<>(
-                                        0, "", new NoConstrain<>(),
+                                        0, "", new NoConstraint<>(),
                                         new ToInt(), IntValue::new
                                 )
                         )
                         .withCol(
                                 new GenericColumn<>(
-                                        0, "", new NoConstrain<>(),
+                                        0, "", new NoConstraint<>(),
                                         new ToInt(), IntValue::new
                                 )
                         )

@@ -24,7 +24,7 @@
 
 package com.elbraulio.ezload.column;
 
-import com.elbraulio.ezload.constrain.Constrain;
+import com.elbraulio.ezload.constraint.Constraint;
 import com.elbraulio.ezload.transform.Transform;
 import com.elbraulio.ezload.value.Value;
 import com.elbraulio.ezload.value.ValueFactory;
@@ -39,7 +39,7 @@ import com.elbraulio.ezload.value.ValueFactory;
 public final class GenericColumn<T> implements Column<T> {
     private final int position;
     private final String name;
-    private final Constrain<T> constrain;
+    private final Constraint<T> constraint;
     private final Transform<T> transform;
     private final ValueFactory<T> valueFactory;
 
@@ -48,18 +48,18 @@ public final class GenericColumn<T> implements Column<T> {
      *
      * @param position        position on file, from left to right starting from 0.
      * @param name         column name.
-     * @param constrain    value constrain.
+     * @param constraint    value constraint.
      * @param transform    value transform.
      * @param valueFactory value factory.
      */
     public GenericColumn(
-            int position, String name, Constrain<T> constrain,
+            int position, String name, Constraint<T> constraint,
             Transform<T> transform, ValueFactory<T> valueFactory
     ) {
 
         this.position = position;
         this.name = name;
-        this.constrain = constrain;
+        this.constraint = constraint;
         this.transform = transform;
         this.valueFactory = valueFactory;
     }
@@ -81,7 +81,7 @@ public final class GenericColumn<T> implements Column<T> {
 
     @Override
     public boolean isValid(String value) {
-        return this.constrain.isValid(parse(value));
+        return this.constraint.isValid(parse(value));
     }
 
     @Override

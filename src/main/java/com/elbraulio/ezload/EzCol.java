@@ -27,7 +27,7 @@ package com.elbraulio.ezload;
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.column.Nullable;
-import com.elbraulio.ezload.constrain.Constrain;
+import com.elbraulio.ezload.constraint.Constraint;
 import com.elbraulio.ezload.transform.ToDouble;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
@@ -51,14 +51,14 @@ public final class EzCol {
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name.
-     * @param constrain column constrain.
+     * @param constraint column constraint.
      * @return {@link Column}
      */
     public static Column<Integer> integer(
-            int position, String name, Constrain<Integer> constrain
+            int position, String name, Constraint<Integer> constraint
     ) {
         return EzCol.newCol(
-                position, name, constrain, new ToInt(), IntValue::new
+                position, name, constraint, new ToInt(), IntValue::new
         );
     }
 
@@ -67,16 +67,16 @@ public final class EzCol {
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name.
-     * @param constrain column constrain.
+     * @param constraint column constraint.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<Integer> integer(
-            int position, String name, Constrain<Integer> constrain,
+            int position, String name, Constraint<Integer> constraint,
             Transform<Integer> transform
     ) {
         return EzCol.newCol(
-                position, name, constrain, transform, IntValue::new
+                position, name, constraint, transform, IntValue::new
         );
     }
 
@@ -89,7 +89,7 @@ public final class EzCol {
      * @return {@link Column}
      */
     public static Column<Double> doublee(
-            int position, String name, Constrain<Double> constrain
+            int position, String name, Constraint<Double> constrain
     ) {
         return EzCol.newCol(
                 position, name, constrain, new ToDouble(), DoubleValue::new
@@ -101,16 +101,16 @@ public final class EzCol {
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name.
-     * @param constrain column constrain.
+     * @param constraint column constraint.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<Double> doublee(
-            int position, String name, Constrain<Double> constrain,
+            int position, String name, Constraint<Double> constraint,
             Transform<Double> transform
     ) {
         return EzCol.newCol(
-                position, name, constrain, transform, DoubleValue::new
+                position, name, constraint, transform, DoubleValue::new
         );
     }
 
@@ -119,14 +119,14 @@ public final class EzCol {
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name.
-     * @param constrain column constrain.
+     * @param constraint column constraint.
      * @return {@link Column}
      */
     public static Column<String> string(
-            int position, String name, Constrain<String> constrain
+            int position, String name, Constraint<String> constraint
     ) {
         return EzCol.newCol(
-                position, name, constrain, new ToString(), StringValue::new
+                position, name, constraint, new ToString(), StringValue::new
         );
     }
 
@@ -135,16 +135,16 @@ public final class EzCol {
      *
      * @param position  column position from left to right, starting from 0.
      * @param name      column name.
-     * @param constrain column constrain.
+     * @param constraint column constraint.
      * @param transform column transform.
      * @return {@link Column}
      */
     public static Column<String> string(
-            int position, String name, Constrain<String> constrain,
+            int position, String name, Constraint<String> constraint,
             Transform<String> transform
     ) {
         return EzCol.newCol(
-                position, name, constrain, transform, StringValue::new
+                position, name, constraint, transform, StringValue::new
         );
     }
 
@@ -167,18 +167,18 @@ public final class EzCol {
      *
      * @param position     column position from left to right, starting from 0.
      * @param name         column name.
-     * @param constrain    column constrain.
+     * @param constraint    column constraint.
      * @param transform    column transform.
      * @param valueFactory value factory.
      * @param <T>          depends on value type.
      * @return {@link Column}
      */
     private static <T> Column<T> newCol(
-            int position, String name, Constrain<T> constrain,
+            int position, String name, Constraint<T> constraint,
             Transform<T> transform, ValueFactory<T> valueFactory
     ) {
         return new GenericColumn<>(
-                position, name, constrain, transform, valueFactory
+                position, name, constraint, transform, valueFactory
         );
     }
 }

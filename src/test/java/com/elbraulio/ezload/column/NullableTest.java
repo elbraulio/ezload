@@ -25,7 +25,7 @@
 package com.elbraulio.ezload.column;
 
 import com.elbraulio.ezload.EzCol;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.transform.ToInt;
 
 import org.hamcrest.MatcherAssert;
@@ -45,7 +45,7 @@ public class NullableTest {
             new Nullable<>(
                 "null", 
                 EzCol.integer(
-                    0, "c1", new NoConstrain<>(), new ToInt()                    
+                    0, "c1", new NoConstraint<>(), new ToInt()
                 )
             ).isValid("null"),
             Matchers.is(true)
@@ -59,7 +59,7 @@ public class NullableTest {
                 new Nullable<>(
                     "null", 
                     EzCol.integer(
-                        0, "c1", new NoConstrain<>(), new ToInt()
+                        0, "c1", new NoConstraint<>(), new ToInt()
                     )
                 ).parse("1"),
                 Matchers.is(1));
@@ -72,7 +72,7 @@ public class NullableTest {
                 new Nullable<>(
                     "null", 
                     EzCol.integer(
-                        0, "c1", new NoConstrain<>(), new ToInt()
+                        0, "c1", new NoConstraint<>(), new ToInt()
                     )
                 ).parse("null"),
                 Matchers.nullValue());

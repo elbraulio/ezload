@@ -22,20 +22,17 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.constrain;
+package com.elbraulio.ezload.constraint;
 
 /**
- * Checks if a value is valid or not depending on the type.
+ * Represent no constrain needed.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.1.0
  */
-public interface Constrain<T> {
-    /**
-     * Check if the value is valid or not.
-     *
-     * @param value value to check.
-     * @return true if it is valid, false if it is not.
-     */
-    boolean isValid(T value);
+public final class NoConstraint<T> implements Constraint<T> {
+    @Override
+    public boolean isValid(T value) {
+        return true;
+    }
 }

@@ -26,7 +26,7 @@ package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.transform.ToInt;
@@ -60,7 +60,7 @@ public class EzInsertTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );
@@ -91,7 +91,7 @@ public class EzInsertTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );
@@ -123,7 +123,7 @@ public class EzInsertTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            0, "int_val", new NoConstrain<>(),
+                            0, "int_val", new NoConstraint<>(),
                             new ToInt(), IntValue::new
                     )
             );
@@ -160,13 +160,13 @@ public class EzInsertTest {
             final List<Column> columns = new LinkedList<>();
             columns.add(
                     new GenericColumn<>(
-                            1, "int_val", new NoConstrain<>(),
+                            1, "int_val", new NoConstraint<>(),
                             new ToInt(), IntValue::new
                     )
             );
             columns.add(
                     new GenericColumn<>(
-                            0, "string_val", new NoConstrain<>(),
+                            0, "string_val", new NoConstraint<>(),
                             new ToString(), StringValue::new
                     )
             );

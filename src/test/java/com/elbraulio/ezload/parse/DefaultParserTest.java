@@ -27,7 +27,7 @@ package com.elbraulio.ezload.parse;
 import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzParseException;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
@@ -55,7 +55,7 @@ public class DefaultParserTest {
         final List<Column> list = new LinkedList<>();
         list.add(
                 new GenericColumn<>(
-                        0, "col", new NoConstrain<>(),
+                        0, "col", new NoConstraint<>(),
                         new ToInt(), IntValue::new
                 )
         );
@@ -73,7 +73,7 @@ public class DefaultParserTest {
         final List<Column> list = new LinkedList<>();
         list.add(
                 new GenericColumn<>(
-                        0, "col", new NoConstrain<>(),
+                        0, "col", new NoConstraint<>(),
                         new ToInt(), IntValue::new
                 )
         );
@@ -119,19 +119,19 @@ public class DefaultParserTest {
         final List<Column> list = new LinkedList<>();
         list.add(
                 new GenericColumn<>(
-                        0, "col", new NoConstrain<>(),
+                        0, "col", new NoConstraint<>(),
                         new ToString(), StringValue::new
                 )
         );
         list.add(
                 new GenericColumn<>(
-                        1, "col", new NoConstrain<>(),
+                        1, "col", new NoConstraint<>(),
                         new ToString(), StringValue::new
                 )
         );
         list.add(
                 new GenericColumn<>(
-                        2, "col", new NoConstrain<>(),
+                        2, "col", new NoConstraint<>(),
                         new ToString(), StringValue::new
                 )
         );

@@ -25,7 +25,7 @@
 package com.elbraulio.ezload.sql;
 
 import com.elbraulio.ezload.column.GenericColumn;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.parse.DefaultParseBuild;
 import com.elbraulio.ezload.transform.ToString;
 import com.elbraulio.ezload.value.StringValue;
@@ -62,7 +62,7 @@ public class SqlFromParserTest {
                                 null, 0
                         ).withCol(
                                 new GenericColumn<>(
-                                        0, "first", new NoConstrain<>(),
+                                        0, "first", new NoConstraint<>(),
                                         new ToString(), StringValue::new
                                 )
                         ).parser()
@@ -81,12 +81,12 @@ public class SqlFromParserTest {
                                 null, 0
                         ).withCol(
                                 new GenericColumn<>(
-                                        0, "first", new NoConstrain<>(),
+                                        0, "first", new NoConstraint<>(),
                                         new ToString(), StringValue::new
                                 )
                         ).withCol(
                                 new GenericColumn<>(
-                                        1, "second", new NoConstrain<>(),
+                                        1, "second", new NoConstraint<>(),
                                         new ToString(), StringValue::new
                                 )
                         ).parser()

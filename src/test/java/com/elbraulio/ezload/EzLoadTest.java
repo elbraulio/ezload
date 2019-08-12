@@ -24,7 +24,7 @@
 
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
@@ -56,12 +56,12 @@ public class EzLoadTest {
                             EzLoad.parse(",", 2).withCol(
                                     EzCol.integer(
                                             0, "int_val",
-                                            new NoConstrain<>(), new ToInt()
+                                            new NoConstraint<>(), new ToInt()
                                     )
                             ).withCol(
                                     EzCol.string(
                                             1, "string_val",
-                                            new NoConstrain<>(), new ToString()
+                                            new NoConstraint<>(), new ToString()
                                     )
                             ).parser(),
                             new BufferedReader(new StringReader("1,dos"))

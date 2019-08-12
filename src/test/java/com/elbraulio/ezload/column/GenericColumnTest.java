@@ -25,7 +25,7 @@
 package com.elbraulio.ezload.column;
 
 import com.elbraulio.ezload.action.AddPreparedStatement;
-import com.elbraulio.ezload.constrain.NoConstrain;
+import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
@@ -53,7 +53,7 @@ public class GenericColumnTest {
 
     private final Column<String> col = new GenericColumn<>(
             0, "column_name",
-            new NoConstrain<>(), new ToString(),
+            new NoConstraint<>(), new ToString(),
             StringValue::new
     );
 
@@ -103,7 +103,7 @@ public class GenericColumnTest {
                 )
         ) {
             new GenericColumn<>(
-                    0, "name", new NoConstrain<>(), new ToInt(),
+                    0, "name", new NoConstraint<>(), new ToInt(),
                     IntValue::new
             ).value("2").accept(new AddPreparedStatement(psmt, 1));
             psmt.addBatch();
