@@ -37,12 +37,6 @@ import java.sql.Connection;
  */
 public interface Insert {
 
-    /*
-    @todo Insert method can execute large batch
-    @body it is possible to execute large batch and it returns `long[]` array.
-    @body But this does not allow to do that. It it fixed to `int[]`.
-     */
-
     /**
      * Executes the insert statement to the given <code>connection</code>
      * form the <code>bufferedReader</code>.
