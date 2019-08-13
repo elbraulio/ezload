@@ -26,8 +26,8 @@ package com.elbraulio.ezload.sql;
 
 import com.elbraulio.ezload.exception.EzException;
 
-import java.io.BufferedReader;
 import java.sql.Connection;
+import java.util.stream.Stream;
 
 /**
  * Represent the action of executing the store process.
@@ -39,13 +39,13 @@ public interface Insert {
 
     /**
      * Executes the insert statement to the given <code>connection</code>
-     * form the <code>bufferedReader</code>.
+     * from the source <code>Stream</code>.
      *
-     * @param connection     connection to data base.
-     * @param bufferedReader source reader.
+     * @param connection connection to data base.
+     * @param lines      source lines stream.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
-    long execute(Connection connection, BufferedReader bufferedReader)
+    long execute(Connection connection, Stream<String> lines)
             throws EzException;
 }

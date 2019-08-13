@@ -40,10 +40,9 @@ import util.DropData;
 import util.ReadValue;
 import util.SqliteConnection;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class InsertFromParserTest {
                     Integer.MAX_VALUE
             ).execute(
                     connection,
-                    new BufferedReader(new StringReader("hello!"))
+                    Arrays.stream(new String[]{"hello!"})
             );
             MatcherAssert.assertThat(
                     "values must be added to batch",
@@ -108,7 +107,7 @@ public class InsertFromParserTest {
                     1
             ).execute(
                     connection,
-                    new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
+                    Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"})
             );
             MatcherAssert.assertThat(
                     "values must be added to batch",
@@ -146,7 +145,7 @@ public class InsertFromParserTest {
                     1
             ).execute(
                     connection,
-                    new BufferedReader(new StringReader("a\nb\nc\nd\nf\ng"))
+                    Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"})
             );
             fail();
         } catch (SQLException | EzException e) {

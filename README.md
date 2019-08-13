@@ -105,7 +105,7 @@ Another important feature is the implementation of actions to process your CSV u
 
 ```java
 long insertedRows = EzInsert.fromParser(
-   	connection, "table_name", parser, bufferedReader, chunkSize
+   	connection, "table_name", parser, stream, chunkSize
 );
 ```
 

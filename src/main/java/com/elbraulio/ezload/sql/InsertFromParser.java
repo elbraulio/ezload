@@ -31,12 +31,12 @@ import com.elbraulio.ezload.line.Line;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.value.Value;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * This implementation build a SQL query from a {@link Parser}.
@@ -65,40 +65,37 @@ public final class InsertFromParser implements Insert {
     }
 
     @Override
-    public long execute(Connection connection, BufferedReader bufferedReader)
+    public long execute(Connection connection, Stream<String> lines)
             throws EzException {
-        String raw;
-        int lines = 0;
+        final Iterator<String> iterableLines = lines.iterator();
+        int count = 0;
         long modified = 0L;
         try (
-                PreparedStatement psmt = connection.prepareStatement(
+                final PreparedStatement statement = connection.prepareStatement(
                         this.buildSql.sql()
                 )
         ) {
-            while ((raw = bufferedReader.readLine()) != null) {
-                Line parsedLine = this.parser.parse(raw);
+            while (iterableLines.hasNext()) {
+                final Line parsedLine = this.parser.parse(iterableLines.next());
                 int index = 1;
                 for (Value value : parsedLine.values()) {
-                    value.accept(new AddPreparedStatement(psmt, index++));
+                    value.accept(new AddPreparedStatement(statement, index++));
                 }
-                lines++;
-                psmt.addBatch();
-                if (lines % chunkSize == 0) {
-                    modified += Arrays.stream(psmt.executeBatch()).sum();
+                count++;
+                statement.addBatch();
+                if (count % chunkSize == 0) {
+                    modified += Arrays.stream(statement.executeBatch()).sum();
                 }
             }
-            if (lines % chunkSize != 0) {
-                modified += Arrays.stream(psmt.executeBatch()).sum();
+            if (count % chunkSize != 0) {
+                modified += Arrays.stream(statement.executeBatch()).sum();
             }
             return modified;
         } catch (SQLException e) {
             throw new EzException("Sql error: " + e.toString(), e);
-        } catch (IOException e) {
-            throw new EzException("IO error: " + e.toString(), e);
         } catch (EzParseException e) {
             throw new EzException(
-                    "errors on row " + lines + " --> " +
-                            e.errors().toString()
+                    "errors on row " + count + " --> " + e.errors().toString()
             );
         }
     }

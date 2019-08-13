@@ -34,10 +34,9 @@ import org.junit.Test;
 import util.DropData;
 import util.SqliteConnection;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * Unit test for {@link EzLoad}.
@@ -64,7 +63,7 @@ public class EzLoadTest {
                                             new NoConstraint<>(), new ToString()
                                     )
                             ).parser(),
-                            new BufferedReader(new StringReader("1,dos"))
+                            Arrays.stream(new String[]{"1,dos"})
                     ),
                     CoreMatchers.is(1L));
         } catch (SQLException | EzException e) {
