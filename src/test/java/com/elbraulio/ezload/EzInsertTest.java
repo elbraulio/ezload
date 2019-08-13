@@ -39,10 +39,9 @@ import org.junit.Test;
 import util.DropData;
 import util.SqliteConnection;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class EzInsertTest {
                     EzInsert.fromParser(
                             connection, "test",
                             new DefaultParser(",", 1, columns),
-                            new BufferedReader(new StringReader("hi!"))
+                            Arrays.stream(new String[]{"hi!"})
                     ),
                     CoreMatchers.is(1L)
             );
@@ -100,7 +99,7 @@ public class EzInsertTest {
                     EzInsert.fromParser(
                             connection, "test",
                             new DefaultParser(",", 1, columns),
-                            new BufferedReader(new StringReader("1\nb\nc")),
+                            Arrays.stream(new String[]{"1", "b", "c"}),
                             1
                     ),
                     CoreMatchers.is(3L)
@@ -130,7 +129,7 @@ public class EzInsertTest {
             EzInsert.fromParser(
                     connection, "test",
                     new DefaultParser(",", 1, columns),
-                    new BufferedReader(new StringReader("hi!"))
+                    Arrays.stream(new String[]{"hi!"})
             );
             fail("Exception must be thrown");
         } catch (SQLException | EzException | NumberFormatException e) {
@@ -173,7 +172,7 @@ public class EzInsertTest {
             EzInsert.fromParser(
                     connection, "test",
                     new DefaultParser(",", 2, columns),
-                    new BufferedReader(new StringReader("1,bye"))
+                    Arrays.stream(new String[]{"1,bye"})
             );
             fail("Exception must be thrown");
         } catch (SQLException | EzException | NumberFormatException e) {

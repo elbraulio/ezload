@@ -29,8 +29,8 @@ import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.sql.InsertFromParser;
 import com.elbraulio.ezload.sql.SqlFromParser;
 
-import java.io.BufferedReader;
 import java.sql.Connection;
+import java.util.stream.Stream;
 
 /**
  * Factory to insert to a data base from EzLoad tools.
@@ -43,39 +43,39 @@ public final class EzInsert {
     /**
      * Insert a source to a data base.
      *
-     * @param connection     connection to data base.
-     * @param table          table name to insert.
-     * @param parser         source format.
-     * @param bufferedReader read the source.
+     * @param connection connection to data base.
+     * @param table      table name to insert.
+     * @param parser     source format.
+     * @param lines      read the source stream.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
     public static long fromParser(
             Connection connection, String table, Parser parser,
-            BufferedReader bufferedReader
+            Stream<String> lines
     ) throws EzException {
         return new InsertFromParser(
                 parser, new SqlFromParser(table, parser), Integer.MAX_VALUE
-        ).execute(connection, bufferedReader);
+        ).execute(connection, lines);
     }
 
     /**
      * Insert a source to a data base.
      *
-     * @param connection     connection to data base.
-     * @param table          table name to insert.
-     * @param parser         source format.
-     * @param bufferedReader read the source.
-     * @param chunkSize      chunk size to execute batch.
+     * @param connection connection to data base.
+     * @param table      table name to insert.
+     * @param parser     source format.
+     * @param lines      read the source stream.
+     * @param chunkSize  chunk size to execute batch.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
     public static long fromParser(
             Connection connection, String table, Parser parser,
-            BufferedReader bufferedReader, int chunkSize
+            Stream<String> lines, int chunkSize
     ) throws EzException {
         return new InsertFromParser(
                 parser, new SqlFromParser(table, parser), chunkSize
-        ).execute(connection, bufferedReader);
+        ).execute(connection, lines);
     }
 }
