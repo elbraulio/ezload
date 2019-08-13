@@ -64,12 +64,6 @@ public final class InsertFromParser implements Insert {
         this.chunkSize = chunkSize;
     }
 
-    /*
-    @todo change Insert:execute buffered reader by a EzReader
-    @body giving the BufferedReader implies that it always reads by line. It
-    @body will be much better if the user can decide the way that the source
-    @body is read.
-     */
     @Override
     public long execute(Connection connection, BufferedReader bufferedReader)
             throws EzException {
