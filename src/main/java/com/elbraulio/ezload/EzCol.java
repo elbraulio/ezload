@@ -28,14 +28,10 @@ import com.elbraulio.ezload.column.Column;
 import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.column.Nullable;
 import com.elbraulio.ezload.constraint.Constraint;
-import com.elbraulio.ezload.transform.ToDouble;
-import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
-import com.elbraulio.ezload.transform.Transform;
-import com.elbraulio.ezload.value.DoubleValue;
-import com.elbraulio.ezload.value.IntValue;
-import com.elbraulio.ezload.value.StringValue;
-import com.elbraulio.ezload.value.ValueFactory;
+import com.elbraulio.ezload.transform.*;
+import com.elbraulio.ezload.value.*;
+
+import java.time.LocalDateTime;
 
 /**
  * {@link Column} factory. This design come from the fact that we need to
@@ -145,6 +141,40 @@ public final class EzCol {
     ) {
         return EzCol.newCol(
                 position, name, constraint, transform, StringValue::new
+        );
+    }
+
+    /**
+     * Create a new DateTime column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
+     * @param constraint column constraint.
+     * @return {@link Column}
+     */
+    public static Column<LocalDateTime> dateTime(
+            int position, String name, Constraint<LocalDateTime> constraint
+    ) {
+        return EzCol.newCol(
+                position, name, constraint, new ToLocalDateTime(), DateTimeValue::new
+        );
+    }
+
+    /**
+     * Create a new DateTime column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
+     * @param constraint column constraint.
+     * @param transform column transform.
+     * @return {@link Column}
+     */
+    public static Column<LocalDateTime> dateTime(
+            int position, String name, Constraint<LocalDateTime> constraint,
+            Transform<LocalDateTime> transform
+    ) {
+        return EzCol.newCol(
+                position, name, constraint, transform, DateTimeValue::new
         );
     }
 

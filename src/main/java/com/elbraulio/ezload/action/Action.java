@@ -26,6 +26,8 @@ package com.elbraulio.ezload.action;
 
 import com.elbraulio.ezload.exception.EzException;
 
+import java.time.LocalDateTime;
+
 /**
  * Executes an action depending on the given value.
  *
@@ -57,4 +59,12 @@ public interface Action {
      * @throws EzException when action fails.
      */
     void execute(String value) throws EzException;
+
+    /**
+     * Execute an action for LocalDateTime.
+     *
+     * @param value LocalDateTime value.
+     * @throws EzException when action fails.
+     */
+    void execute(LocalDateTime value) throws EzException;
 }
