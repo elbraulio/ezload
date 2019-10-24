@@ -105,7 +105,7 @@ public class GenericColumnTest {
             new GenericColumn<>(
                     0, "name", new NoConstraint<>(), new ToInt(),
                     IntValue::new
-            ).value("2").accept(new AddPreparedStatement(psmt, 1));
+            ).value(2).accept(new AddPreparedStatement(psmt, 1));
             psmt.addBatch();
             psmt.executeBatch();
             MatcherAssert.assertThat(

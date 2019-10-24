@@ -50,10 +50,10 @@ public class Nullable<T> implements Column<T> {
     }
 
     @Override
-    public T parse(String value) {
-        return this.expression.equals(value)
+    public T parse(String raw) {
+        return this.expression.equals(raw)
                 ? null
-                : this.decorated.parse(value);
+                : this.decorated.parse(raw);
     }
 
     @Override
@@ -67,12 +67,12 @@ public class Nullable<T> implements Column<T> {
     }
 
     @Override
-    public boolean isValid(String value) {
-        return this.expression.equals(value) || this.decorated.isValid(value);
+    public boolean isValid(String raw) {
+        return this.expression.equals(raw) || this.decorated.isValid(raw);
     }
 
     @Override
-    public Value value(String raw) {
-        return this.decorated.value(raw);
+    public <P extends T> Value value(P value) {
+        return this.decorated.value(value);
     }
 }

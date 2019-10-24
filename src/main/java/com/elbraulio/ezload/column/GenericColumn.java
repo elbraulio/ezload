@@ -65,8 +65,8 @@ public final class GenericColumn<T> implements Column<T> {
     }
 
     @Override
-    public T parse(String value) {
-        return this.transform.from(value);
+    public T parse(String raw) {
+        return this.transform.from(raw);
     }
 
     @Override
@@ -80,12 +80,12 @@ public final class GenericColumn<T> implements Column<T> {
     }
 
     @Override
-    public boolean isValid(String value) {
-        return this.constraint.isValid(parse(value));
+    public boolean isValid(String raw) {
+        return this.constraint.isValid(parse(raw));
     }
 
     @Override
-    public Value value(String raw) {
-        return this.valueFactory.newValue(parse(raw));
+    public <P extends T> Value value(P value) {
+        return this.valueFactory.newValue(value);
     }
 }

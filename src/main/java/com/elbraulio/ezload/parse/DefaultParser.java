@@ -91,7 +91,7 @@ public final class DefaultParser implements Parser {
                     try {
                         final String raw = split[col.position()];
                         if (col.isValid(raw)) {
-                            values.add(col.value(raw));
+                            values.add(col.value(col.parse(raw)));
                         } else {
                             errors.add(
                                     "column " + col.position() + " does not " +
