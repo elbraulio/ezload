@@ -28,6 +28,8 @@ import com.elbraulio.ezload.action.Action;
 import com.elbraulio.ezload.exception.EzException;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -55,6 +57,11 @@ public class DoubleValueTest {
 
                         @Override
                         public void execute(String value) throws EzException {
+                            fail();
+                        }
+
+                        @Override
+                        public void execute(LocalDateTime value) throws EzException {
                             fail();
                         }
                     }

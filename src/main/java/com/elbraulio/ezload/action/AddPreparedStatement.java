@@ -28,8 +28,9 @@ import com.elbraulio.ezload.exception.EzException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLType;
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDateTime;
 
 /**
  * This action add a value to a PreparedStatement.
@@ -55,7 +56,7 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(Integer value) throws EzException {
         try {
-            if(value != null) 
+            if (value != null)
                 this.psmt.setInt(this.index, value);
             else
                 this.psmt.setNull(this.index, Types.INTEGER);
@@ -70,7 +71,7 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(Double value) throws EzException {
         try {
-            if(value != null)
+            if (value != null)
                 this.psmt.setDouble(this.index, value);
             else
                 this.psmt.setNull(this.index, Types.DOUBLE);
@@ -86,13 +87,29 @@ public final class AddPreparedStatement implements Action {
     @Override
     public void execute(String value) throws EzException {
         try {
-            if(value != null)
+            if (value != null)
                 this.psmt.setString(this.index, value);
             else
                 this.psmt.setNull(this.index, Types.VARCHAR);
         } catch (SQLException e) {
             throw new EzException(
                     "setString error with value '" + value + "': " +
+                            e.toString(),
+                    e
+            );
+        }
+    }
+
+    @Override
+    public void execute(LocalDateTime value) throws EzException {
+        try {
+            if (value != null)
+                this.psmt.setTimestamp(this.index, Timestamp.valueOf(value));
+            else
+                this.psmt.setNull(this.index, Types.TIMESTAMP);
+        } catch (SQLException e) {
+            throw new EzException(
+                    "setTimestamp error with value '" + value + "': " +
                             e.toString(),
                     e
             );
