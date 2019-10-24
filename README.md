@@ -130,12 +130,13 @@ EzCol.integer(
 
 Currently, these are the supported columns types
 
-|  Type  |      EzCol       |
-| :----: | :--------------: |
-|  int   | `EzCol.integer`  |
-| double | `EzCol.doublee`  |
-| String |  `EzCol.string`  |
-|  null  | `EzCol.nullable` |
+|     Type      |      EzCol       |
+| :-----------: | :--------------: |
+|      int      | `EzCol.integer`  |
+|    double     | `EzCol.doublee`  |
+|    String     |  `EzCol.string`  |
+| LocalDateTime | `EzCol.dateTime` |
+|     null      | `EzCol.nullable` |
 
 This allows **ezload** to check if a given column is right formatted. If it isn't, throws an *Exception* and gives you detailed information about what is wrong with the column.
 
