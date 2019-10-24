@@ -37,10 +37,10 @@ public interface Column<T> {
     /**
      * Parsed value.
      *
-     * @param value original value.
+     * @param raw raw value.
      * @return parsed value.
      */
-    T parse(String value);
+    T parse(String raw);
 
     /**
      * Position from left to right of the column on a line separated by a
@@ -60,16 +60,16 @@ public interface Column<T> {
     /**
      * Checks if the value is valid or not.
      *
-     * @param value raw value to check.
+     * @param raw raw value to check.
      * @return true if it is valid and false if it is not.
      */
-    boolean isValid(String value);
+    boolean isValid(String raw);
 
     /**
      * Return a {@link Value} to execute actions.
      *
-     * @param raw raw value.
+     * @param value parsed value.
      * @return a {@link Value}.
      */
-    Value value(String raw);
+    <P extends T> Value value(P value);
 }

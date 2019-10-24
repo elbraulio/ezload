@@ -35,7 +35,9 @@ import util.SqliteConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Collections;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static org.junit.Assert.fail;
 
@@ -59,6 +61,47 @@ public class AddPreparedStatementTest {
                             "select int_val from test;", connection
                     ).value(rs -> rs.getInt(1)).get(0),
                     CoreMatchers.is(42)
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void addDateTime() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            new AddPreparedStatement(ps, 1).execute(
+                    LocalDateTime.parse("1991-04-27T02:00:00.000")
+            );
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(
+                            rs -> LocalDateTime.ofInstant(
+                                    Instant.ofEpochMilli(
+                                            rs.getLong(1)
+                                    ),
+                                    ZoneId.systemDefault()
+                            )
+                    ).get(0),
+                    CoreMatchers.is(
+                            LocalDateTime.parse("1991-04-27T02:00:00.000")
+                    )
             );
             ps.close();
         } catch (SQLException | EzException e) {
@@ -190,6 +233,7 @@ public class AddPreparedStatementTest {
             }
         }
     }
+
     @Test
     public void doubleFail() {
         try (Connection connection = new SqliteConnection().connection()) {
@@ -233,10 +277,10 @@ public class AddPreparedStatementTest {
                     new ReadValue(
                             "select double_val from test;", connection
                     ).value(
-                        rs -> {
-                            rs.getDouble(1);
-                            return rs.wasNull();
-                        }
+                            rs -> {
+                                rs.getDouble(1);
+                                return rs.wasNull();
+                            }
                     ).get(0),
                     CoreMatchers.is(true)
             );
@@ -268,10 +312,10 @@ public class AddPreparedStatementTest {
                     new ReadValue(
                             "select string_val from test;", connection
                     ).value(
-                        rs -> {
-                            rs.getString(1);
-                            return rs.wasNull();
-                        }
+                            rs -> {
+                                rs.getString(1);
+                                return rs.wasNull();
+                            }
                     ).get(0),
                     CoreMatchers.is(true)
             );
@@ -303,10 +347,10 @@ public class AddPreparedStatementTest {
                     new ReadValue(
                             "select int_val from test;", connection
                     ).value(
-                        rs -> {
-                            rs.getInt(1);
-                            return rs.wasNull();
-                        }
+                            rs -> {
+                                rs.getInt(1);
+                                return rs.wasNull();
+                            }
                     ).get(0),
                     CoreMatchers.is(true)
             );

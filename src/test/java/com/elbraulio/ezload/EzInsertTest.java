@@ -194,4 +194,40 @@ public class EzInsertTest {
             }
         }
     }
+
+    @Test
+    public void insertNullableInteger() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            final List<Column> columns = new LinkedList<>();
+            columns.add(
+                    EzCol.nullable(
+                            "",
+                            EzCol.integer(
+                                    0,
+                                    "string_val",
+                                    new NoConstraint<>()
+                            )
+                    )
+            );
+            MatcherAssert.assertThat(
+                    "null values must be added to batch",
+                    EzInsert.fromParser(
+                            connection, "test",
+                            new DefaultParser(",", 1, columns),
+                            Arrays.stream(new String[]{""})
+                    ),
+                    CoreMatchers.is(1L)
+            );
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail("Exception not expected");
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
