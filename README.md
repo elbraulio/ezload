@@ -137,6 +137,7 @@ Currently, these are the supported columns types
 |    String     |  `EzCol.string`  |
 | LocalDateTime | `EzCol.dateTime` |
 |     null      | `EzCol.nullable` |
+|   LocalDate   |   `EzCol.date`   |
 
 This allows **ezload** to check if a given column is right formatted. If it isn't, throws an *Exception* and gives you detailed information about what is wrong with the column.
 

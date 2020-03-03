@@ -26,10 +26,8 @@ package com.elbraulio.ezload.action;
 
 import com.elbraulio.ezload.exception.EzException;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -110,6 +108,22 @@ public final class AddPreparedStatement implements Action {
         } catch (SQLException e) {
             throw new EzException(
                     "setTimestamp error with value '" + value + "': " +
+                            e.toString(),
+                    e
+            );
+        }
+    }
+
+    @Override
+    public void execute(LocalDate value) throws EzException {
+        try {
+            if (value != null)
+                this.psmt.setDate(this.index, Date.valueOf(value));
+            else
+                this.psmt.setNull(this.index, Types.TIMESTAMP);
+        } catch (SQLException e) {
+            throw new EzException(
+                    "setDate error with value '" + value + "': " +
                             e.toString(),
                     e
             );

@@ -31,6 +31,7 @@ import com.elbraulio.ezload.constraint.Constraint;
 import com.elbraulio.ezload.transform.*;
 import com.elbraulio.ezload.value.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -175,6 +176,40 @@ public final class EzCol {
     ) {
         return EzCol.newCol(
                 position, name, constraint, transform, DateTimeValue::new
+        );
+    }
+
+    /**
+     * Create a new Date column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
+     * @param constraint column constraint.
+     * @return {@link Column}
+     */
+    public static Column<LocalDate> date(
+            int position, String name, Constraint<LocalDate> constraint
+    ) {
+        return EzCol.newCol(
+                position, name, constraint, new ToLocalDate(), DateValue::new
+        );
+    }
+
+    /**
+     * Create a new Date column.
+     *
+     * @param position  column position from left to right, starting from 0.
+     * @param name      column name.
+     * @param constraint column constraint.
+     * @param transform column transform.
+     * @return {@link Column}
+     */
+    public static Column<LocalDate> date(
+            int position, String name, Constraint<LocalDate> constraint,
+            Transform<LocalDate> transform
+    ) {
+        return EzCol.newCol(
+                position, name, constraint, transform, DateValue::new
         );
     }
 
