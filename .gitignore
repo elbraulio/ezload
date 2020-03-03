@@ -34,3 +34,6 @@ target
 .project
 .classpath
 .settings
+
+# others
+.DS_store
