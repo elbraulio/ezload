@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
  * Represents transform input to string.
  *
  * @author Braulio Lopez (elbraulio274@gmail.com)
- * @since 0.5.0
+ * @since 0.6.0
  */
 public final class ToLocalDate implements Transform<LocalDate> {
     @Override
