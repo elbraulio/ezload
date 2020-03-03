@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * Date values.
  *
  * @author Braulio Lopez (elbraulio274@gmail.com)
- * @since 0.5.0
+ * @since 0.6.0
  */
 public final class DateValue implements Value {
 
