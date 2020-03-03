@@ -46,9 +46,9 @@ public final class GenericColumn<T> implements Column<T> {
     /**
      * Ctor.
      *
-     * @param position        position on file, from left to right starting from 0.
+     * @param position     position on file, from left to right starting from 0.
      * @param name         column name.
-     * @param constraint    value constraint.
+     * @param constraint   value constraint.
      * @param transform    value transform.
      * @param valueFactory value factory.
      */

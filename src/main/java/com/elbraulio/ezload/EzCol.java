@@ -46,8 +46,8 @@ public final class EzCol {
     /**
      * Create a new Integer column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
      * @return {@link Column}
      */
@@ -62,10 +62,10 @@ public final class EzCol {
     /**
      * Create a new Integer column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
-     * @param transform column transform.
+     * @param transform  column transform.
      * @return {@link Column}
      */
     public static Column<Integer> integer(
@@ -96,10 +96,10 @@ public final class EzCol {
     /**
      * Create a new Double column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
-     * @param transform column transform.
+     * @param transform  column transform.
      * @return {@link Column}
      */
     public static Column<Double> doublee(
@@ -114,8 +114,8 @@ public final class EzCol {
     /**
      * Create a new String column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
      * @return {@link Column}
      */
@@ -130,10 +130,10 @@ public final class EzCol {
     /**
      * Create a new String column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
-     * @param transform column transform.
+     * @param transform  column transform.
      * @return {@link Column}
      */
     public static Column<String> string(
@@ -148,8 +148,8 @@ public final class EzCol {
     /**
      * Create a new DateTime column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
      * @return {@link Column}
      */
@@ -164,10 +164,10 @@ public final class EzCol {
     /**
      * Create a new DateTime column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
-     * @param transform column transform.
+     * @param transform  column transform.
      * @return {@link Column}
      */
     public static Column<LocalDateTime> dateTime(
@@ -182,8 +182,8 @@ public final class EzCol {
     /**
      * Create a new Date column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
      * @return {@link Column}
      */
@@ -198,10 +198,10 @@ public final class EzCol {
     /**
      * Create a new Date column.
      *
-     * @param position  column position from left to right, starting from 0.
-     * @param name      column name.
+     * @param position   column position from left to right, starting from 0.
+     * @param name       column name.
      * @param constraint column constraint.
-     * @param transform column transform.
+     * @param transform  column transform.
      * @return {@link Column}
      */
     public static Column<LocalDate> date(
@@ -232,7 +232,7 @@ public final class EzCol {
      *
      * @param position     column position from left to right, starting from 0.
      * @param name         column name.
-     * @param constraint    column constraint.
+     * @param constraint   column constraint.
      * @param transform    column transform.
      * @param valueFactory value factory.
      * @param <T>          depends on value type.

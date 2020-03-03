@@ -4,7 +4,6 @@ import com.elbraulio.ezload.action.Action;
 import com.elbraulio.ezload.exception.EzException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Date values.
