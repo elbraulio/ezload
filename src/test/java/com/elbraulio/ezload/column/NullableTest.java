@@ -27,40 +27,39 @@ package com.elbraulio.ezload.column;
 import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.transform.ToInt;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
  * Unit test for {@link Nullable}
- * 
+ *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class NullableTest {
     @Test
     public void nullValuesDoesNotAffectTypes() {
         MatcherAssert.assertThat(
-            "accept null values",
-            new Nullable<>(
-                "null", 
-                EzCol.integer(
-                    0, "c1", new NoConstraint<>(), new ToInt()
-                )
-            ).isValid("null"),
-            Matchers.is(true)
+                "accept null values",
+                new Nullable<>(
+                        "null",
+                        EzCol.integer(
+                                0, "c1", new NoConstraint<>(), new ToInt()
+                        )
+                ).isValid("null"),
+                Matchers.is(true)
         );
     }
 
     @Test
     public void nullValuesDoesNotAffectValues() {
         MatcherAssert.assertThat(
-            "accept no null values",
+                "accept no null values",
                 new Nullable<>(
-                    "null", 
-                    EzCol.integer(
-                        0, "c1", new NoConstraint<>(), new ToInt()
-                    )
+                        "null",
+                        EzCol.integer(
+                                0, "c1", new NoConstraint<>(), new ToInt()
+                        )
                 ).parse("1"),
                 Matchers.is(1));
     }
@@ -68,12 +67,12 @@ public class NullableTest {
     @Test
     public void returnNullValues() {
         MatcherAssert.assertThat(
-            "identifies null values",
+                "identifies null values",
                 new Nullable<>(
-                    "null", 
-                    EzCol.integer(
-                        0, "c1", new NoConstraint<>(), new ToInt()
-                    )
+                        "null",
+                        EzCol.integer(
+                                0, "c1", new NoConstraint<>(), new ToInt()
+                        )
                 ).parse("null"),
                 Matchers.nullValue());
     }
