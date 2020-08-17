@@ -36,6 +36,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -78,30 +79,54 @@ public class AddPreparedStatementTest {
     }
 
     @Test
-    public void addDateTime() {
+    public void intFail() {
         try (Connection connection = new SqliteConnection().connection()) {
             PreparedStatement ps = connection.prepareStatement(
-                    "insert into test (string_val) values (?);"
+                    "insert into test (int_val) values (?);"
             );
-            new AddPreparedStatement(ps, 1).execute(
-                    LocalDateTime.parse("1991-04-27T02:00:00.000")
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute(1);
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setInt error with value '1': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
             );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void integerNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (int_val) values (?);"
+            );
+            Integer nullInteger = null;
+            new AddPreparedStatement(ps, 1).execute(nullInteger);
             ps.execute();
             MatcherAssert.assertThat(
-                    "values must be added to batch",
+                    "accept null values",
                     new ReadValue(
-                            "select string_val from test;", connection
+                            "select int_val from test;", connection
                     ).value(
-                            rs -> LocalDateTime.ofInstant(
-                                    Instant.ofEpochMilli(
-                                            rs.getLong(1)
-                                    ),
-                                    ZoneId.systemDefault()
-                            )
+                            rs -> {
+                                rs.getInt(1);
+                                return rs.wasNull();
+                            }
                     ).get(0),
-                    CoreMatchers.is(
-                            LocalDateTime.parse("1991-04-27T02:00:00.000")
-                    )
+                    CoreMatchers.is(true)
             );
             ps.close();
         } catch (SQLException | EzException e) {
@@ -109,7 +134,6 @@ public class AddPreparedStatementTest {
             fail();
         } finally {
             try {
-
                 new DropData("test", new SqliteConnection().connection())
                         .drop();
             } catch (SQLException e) {
@@ -137,93 +161,6 @@ public class AddPreparedStatementTest {
         } catch (SQLException | EzException e) {
             e.printStackTrace();
             fail();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Test
-    public void addString() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            PreparedStatement ps = connection.prepareStatement(
-                    "insert into test (string_val) values (?);"
-            );
-            new AddPreparedStatement(ps, 1).execute("value");
-            ps.execute();
-            MatcherAssert.assertThat(
-                    "values must be added to batch",
-                    new ReadValue(
-                            "select string_val from test;", connection
-                    ).value(rs -> rs.getString(1)).get(0),
-                    CoreMatchers.is("value")
-            );
-            ps.close();
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-            fail();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Test
-    public void stringFail() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            PreparedStatement ps = connection.prepareStatement(
-                    "insert into test (string_val) values (?);"
-            );
-            ps.close();
-            new AddPreparedStatement(ps, 1).execute("value");
-            ps.execute();
-            fail();
-        } catch (SQLException | EzException e) {
-            MatcherAssert.assertThat(
-                    "wrong values can't be added",
-                    e.getMessage(),
-                    CoreMatchers.is(
-                            "setString error with value 'value': java.sql" +
-                                    ".SQLException: statement is not executing"
-                    )
-            );
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Test
-    public void intFail() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            PreparedStatement ps = connection.prepareStatement(
-                    "insert into test (int_val) values (?);"
-            );
-            ps.close();
-            new AddPreparedStatement(ps, 1).execute(1);
-            ps.execute();
-            fail();
-        } catch (SQLException | EzException e) {
-            MatcherAssert.assertThat(
-                    "wrong values can't be added",
-                    e.getMessage(),
-                    CoreMatchers.is(
-                            "setInt error with value '1': java.sql" +
-                                    ".SQLException: statement is not executing"
-                    )
-            );
         } finally {
             try {
                 new DropData("test", new SqliteConnection().connection())
@@ -299,6 +236,64 @@ public class AddPreparedStatementTest {
     }
 
     @Test
+    public void addString() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            new AddPreparedStatement(ps, 1).execute("value");
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(rs -> rs.getString(1)).get(0),
+                    CoreMatchers.is("value")
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void stringFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute("value");
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setString error with value 'value': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
     public void stringNull() {
         try (Connection connection = new SqliteConnection().connection()) {
             PreparedStatement ps = connection.prepareStatement(
@@ -334,21 +329,196 @@ public class AddPreparedStatementTest {
     }
 
     @Test
-    public void integerNull() {
+    public void addDateTime() {
         try (Connection connection = new SqliteConnection().connection()) {
             PreparedStatement ps = connection.prepareStatement(
-                    "insert into test (int_val) values (?);"
+                    "insert into test (string_val) values (?);"
             );
-            Integer nullInteger = null;
-            new AddPreparedStatement(ps, 1).execute(nullInteger);
+            new AddPreparedStatement(ps, 1).execute(
+                    LocalDateTime.parse("1991-04-27T02:00:00.000")
+            );
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(
+                            rs -> LocalDateTime.ofInstant(
+                                    Instant.ofEpochMilli(
+                                            rs.getLong(1)
+                                    ),
+                                    ZoneId.systemDefault()
+                            )
+                    ).get(0),
+                    CoreMatchers.is(
+                            LocalDateTime.parse("1991-04-27T02:00:00.000")
+                    )
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void dateTimeFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute(
+                    LocalDateTime.parse("1991-04-27T02:00:00.000")
+            );
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setTimestamp error with value '1991-04-27T02:00': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void dateTimeNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            LocalDateTime nullString = null;
+            new AddPreparedStatement(ps, 1).execute(nullString);
             ps.execute();
             MatcherAssert.assertThat(
                     "accept null values",
                     new ReadValue(
-                            "select int_val from test;", connection
+                            "select string_val from test;", connection
                     ).value(
                             rs -> {
-                                rs.getInt(1);
+                                rs.getString(1);
+                                return rs.wasNull();
+                            }
+                    ).get(0),
+                    CoreMatchers.is(true)
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void addDate() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            new AddPreparedStatement(ps, 1).execute(
+                    LocalDate.parse("1991-04-27")
+            );
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "values must be added to batch",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(
+                            rs -> LocalDateTime.ofInstant(
+                                    Instant.ofEpochMilli(
+                                            rs.getLong(1)
+                                    ),
+                                    ZoneId.systemDefault()
+                            ).toLocalDate()
+                    ).get(0),
+                    CoreMatchers.is(LocalDate.parse("1991-04-27"))
+            );
+            ps.close();
+        } catch (SQLException | EzException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void dateFail() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            ps.close();
+            new AddPreparedStatement(ps, 1).execute(
+                    LocalDate.parse("1991-04-27")
+            );
+            ps.execute();
+            fail();
+        } catch (SQLException | EzException e) {
+            MatcherAssert.assertThat(
+                    "wrong values can't be added",
+                    e.getMessage(),
+                    CoreMatchers.is(
+                            "setDate error with value '1991-04-27': java.sql" +
+                                    ".SQLException: statement is not executing"
+                    )
+            );
+        } finally {
+            try {
+                new DropData("test", new SqliteConnection().connection())
+                        .drop();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void dateNull() {
+        try (Connection connection = new SqliteConnection().connection()) {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into test (string_val) values (?);"
+            );
+            LocalDate nullString = null;
+            new AddPreparedStatement(ps, 1).execute(nullString);
+            ps.execute();
+            MatcherAssert.assertThat(
+                    "accept null values",
+                    new ReadValue(
+                            "select string_val from test;", connection
+                    ).value(
+                            rs -> {
+                                rs.getString(1);
                                 return rs.wasNull();
                             }
                     ).get(0),

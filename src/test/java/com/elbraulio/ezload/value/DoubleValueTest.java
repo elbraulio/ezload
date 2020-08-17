@@ -39,7 +39,6 @@ import static org.junit.Assert.fail;
  *
  * @author Braulio Lopez(brauliop.3@gmail.com)
  */
-
 public class DoubleValueTest {
     @Test
     public void matchDouble() {
