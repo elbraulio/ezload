@@ -22,55 +22,7 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.column;
+package com.elbraulio.ezload.error;
 
-import com.elbraulio.ezload.value.Value;
-
-/**
- * A Column represent the format that a value from a column should check.
- *
- * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0 moved from model package.
- */
-public interface Column<T> {
-
-    /**
-     * Parsed value.
-     *
-     * @param raw raw value.
-     * @return parsed value.
-     */
-    T parse(String raw);
-
-    /**
-     * Position from left to right of the column on a line separated by a
-     * expression. From 0 to n.
-     *
-     * @return position number.
-     */
-    int position();
-
-    /**
-     * Column's name.
-     *
-     * @return name.
-     */
-    String name();
-
-    /**
-     * Checks if the value is valid or not.
-     *
-     * @param raw raw value to check.
-     * @return true if it is valid and false if it is not.
-     */
-    boolean isValid(String raw);
-
-    /**
-     * Return a {@link Value} to execute actions.
-     *
-     * @param value parsed value.
-     * @param <P> subclass of T.
-     * @return a {@link Value}.
-     */
-    <P extends T> Value value(P value);
+public interface EzError {
 }

@@ -22,55 +22,43 @@
  * SOFTWARE.
  */
 
-package com.elbraulio.ezload.column;
+package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.value.Value;
+import com.elbraulio.ezload.doctor.DefaultDoctor;
+import com.elbraulio.ezload.error.EzError;
+import com.elbraulio.ezload.parse.Parser;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
- * A Column represent the format that a value from a column should check.
+ * Doctor for parsed csv files.
  *
- * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0 moved from model package.
+ * @author Braulio Lopez (elbraulio274@gmail.com)
+ * @since --
  */
-public interface Column<T> {
+public final class EzDoctor {
 
     /**
-     * Parsed value.
+     * Checks if a stream of data fits the parser's conditions.
      *
-     * @param raw raw value.
-     * @return parsed value.
+     * @param parser parser with data model.
+     * @param data   stream of data.
+     * @return list of errors.
      */
-    T parse(String raw);
+    public static List<EzError> check(Parser parser, Stream<String> data) {
+        return check(parser, data, Integer.MAX_VALUE);
+    }
 
     /**
-     * Position from left to right of the column on a line separated by a
-     * expression. From 0 to n.
+     * Checks if a stream of data fits the parser's conditions. Includes a limit for number of errors.
      *
-     * @return position number.
+     * @param parser      parser with data model.
+     * @param data        stream of data.
+     * @param errorsLimit maximum number of errors to return.
+     * @return list of errors. With a maximum of <code>errorsLimit</code> errors.
      */
-    int position();
-
-    /**
-     * Column's name.
-     *
-     * @return name.
-     */
-    String name();
-
-    /**
-     * Checks if the value is valid or not.
-     *
-     * @param raw raw value to check.
-     * @return true if it is valid and false if it is not.
-     */
-    boolean isValid(String raw);
-
-    /**
-     * Return a {@link Value} to execute actions.
-     *
-     * @param value parsed value.
-     * @param <P> subclass of T.
-     * @return a {@link Value}.
-     */
-    <P extends T> Value value(P value);
+    public static List<EzError> check(Parser parser, Stream<String> data, int errorsLimit) {
+        return new DefaultDoctor(parser).check(data, errorsLimit);
+    }
 }
