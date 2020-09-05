@@ -69,6 +69,7 @@ public interface Column<T> {
      * Return a {@link Value} to execute actions.
      *
      * @param value parsed value.
+     * @param <P> subclass of T.
      * @return a {@link Value}.
      */
     <P extends T> Value value(P value);
