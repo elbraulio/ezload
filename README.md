@@ -13,7 +13,7 @@ Load, verify and use your line-formatted files easily.
     <dependency>
         <groupId>com.elbraulio</groupId>
         <artifactId>ezload</artifactId>
-        <version>0.5.1</version>
+        <version>0.6.0</version>
     </dependency>
 </dependencies>
 <repositories>
@@ -28,7 +28,7 @@ Load, verify and use your line-formatted files easily.
 
 ```groovy
 dependencies {
-        implementation 'com.elbraulio:ezload:0.5.1'
+        implementation 'com.elbraulio:ezload:0.6.0'
 }
 allprojects {
 	repositories {
@@ -110,6 +110,19 @@ long insertedRows = EzInsert.fromParser(
 ```
 
 To implement your own actions, keep reading and check the detailed explanation of them.
+
+## EzDoctor
+
+This tool inspects a stream of data looking for errors. It uses a Parser which has a defined model and rules.
+
+````java
+Parser parser = EzLoad.parse(",", 2)
+                .withCol(EzCol.string(0, "name", new NoConstraint<>()))
+                .withCol(EzCol.string(1, "value", String::isEmpty))
+                .parser();
+String[] data = new String[]{"speed,km/h", "weight,kg"};
+List<EzError> errors = EzDoctor.check(parser, Stream.of(data));
+````
 
 # How does it work?
 
