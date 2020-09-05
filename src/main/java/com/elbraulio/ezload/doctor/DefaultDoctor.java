@@ -7,8 +7,9 @@ import com.elbraulio.ezload.parse.Parser;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Validates data model using a given Parser.
@@ -33,12 +34,12 @@ public final class DefaultDoctor {
      */
     public List<EzError> check(Stream<String> data, int errorsLimit) {
         AtomicInteger row = new AtomicInteger();
-        return data.flatMap(line -> checkLineErrors(line, row.getAndIncrement()))
+        return data.flatMap(line -> getLineErrors(line, row.getAndIncrement()))
                 .limit(errorsLimit)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
-    private Stream<EzError> checkLineErrors(String line, int row) {
+    private Stream<EzError> getLineErrors(String line, int row) {
         try {
             this.parser.parse(line);
         } catch (EzParseException e) {
