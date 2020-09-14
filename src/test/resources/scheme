@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS test (
-  int_val integer,
-  string_val text,
-  double_val real
-);
