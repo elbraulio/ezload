@@ -24,29 +24,23 @@
 
 package com.elbraulio.ezload.sql;
 
-import com.elbraulio.ezload.column.Column;
-import com.elbraulio.ezload.column.GenericColumn;
+import com.elbraulio.ezload.EzCol;
+import com.elbraulio.ezload.EzLoad;
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.parse.DefaultParser;
 import com.elbraulio.ezload.parse.Parser;
-import com.elbraulio.ezload.transform.ToString;
-import com.elbraulio.ezload.value.StringValue;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
-import util.DropData;
-import util.ReadValue;
-import util.SqliteConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test for {@link InsertFromParser}.
@@ -54,117 +48,62 @@ import static junit.framework.TestCase.fail;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class InsertFromParserTest {
-    @Test
-    public void addString() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
-            Parser parser = new DefaultParser(",", 1, columns);
-            new InsertFromParser(
-                    parser, new SqlFromParser("test", parser),
-                    Integer.MAX_VALUE
-            ).execute(
-                    connection,
-                    Arrays.stream(new String[]{"hello!"})
-            );
-            MatcherAssert.assertThat(
-                    "values must be added to batch",
-                    new ReadValue(
-                            "SELECT string_val FROM test;", connection
-                    ).value((rs) -> rs.getString(1)).get(0),
-                    CoreMatchers.is("hello!")
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+
+    @Before
+    public void setUp() throws SQLException {
+        connection = mock(Connection.class);
+        preparedStatement = mock(PreparedStatement.class);
+        doReturn(preparedStatement).when(connection).prepareStatement(anyString());
+        doReturn(new int[]{1}).when(preparedStatement).executeBatch();
     }
 
     @Test
-    public void insertWithChunkSize() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
-            Parser parser = new DefaultParser(",", 1, columns);
-            new InsertFromParser(
-                    parser, new SqlFromParser("test", parser),
-                    1
-            ).execute(
-                    connection,
-                    Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"})
-            );
-            MatcherAssert.assertThat(
-                    "values must be added to batch",
-                    new ReadValue(
-                            "SELECT count(string_val) FROM test;", connection
-                    ).value((rs) -> rs.getInt(1)).get(0),
-                    CoreMatchers.is(6)
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public void addString() throws EzException, SQLException {
+        Parser parser = EzLoad.parse(",", 1)
+                .withCol(EzCol.string(0,
+                        "string_val",
+                        new NoConstraint<>()))
+                .parser();
+        Insert insert = new InsertFromParser(parser,
+                new SqlFromParser("test", parser),
+                Integer.MAX_VALUE);
+        insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
+        verify(preparedStatement).executeBatch();
     }
 
     @Test
-    public void sqlError() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            connection.close();
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
-            Parser parser = new DefaultParser(",", 1, columns);
-            new InsertFromParser(
-                    parser, new SqlFromParser("test", parser),
-                    1
-            ).execute(
-                    connection,
-                    Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"})
-            );
+    public void insertWithChunkSize() throws EzException, SQLException {
+        Parser parser = EzLoad.parse(",", 1)
+                .withCol(EzCol.string(0,
+                        "string_val",
+                        new NoConstraint<>()))
+                .parser();
+        Insert insert = new InsertFromParser(parser,
+                new SqlFromParser("test", parser),
+                1);
+        insert.execute(connection, Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"}));
+        verify(preparedStatement, times(6)).executeBatch();
+    }
+
+    @Test
+    public void sqlError() throws SQLException {
+        try {
+            doThrow(SQLException.class).when(connection).prepareStatement(anyString());
+            Parser parser = EzLoad.parse(",", 1)
+                    .withCol(EzCol.string(0,
+                            "string_val",
+                            new NoConstraint<>()))
+                    .parser();
+            Insert insert = new InsertFromParser(parser,
+                    new SqlFromParser("test", parser),
+                    Integer.MAX_VALUE);
+            insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
             fail();
-        } catch (SQLException | EzException e) {
-            MatcherAssert.assertThat(
-                    "sql errors must include message",
-                    e.toString(),
-                    Matchers.is(
-                            "com.elbraulio.ezload.exception.EzException: " +
-                                    "Sql error: java.sql.SQLException: " +
-                                    "database connection closed"
-                    )
-            );
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (EzException e) {
+            assertEquals("Sql error: java.sql.SQLException", e.getMessage());
         }
     }
 }
