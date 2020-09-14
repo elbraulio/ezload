@@ -25,18 +25,12 @@
 package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.constraint.NoConstraint;
-import com.elbraulio.ezload.exception.EzException;
+import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import util.DropData;
-import util.SqliteConnection;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for {@link EzLoad}.
@@ -45,36 +39,20 @@ import java.util.Arrays;
  */
 public class EzLoadTest {
     @Test
-    public void insertValues() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            MatcherAssert.assertThat(
-                    "insert values",
-                    EzInsert.fromParser(
-                            connection,
-                            "test",
-                            EzLoad.parse(",", 2).withCol(
-                                    EzCol.integer(
-                                            0, "int_val",
-                                            new NoConstraint<>(), new ToInt()
-                                    )
-                            ).withCol(
-                                    EzCol.string(
-                                            1, "string_val",
-                                            new NoConstraint<>(), new ToString()
-                                    )
-                            ).parser(),
-                            Arrays.stream(new String[]{"1,dos"})
-                    ),
-                    CoreMatchers.is(1L));
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public void adColumnsWithSeparator() {
+        String separator = ",";
+        Parser parser = EzLoad.parse(separator, 2).withCol(
+                EzCol.integer(
+                        0, "int_val",
+                        new NoConstraint<>(), new ToInt()
+                )
+        ).withCol(
+                EzCol.string(
+                        1, "string_val",
+                        new NoConstraint<>(), new ToString()
+                )
+        ).parser();
+        assertEquals(separator, parser.separator());
+        assertEquals(2, parser.columns().size());
     }
 }
