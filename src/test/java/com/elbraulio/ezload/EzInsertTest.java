@@ -24,28 +24,21 @@
 
 package com.elbraulio.ezload;
 
-import com.elbraulio.ezload.column.Column;
-import com.elbraulio.ezload.column.GenericColumn;
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.parse.DefaultParser;
-import com.elbraulio.ezload.transform.ToInt;
-import com.elbraulio.ezload.transform.ToString;
-import com.elbraulio.ezload.value.IntValue;
-import com.elbraulio.ezload.value.StringValue;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
+import com.elbraulio.ezload.parse.Parser;
+import org.junit.Before;
 import org.junit.Test;
-import util.DropData;
-import util.SqliteConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test for {@link EzInsert}.
@@ -53,181 +46,113 @@ import static org.junit.Assert.fail;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
 public class EzInsertTest {
-    @Test
-    public void insertString() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
-            MatcherAssert.assertThat(
-                    "values must be added to batch",
-                    EzInsert.fromParser(
-                            connection, "test",
-                            new DefaultParser(",", 1, columns),
-                            Arrays.stream(new String[]{"hi!"})
-                    ),
-                    CoreMatchers.is(1L)
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+
+    @Before
+    public void setUp() throws SQLException {
+        connection = mock(Connection.class);
+        preparedStatement = mock(PreparedStatement.class);
+        doReturn(preparedStatement).when(connection).prepareStatement(anyString());
+        doReturn(new int[]{1}).when(preparedStatement).executeBatch();
     }
 
     @Test
-    public void insertWithChunk() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
-            MatcherAssert.assertThat(
-                    "values must be added to batch by chunks",
-                    EzInsert.fromParser(
-                            connection, "test",
-                            new DefaultParser(",", 1, columns),
-                            Arrays.stream(new String[]{"1", "b", "c"}),
-                            1
-                    ),
-                    CoreMatchers.is(3L)
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public void insertString() throws EzException {
+        Parser parser = EzLoad.parse(",", 1)
+                .withCol(EzCol.string(0,
+                        "string_val",
+                        new NoConstraint<>()))
+                .parser();
+        long affected = EzInsert.fromParser(
+                connection,
+                "test",
+                parser,
+                Arrays.stream(new String[]{"hi!"}));
+        assertEquals(affected, 1L);
+    }
+
+    @Test
+    public void insertWithChunk() throws SQLException, EzException {
+        int chunkSize = 1;
+        doReturn(new int[]{chunkSize}).when(preparedStatement).executeBatch();
+        Parser parser = EzLoad.parse(",", 1)
+                .withCol(EzCol.string(0,
+                        "string_val",
+                        new NoConstraint<>()))
+                .parser();
+        String[] input = {"1", "b", "c"};
+        long affected = EzInsert.fromParser(
+                connection,
+                "test",
+                parser,
+                Arrays.stream(input),
+                chunkSize);
+        verify(preparedStatement, times(input.length / chunkSize)).executeBatch();
+        assertEquals(affected, input.length);
     }
 
     @Test
     public void exceptionsIncludeDetails() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            0, "int_val", new NoConstraint<>(),
-                            new ToInt(), IntValue::new
-                    )
-            );
+        try {
+            Parser parser = EzLoad.parse(",", 1)
+                    .withCol(EzCol.integer(0,
+                            "int_val",
+                            new NoConstraint<>()))
+                    .parser();
+            String[] input = {"hi!"};
             EzInsert.fromParser(
-                    connection, "test",
-                    new DefaultParser(",", 1, columns),
-                    Arrays.stream(new String[]{"hi!"})
-            );
+                    connection,
+                    "test",
+                    parser,
+                    Arrays.stream(input));
             fail("Exception must be thrown");
-        } catch (SQLException | EzException | NumberFormatException e) {
-            //e.printStackTrace();
-            MatcherAssert.assertThat(
-                    "exception must contain descriptions",
-                    e.getMessage(),
-                    CoreMatchers.is(
-                            "errors on row 0 --> [column 0: java.lang" +
-                                    ".NumberFormatException: For input " +
-                                    "string: \"hi!\"]"
-                    )
-            );
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (EzException e) {
+            assertEquals("errors on row 0 --> [column 0: java.lang" +
+                    ".NumberFormatException: For input " +
+                    "string: \"hi!\"]", e.getMessage());
         }
     }
 
     @Test
     public void exceptionWithMultipleCols() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    new GenericColumn<>(
-                            1, "int_val", new NoConstraint<>(),
-                            new ToInt(), IntValue::new
-                    )
-            );
-            columns.add(
-                    new GenericColumn<>(
-                            0, "string_val", new NoConstraint<>(),
-                            new ToString(), StringValue::new
-                    )
-            );
+        try {
+            Parser parser = EzLoad.parse(",", 1)
+                    .withCol(EzCol.integer(1,
+                            "int_val",
+                            new NoConstraint<>()))
+                    .withCol(EzCol.string(0,
+                            "string_val",
+                            new NoConstraint<>()))
+                    .parser();
+            String[] input = {"1,bye"};
             EzInsert.fromParser(
-                    connection, "test",
-                    new DefaultParser(",", 2, columns),
-                    Arrays.stream(new String[]{"1,bye"})
-            );
+                    connection,
+                    "test",
+                    parser,
+                    Arrays.stream(input));
             fail("Exception must be thrown");
-        } catch (SQLException | EzException | NumberFormatException e) {
-            MatcherAssert.assertThat(
-                    "exception must contain descriptions",
-                    e.getMessage(),
-                    CoreMatchers.is(
-                            "errors on row 0 --> [column 1: java.lang" +
-                                    ".NumberFormatException: For input " +
-                                    "string: \"bye\"]"
-                    )
-            );
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (EzException e) {
+            assertEquals("errors on row 0 --> [column 1: java.lang" +
+                    ".NumberFormatException: For input " +
+                    "string: \"bye\"]", e.getMessage());
         }
     }
 
     @Test
-    public void insertNullableInteger() {
-        try (Connection connection = new SqliteConnection().connection()) {
-            final List<Column> columns = new LinkedList<>();
-            columns.add(
-                    EzCol.nullable(
-                            "",
-                            EzCol.integer(
-                                    0,
-                                    "string_val",
-                                    new NoConstraint<>()
-                            )
-                    )
-            );
-            MatcherAssert.assertThat(
-                    "null values must be added to batch",
-                    EzInsert.fromParser(
-                            connection, "test",
-                            new DefaultParser(",", 1, columns),
-                            Arrays.stream(new String[]{""})
-                    ),
-                    CoreMatchers.is(1L)
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-            fail("Exception not expected");
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public void insertNullableInteger() throws EzException {
+        Parser parser = EzLoad.parse(",", 1)
+                .withCol(EzCol.nullable("",
+                        EzCol.integer(0,
+                                "int_val",
+                                new NoConstraint<>())))
+                .parser();
+        long affected = EzInsert.fromParser(
+                connection,
+                "test",
+                parser,
+                Arrays.stream(new String[]{""}));
+        assertEquals(affected, 1L);
     }
 }
