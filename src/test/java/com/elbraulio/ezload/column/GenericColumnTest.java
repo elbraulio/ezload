@@ -24,25 +24,12 @@
 
 package com.elbraulio.ezload.column;
 
-import com.elbraulio.ezload.action.AddPreparedStatement;
 import com.elbraulio.ezload.constraint.NoConstraint;
-import com.elbraulio.ezload.exception.EzException;
-import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
-import com.elbraulio.ezload.value.IntValue;
 import com.elbraulio.ezload.value.StringValue;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import util.DropData;
-import util.ReadValue;
-import util.SqliteConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import static org.junit.Assert.fail;
 
 /**
  * Unit test for {@link GenericColumn}.
@@ -92,39 +79,5 @@ public class GenericColumnTest {
                 col.isValid("some input"),
                 CoreMatchers.is(true)
         );
-    }
-
-    @Test
-    public void addValueToBatch() {
-        try (
-                Connection connection = new SqliteConnection().connection();
-                PreparedStatement psmt = connection.prepareStatement(
-                        "INSERT INTO test (int_val) VALUES (?);"
-                )
-        ) {
-            new GenericColumn<>(
-                    0, "name", new NoConstraint<>(), new ToInt(),
-                    IntValue::new
-            ).value(2).accept(new AddPreparedStatement(psmt, 1));
-            psmt.addBatch();
-            psmt.executeBatch();
-            MatcherAssert.assertThat(
-                    "values must be added to batch",
-                    new ReadValue(
-                            "SELECT int_val FROM test;", connection
-                    ).value((rs) -> rs.getInt(1)).get(0),
-                    CoreMatchers.is(2)
-            );
-        } catch (SQLException | EzException e) {
-            e.printStackTrace();
-            fail();
-        } finally {
-            try {
-                new DropData("test", new SqliteConnection().connection())
-                        .drop();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
