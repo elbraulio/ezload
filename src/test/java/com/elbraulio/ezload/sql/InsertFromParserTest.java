@@ -24,23 +24,26 @@
 
 package com.elbraulio.ezload.sql;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.EzLoad;
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.Parser;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit test for {@link InsertFromParser}.
@@ -63,13 +66,13 @@ public class InsertFromParserTest {
     @Test
     public void addString() throws EzException, SQLException {
         Parser parser = EzLoad.parse(",", 1)
-                .withCol(EzCol.string(0,
-                        "string_val",
-                        new NoConstraint<>()))
-                .parser();
+            .withCol(EzCol.string(0,
+                "string_val",
+                new NoConstraint<>()))
+            .parser();
         Insert insert = new InsertFromParser(parser,
-                new SqlFromParser("test", parser),
-                Integer.MAX_VALUE);
+            new SqlFromParser("test", parser),
+            Integer.MAX_VALUE);
         insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
         verify(preparedStatement).executeBatch();
     }
@@ -77,13 +80,13 @@ public class InsertFromParserTest {
     @Test
     public void insertWithChunkSize() throws EzException, SQLException {
         Parser parser = EzLoad.parse(",", 1)
-                .withCol(EzCol.string(0,
-                        "string_val",
-                        new NoConstraint<>()))
-                .parser();
+            .withCol(EzCol.string(0,
+                "string_val",
+                new NoConstraint<>()))
+            .parser();
         Insert insert = new InsertFromParser(parser,
-                new SqlFromParser("test", parser),
-                1);
+            new SqlFromParser("test", parser),
+            1);
         insert.execute(connection, Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"}));
         verify(preparedStatement, times(6)).executeBatch();
     }
@@ -93,13 +96,13 @@ public class InsertFromParserTest {
         try {
             doThrow(SQLException.class).when(connection).prepareStatement(anyString());
             Parser parser = EzLoad.parse(",", 1)
-                    .withCol(EzCol.string(0,
-                            "string_val",
-                            new NoConstraint<>()))
-                    .parser();
+                .withCol(EzCol.string(0,
+                    "string_val",
+                    new NoConstraint<>()))
+                .parser();
             Insert insert = new InsertFromParser(parser,
-                    new SqlFromParser("test", parser),
-                    Integer.MAX_VALUE);
+                new SqlFromParser("test", parser),
+                Integer.MAX_VALUE);
             insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
             fail();
         } catch (EzException e) {

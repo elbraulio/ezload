@@ -37,9 +37,9 @@ public class ToDoubleTest {
     @Test
     public void doNotChangeTheOriginalValue() {
         MatcherAssert.assertThat(
-                "transform raw value to double",
-                new ToDouble().from("1.09"),
-                CoreMatchers.is(1.09)
+            "transform raw value to double",
+            new ToDouble().from("1.09"),
+            CoreMatchers.is(1.09)
         );
     }
 }

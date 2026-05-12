@@ -42,58 +42,58 @@ public class SqlFromParserTest {
     @Test
     public void emptyQuery() {
         MatcherAssert.assertThat(
-                "empty queries doesn't make columns",
-                new SqlFromParser(
-                        "name",
-                        new DefaultParseBuild(null, 0
-                        ).parser()
-                ).sql(),
-                CoreMatchers.is("INSERT INTO name () VALUES ();")
+            "empty queries doesn't make columns",
+            new SqlFromParser(
+                "name",
+                new DefaultParseBuild(null, 0
+                ).parser()
+            ).sql(),
+            CoreMatchers.is("INSERT INTO name () VALUES ();")
         );
     }
 
     @Test
     public void singleColumn() {
         MatcherAssert.assertThat(
-                "empty queries doesn't make columns",
-                new SqlFromParser(
-                        "name",
-                        new DefaultParseBuild(
-                                null, 0
-                        ).withCol(
-                                new GenericColumn<>(
-                                        0, "first", new NoConstraint<>(),
-                                        new ToString(), StringValue::new
-                                )
-                        ).parser()
-                ).sql(),
-                CoreMatchers.is("INSERT INTO name (first) VALUES (?);")
+            "empty queries doesn't make columns",
+            new SqlFromParser(
+                "name",
+                new DefaultParseBuild(
+                    null, 0
+                ).withCol(
+                    new GenericColumn<>(
+                        0, "first", new NoConstraint<>(),
+                        new ToString(), StringValue::new
+                    )
+                ).parser()
+            ).sql(),
+            CoreMatchers.is("INSERT INTO name (first) VALUES (?);")
         );
     }
 
     @Test
     public void multiColumns() {
         MatcherAssert.assertThat(
-                "empty queries doesn't make columns",
-                new SqlFromParser(
-                        "name",
-                        new DefaultParseBuild(
-                                null, 0
-                        ).withCol(
-                                new GenericColumn<>(
-                                        0, "first", new NoConstraint<>(),
-                                        new ToString(), StringValue::new
-                                )
-                        ).withCol(
-                                new GenericColumn<>(
-                                        1, "second", new NoConstraint<>(),
-                                        new ToString(), StringValue::new
-                                )
-                        ).parser()
-                ).sql(),
-                CoreMatchers.is(
-                        "INSERT INTO name (first,second) VALUES (?,?);"
-                )
+            "empty queries doesn't make columns",
+            new SqlFromParser(
+                "name",
+                new DefaultParseBuild(
+                    null, 0
+                ).withCol(
+                    new GenericColumn<>(
+                        0, "first", new NoConstraint<>(),
+                        new ToString(), StringValue::new
+                    )
+                ).withCol(
+                    new GenericColumn<>(
+                        1, "second", new NoConstraint<>(),
+                        new ToString(), StringValue::new
+                    )
+                ).parser()
+            ).sql(),
+            CoreMatchers.is(
+                "INSERT INTO name (first,second) VALUES (?,?);"
+            )
         );
     }
 }

@@ -41,32 +41,32 @@ public class DefaultParseBuildTest {
     @Test
     public void noColumns() {
         MatcherAssert.assertThat(
-                "no columns, has 0 info about columns",
-                new DefaultParseBuild("", 0)
-                        .parser().columns().size(),
-                CoreMatchers.is(0)
+            "no columns, has 0 info about columns",
+            new DefaultParseBuild("", 0)
+                .parser().columns().size(),
+            CoreMatchers.is(0)
         );
     }
 
     @Test
     public void withCols() {
         MatcherAssert.assertThat(
-                "2 columns, has 2 info about columns",
-                new DefaultParseBuild("", 2)
-                        .withCol(
-                                new GenericColumn<>(
-                                        0, "", new NoConstraint<>(),
-                                        new ToInt(), IntValue::new
-                                )
-                        )
-                        .withCol(
-                                new GenericColumn<>(
-                                        0, "", new NoConstraint<>(),
-                                        new ToInt(), IntValue::new
-                                )
-                        )
-                        .parser().columns().size(),
-                CoreMatchers.is(2)
+            "2 columns, has 2 info about columns",
+            new DefaultParseBuild("", 2)
+                .withCol(
+                    new GenericColumn<>(
+                        0, "", new NoConstraint<>(),
+                        new ToInt(), IntValue::new
+                    )
+                )
+                .withCol(
+                    new GenericColumn<>(
+                        0, "", new NoConstraint<>(),
+                        new ToInt(), IntValue::new
+                    )
+                )
+                .parser().columns().size(),
+            CoreMatchers.is(2)
         );
     }
 }

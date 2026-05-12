@@ -37,9 +37,9 @@ public class ToStringTest {
     @Test
     public void doNotChangeTheOriginalValue() {
         MatcherAssert.assertThat(
-                "always return the same value",
-                new ToString().from("false"),
-                CoreMatchers.is("false")
+            "always return the same value",
+            new ToString().from("false"),
+            CoreMatchers.is("false")
         );
     }
 }

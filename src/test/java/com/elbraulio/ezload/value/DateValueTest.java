@@ -1,14 +1,13 @@
 package com.elbraulio.ezload.value;
 
-import com.elbraulio.ezload.action.Action;
-import com.elbraulio.ezload.exception.EzException;
-import org.junit.Test;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import com.elbraulio.ezload.action.Action;
+import com.elbraulio.ezload.exception.EzException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.junit.Test;
 
 
 /**
@@ -21,32 +20,32 @@ public class DateValueTest {
     public void matchDate() {
         try {
             new DateValue(LocalDate.now()).accept(
-                    new Action() {
-                        @Override
-                        public void execute(Integer value) throws EzException {
-                            fail();
-                        }
-
-                        @Override
-                        public void execute(Double value) throws EzException {
-                            fail();
-                        }
-
-                        @Override
-                        public void execute(String value) throws EzException {
-                            fail();
-                        }
-
-                        @Override
-                        public void execute(LocalDateTime value) throws EzException {
-                            fail();
-                        }
-
-                        @Override
-                        public void execute(LocalDate value) throws EzException {
-                            assertTrue(true);
-                        }
+                new Action() {
+                    @Override
+                    public void execute(Integer value) throws EzException {
+                        fail();
                     }
+
+                    @Override
+                    public void execute(Double value) throws EzException {
+                        fail();
+                    }
+
+                    @Override
+                    public void execute(String value) throws EzException {
+                        fail();
+                    }
+
+                    @Override
+                    public void execute(LocalDateTime value) throws EzException {
+                        fail();
+                    }
+
+                    @Override
+                    public void execute(LocalDate value) throws EzException {
+                        assertTrue(true);
+                    }
+                }
             );
         } catch (EzException e) {
             e.printStackTrace();

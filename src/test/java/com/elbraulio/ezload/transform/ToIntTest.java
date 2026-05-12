@@ -37,9 +37,9 @@ public class ToIntTest {
     @Test
     public void doNotChangeTheOriginalValue() {
         MatcherAssert.assertThat(
-                "transform raw value to integer",
-                new ToInt().from("42"),
-                CoreMatchers.is(42)
+            "transform raw value to integer",
+            new ToInt().from("42"),
+            CoreMatchers.is(42)
         );
     }
 }
