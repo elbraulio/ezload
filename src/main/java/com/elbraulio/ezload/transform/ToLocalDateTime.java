@@ -13,8 +13,8 @@ public final class ToLocalDateTime implements Transform<LocalDateTime> {
     @Override
     public LocalDateTime from(String value) {
         return LocalDateTime.parse(
-                value,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+            value,
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
         );
     }
 }

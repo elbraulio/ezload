@@ -49,12 +49,12 @@ public final class DefaultParser implements Parser {
     /**
      * Ctor
      *
-     * @param expression    separation expression.
+     * @param expression separation expression.
      * @param columnsNumber number of columns.
-     * @param columns       columns.
+     * @param columns columns.
      */
     public DefaultParser(
-            String expression, Integer columnsNumber, List<Column<?>> columns
+        String expression, Integer columnsNumber, List<Column<?>> columns
     ) {
 
         this.expression = expression;
@@ -79,32 +79,32 @@ public final class DefaultParser implements Parser {
         final List<Value> values = new LinkedList<>();
         if (split.length < this.columnsNumber) {
             errors.add(
-                    "line length is " + split.length +
-                            ", must be greater than " + this.columnsNumber +
-                            " on line: [" + line + "]"
+                "line length is " + split.length +
+                    ", must be greater than " + this.columnsNumber +
+                    " on line: [" + line + "]"
             );
             throw new EzParseException("parse error", errors);
         }
 
         this.columns.forEach(
-                col -> {
-                    try {
-                        final String raw = split[col.position()];
-                        if (col.isValid(raw)) {
-                            values.add(col.valueFromRaw(raw));
-                        } else {
-                            errors.add(
-                                    "column " + col.position() + " does not " +
-                                            "accept value '" + raw + "'"
-                            );
-                        }
-                    } catch (Exception e) {
+            col -> {
+                try {
+                    final String raw = split[col.position()];
+                    if (col.isValid(raw)) {
+                        values.add(col.valueFromRaw(raw));
+                    } else {
                         errors.add(
-                                "column " + col.position() + ": " +
-                                        e
+                            "column " + col.position() + " does not " +
+                                "accept value '" + raw + "'"
                         );
                     }
+                } catch (Exception e) {
+                    errors.add(
+                        "column " + col.position() + ": " +
+                            e
+                    );
                 }
+            }
         );
         if (errors.isEmpty()) {
             return new DefaultLine(values);

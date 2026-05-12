@@ -39,7 +39,7 @@ public final class EzLoad {
      * Create a {@link ParseBuild} to build a {@link Parser}.
      *
      * @param expression separator expression.
-     * @param cols       number of columns.
+     * @param cols number of columns.
      * @return {@link ParseBuild}.
      */
     static public ParseBuild parse(String expression, int cols) {

@@ -30,8 +30,8 @@ import com.elbraulio.ezload.value.Value;
 import com.elbraulio.ezload.value.ValueFactory;
 
 /**
- * This implementation works as a generic representation of the format that a
- * column (or cell) stores.
+ * This implementation works as a generic representation of the format that a column (or cell)
+ * stores.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.3.0 moved from the model package.
@@ -46,15 +46,15 @@ public final class GenericColumn<T> implements Column<T> {
     /**
      * Ctor.
      *
-     * @param position     position on file, from left to right starting from 0.
-     * @param name         column name.
-     * @param constraint   value constraint.
-     * @param transform    value transform.
+     * @param position position on file, from left to right starting from 0.
+     * @param name column name.
+     * @param constraint value constraint.
+     * @param transform value transform.
      * @param valueFactory value factory.
      */
     public GenericColumn(
-            int position, String name, Constraint<T> constraint,
-            Transform<T> transform, ValueFactory<T> valueFactory
+        int position, String name, Constraint<T> constraint,
+        Transform<T> transform, ValueFactory<T> valueFactory
     ) {
 
         this.position = position;

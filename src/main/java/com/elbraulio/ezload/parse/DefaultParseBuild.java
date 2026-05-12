@@ -43,7 +43,7 @@ public final class DefaultParseBuild implements ParseBuild {
     /**
      * Ctor.
      *
-     * @param expression    separator expression.
+     * @param expression separator expression.
      * @param columnsNumber number of columns.
      */
     public DefaultParseBuild(String expression, int columnsNumber) {
@@ -53,12 +53,12 @@ public final class DefaultParseBuild implements ParseBuild {
     /**
      * Ctor.
      *
-     * @param expression    separator expression.
+     * @param expression separator expression.
      * @param columnsNumber number of columns.
-     * @param columns       columns formats.
+     * @param columns columns formats.
      */
     public DefaultParseBuild(
-            String expression, int columnsNumber, List<Column<?>> columns
+        String expression, int columnsNumber, List<Column<?>> columns
     ) {
 
         this.expression = expression;
@@ -75,7 +75,7 @@ public final class DefaultParseBuild implements ParseBuild {
     @Override
     public Parser parser() {
         return new DefaultParser(
-                this.expression, this.columnsNumber, this.columns
+            this.expression, this.columnsNumber, this.columns
         );
     }
 }

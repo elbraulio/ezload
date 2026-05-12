@@ -53,8 +53,8 @@ public final class InsertFromParser implements Insert {
     /**
      * Ctor.
      *
-     * @param parser    table name.
-     * @param buildSql  sql builder.
+     * @param parser table name.
+     * @param buildSql sql builder.
      * @param chunkSize size to split the batch.
      */
     public InsertFromParser(Parser parser, BuildSql buildSql, int chunkSize) {
@@ -66,14 +66,14 @@ public final class InsertFromParser implements Insert {
 
     @Override
     public long execute(Connection connection, Stream<String> lines)
-            throws EzException {
+        throws EzException {
         final Iterator<String> iterableLines = lines.iterator();
         int count = 0;
         long modified = 0L;
         try (
-                final PreparedStatement statement = connection.prepareStatement(
-                        this.buildSql.sql()
-                )
+            final PreparedStatement statement = connection.prepareStatement(
+                this.buildSql.sql()
+            )
         ) {
             while (iterableLines.hasNext()) {
                 final Line parsedLine = this.parser.parse(iterableLines.next());
@@ -95,7 +95,7 @@ public final class InsertFromParser implements Insert {
             throw new EzException("Sql error: " + e, e);
         } catch (EzParseException e) {
             throw new EzException(
-                    "errors on row " + count + " --> " + e.errors()
+                "errors on row " + count + " --> " + e.errors()
             );
         }
     }

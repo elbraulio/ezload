@@ -43,8 +43,7 @@ public interface Column<T> {
     T parse(String raw);
 
     /**
-     * Position from left to right of the column on a line separated by an
-     * expression. From 0 to n.
+     * Position from left to right of the column on a line separated by an expression. From 0 to n.
      *
      * @return position number.
      */

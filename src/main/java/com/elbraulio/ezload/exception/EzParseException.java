@@ -39,7 +39,7 @@ public final class EzParseException extends Exception {
     /**
      * Ctor.
      *
-     * @param msg    exception message.
+     * @param msg exception message.
      * @param errors list of errors.
      */
     public EzParseException(String msg, List<String> errors) {
@@ -50,8 +50,8 @@ public final class EzParseException extends Exception {
     /**
      * Ctor.
      *
-     * @param msg       exception message.
-     * @param errors    list of errors.
+     * @param msg exception message.
+     * @param errors list of errors.
      * @param throwable chained exception.
      */
     public EzParseException(String msg, List<String> errors, Throwable throwable) {

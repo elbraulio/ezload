@@ -30,8 +30,8 @@ import com.elbraulio.ezload.parse.Parser;
 import java.util.List;
 
 /**
- * Build a SQL query from {@link Parser}. The column position is the same as the
- * list {@link Parser#columns()}.
+ * Build a SQL query from {@link Parser}. The column position is the same as the list
+ * {@link Parser#columns()}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.1.0
@@ -43,7 +43,7 @@ public final class InsertSqlFromParser implements BuildSql {
     /**
      * Ctor.
      *
-     * @param name   table name.
+     * @param name table name.
      * @param parser parser with column format.
      */
     public InsertSqlFromParser(String name, Parser parser) {
@@ -56,7 +56,7 @@ public final class InsertSqlFromParser implements BuildSql {
     public String sql() {
         // start with 'INSERT INTO {table name}'
         final StringBuilder query = new StringBuilder(
-                "INSERT INTO " + this.name + " ("
+            "INSERT INTO " + this.name + " ("
         );
         final List<Column<?>> columns = this.parser.columns();
         // first column name if exists

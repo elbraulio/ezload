@@ -44,7 +44,7 @@ public final class EzException extends Exception {
     /**
      * Ctor.
      *
-     * @param msg       exception message.
+     * @param msg exception message.
      * @param throwable chained exception.
      */
     public EzException(String msg, Throwable throwable) {
