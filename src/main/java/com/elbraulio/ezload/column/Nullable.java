@@ -28,7 +28,7 @@ import com.elbraulio.ezload.value.Value;
 
 /**
  * Allows a given column to return <code>null</code> values.
- * This overrides parse and isValid in order to support null values.
+ * This overrides parse and isValid to support null values.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.4.0
@@ -74,5 +74,10 @@ public class Nullable<T> implements Column<T> {
     @Override
     public <P extends T> Value value(P value) {
         return this.decorated.value(value);
+    }
+
+    @Override
+    public Value valueFromRaw(final String raw) {
+        return this.decorated.value(parse(raw));
     }
 }

@@ -44,7 +44,7 @@ public final class DefaultParser implements Parser {
 
     private final String expression;
     private final Integer columnsNumber;
-    private final List<Column> columns;
+    private final List<Column<?>> columns;
 
     /**
      * Ctor
@@ -54,7 +54,7 @@ public final class DefaultParser implements Parser {
      * @param columns       columns.
      */
     public DefaultParser(
-            String expression, Integer columnsNumber, List<Column> columns
+            String expression, Integer columnsNumber, List<Column<?>> columns
     ) {
 
         this.expression = expression;
@@ -63,7 +63,7 @@ public final class DefaultParser implements Parser {
     }
 
     @Override
-    public List<Column> columns() {
+    public List<Column<?>> columns() {
         return new ArrayList<>(this.columns);
     }
 
@@ -91,7 +91,7 @@ public final class DefaultParser implements Parser {
                     try {
                         final String raw = split[col.position()];
                         if (col.isValid(raw)) {
-                            values.add(col.value(col.parse(raw)));
+                            values.add(col.valueFromRaw(raw));
                         } else {
                             errors.add(
                                     "column " + col.position() + " does not " +

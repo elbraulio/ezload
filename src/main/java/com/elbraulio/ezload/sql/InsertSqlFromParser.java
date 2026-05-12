@@ -44,7 +44,7 @@ public final class InsertSqlFromParser implements BuildSql {
      * Ctor.
      *
      * @param name   table name.
-     * @param parser parser with columns format.
+     * @param parser parser with column format.
      */
     public InsertSqlFromParser(String name, Parser parser) {
 
@@ -58,7 +58,7 @@ public final class InsertSqlFromParser implements BuildSql {
         final StringBuilder query = new StringBuilder(
                 "INSERT INTO " + this.name + " ("
         );
-        final List<Column> columns = this.parser.columns();
+        final List<Column<?>> columns = this.parser.columns();
         // first column name if exists
         if (!columns.isEmpty()) {
             query.append(columns.getFirst().name());

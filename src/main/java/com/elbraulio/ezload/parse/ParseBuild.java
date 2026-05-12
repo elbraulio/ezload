@@ -35,12 +35,12 @@ import com.elbraulio.ezload.column.Column;
 public interface ParseBuild {
 
     /**
-     * Add new column to the set of columns.
+     * Add a new column to the set of columns.
      *
      * @param col {@link Column}.
      * @return builder.
      */
-    ParseBuild withCol(Column col);
+    <T> ParseBuild withCol(Column<T> col);
 
     /**
      * Build the parser.

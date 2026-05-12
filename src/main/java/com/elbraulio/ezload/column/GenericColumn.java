@@ -34,7 +34,7 @@ import com.elbraulio.ezload.value.ValueFactory;
  * column (or cell) stores.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0 moved from model package.
+ * @since 0.3.0 moved from the model package.
  */
 public final class GenericColumn<T> implements Column<T> {
     private final int position;
@@ -87,5 +87,10 @@ public final class GenericColumn<T> implements Column<T> {
     @Override
     public <P extends T> Value value(P value) {
         return this.valueFactory.newValue(value);
+    }
+
+    @Override
+    public Value valueFromRaw(final String raw) {
+        return this.valueFactory.newValue(this.parse(raw));
     }
 }

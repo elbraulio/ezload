@@ -35,7 +35,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * {@link Column} factory. This design come from the fact that we need to
+ * {@link Column} factory. This design comes from the fact that we need to
  * know what is the type of <code>value</code>.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
@@ -215,7 +215,7 @@ public final class EzCol {
 
     /**
      * Make a column nullable. It means that if the given expression is
-     * found,  it will return a null.
+     * found, it will return a null.
      *
      * @param <T>            column type.
      * @param nullExpression null identifier.
@@ -235,7 +235,7 @@ public final class EzCol {
      * @param constraint   column constraint.
      * @param transform    column transform.
      * @param valueFactory value factory.
-     * @param <T>          depends on value type.
+     * @param <T>          depends on a value type.
      * @return {@link Column}
      */
     private static <T> Column<T> newCol(

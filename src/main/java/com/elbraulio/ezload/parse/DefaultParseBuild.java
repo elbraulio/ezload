@@ -38,7 +38,7 @@ import java.util.List;
 public final class DefaultParseBuild implements ParseBuild {
     private final String expression;
     private final int columnsNumber;
-    private final List<Column> columns;
+    private final List<Column<?>> columns;
 
     /**
      * Ctor.
@@ -58,7 +58,7 @@ public final class DefaultParseBuild implements ParseBuild {
      * @param columns       columns formats.
      */
     public DefaultParseBuild(
-            String expression, int columnsNumber, List<Column> columns
+            String expression, int columnsNumber, List<Column<?>> columns
     ) {
 
         this.expression = expression;
@@ -67,7 +67,7 @@ public final class DefaultParseBuild implements ParseBuild {
     }
 
     @Override
-    public ParseBuild withCol(Column col) {
+    public <T> ParseBuild withCol(Column<T> col) {
         this.columns.add(col);
         return this;
     }

@@ -50,7 +50,7 @@ import org.junit.Test;
 public class DefaultParserTest {
     @Test
     public void singleColumn() {
-        final List<Column> list = new LinkedList<>();
+        final List<Column<?>> list = new LinkedList<>();
         list.add(
             new GenericColumn<>(
                 0, "col", new NoConstraint<>(),
@@ -61,14 +61,14 @@ public class DefaultParserTest {
             "parser with one column",
             new DefaultParser(
                 ",", 0, list
-            ).columns().get(0).parse("1"),
+            ).columns().getFirst().parse("1"),
             CoreMatchers.is(1)
         );
     }
 
     @Test
     public void immutableColumns() {
-        final List<Column> list = new LinkedList<>();
+        final List<Column<?>> list = new LinkedList<>();
         list.add(
             new GenericColumn<>(
                 0, "col", new NoConstraint<>(),
@@ -114,7 +114,7 @@ public class DefaultParserTest {
 
     @Test
     public void splitWithEmptyValues() {
-        final List<Column> list = new LinkedList<>();
+        final List<Column<?>> list = new LinkedList<>();
         list.add(
             new GenericColumn<>(
                 0, "col", new NoConstraint<>(),
@@ -145,7 +145,7 @@ public class DefaultParserTest {
     @Test
     public void returnColErrors() {
         try {
-            final List<Column> columns = new LinkedList<>();
+            final List<Column<?>> columns = new LinkedList<>();
             columns.add(
                 EzCol.integer(
                     0, "a", n -> n < 10, new ToInt()
