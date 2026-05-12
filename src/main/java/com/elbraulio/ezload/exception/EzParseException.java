@@ -60,7 +60,7 @@ public final class EzParseException extends Exception {
     }
 
     /**
-     * Return list of errors.
+     * Return the list of errors.
      *
      * @return errors.
      */
