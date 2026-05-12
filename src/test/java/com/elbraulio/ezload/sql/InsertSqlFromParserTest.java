@@ -34,16 +34,16 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
- * Unit test for {@link SqlFromParser}.
+ * Unit test for {@link InsertSqlFromParser}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  */
-public class SqlFromParserTest {
+public class InsertSqlFromParserTest {
     @Test
     public void emptyQuery() {
         MatcherAssert.assertThat(
             "empty queries doesn't make columns",
-            new SqlFromParser(
+            new InsertSqlFromParser(
                 "name",
                 new DefaultParseBuild(null, 0
                 ).parser()
@@ -56,7 +56,7 @@ public class SqlFromParserTest {
     public void singleColumn() {
         MatcherAssert.assertThat(
             "empty queries doesn't make columns",
-            new SqlFromParser(
+            new InsertSqlFromParser(
                 "name",
                 new DefaultParseBuild(
                     null, 0
@@ -75,7 +75,7 @@ public class SqlFromParserTest {
     public void multiColumns() {
         MatcherAssert.assertThat(
             "empty queries doesn't make columns",
-            new SqlFromParser(
+            new InsertSqlFromParser(
                 "name",
                 new DefaultParseBuild(
                     null, 0

@@ -71,7 +71,7 @@ public class InsertFromParserTest {
                 new NoConstraint<>()))
             .parser();
         Insert insert = new InsertFromParser(parser,
-            new SqlFromParser("test", parser),
+            new InsertSqlFromParser("test", parser),
             Integer.MAX_VALUE);
         insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
         verify(preparedStatement).executeBatch();
@@ -85,7 +85,7 @@ public class InsertFromParserTest {
                 new NoConstraint<>()))
             .parser();
         Insert insert = new InsertFromParser(parser,
-            new SqlFromParser("test", parser),
+            new InsertSqlFromParser("test", parser),
             1);
         insert.execute(connection, Arrays.stream(new String[]{"a", "b", "c", "d", "f", "g"}));
         verify(preparedStatement, times(6)).executeBatch();
@@ -101,7 +101,7 @@ public class InsertFromParserTest {
                     new NoConstraint<>()))
                 .parser();
             Insert insert = new InsertFromParser(parser,
-                new SqlFromParser("test", parser),
+                new InsertSqlFromParser("test", parser),
                 Integer.MAX_VALUE);
             insert.execute(connection, Arrays.stream(new String[]{"hello!"}));
             fail();

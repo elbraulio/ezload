@@ -36,7 +36,7 @@ import java.util.List;
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.1.0
  */
-public final class SqlFromParser implements BuildSql {
+public final class InsertSqlFromParser implements BuildSql {
     private final String name;
     private final Parser parser;
 
@@ -46,7 +46,7 @@ public final class SqlFromParser implements BuildSql {
      * @param name   table name.
      * @param parser parser with columns format.
      */
-    public SqlFromParser(String name, Parser parser) {
+    public InsertSqlFromParser(String name, Parser parser) {
 
         this.name = name;
         this.parser = parser;

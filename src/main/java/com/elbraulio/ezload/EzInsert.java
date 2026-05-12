@@ -27,7 +27,7 @@ package com.elbraulio.ezload;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.sql.InsertFromParser;
-import com.elbraulio.ezload.sql.SqlFromParser;
+import com.elbraulio.ezload.sql.InsertSqlFromParser;
 
 import java.sql.Connection;
 import java.util.stream.Stream;
@@ -55,7 +55,7 @@ public final class EzInsert {
             Stream<String> lines
     ) throws EzException {
         return new InsertFromParser(
-                parser, new SqlFromParser(table, parser), Integer.MAX_VALUE
+                parser, new InsertSqlFromParser(table, parser), Integer.MAX_VALUE
         ).execute(connection, lines);
     }
 
@@ -75,7 +75,7 @@ public final class EzInsert {
             Stream<String> lines, int chunkSize
     ) throws EzException {
         return new InsertFromParser(
-                parser, new SqlFromParser(table, parser), chunkSize
+                parser, new InsertSqlFromParser(table, parser), chunkSize
         ).execute(connection, lines);
     }
 }
