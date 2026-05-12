@@ -53,7 +53,7 @@ public class EzParseExceptionTest {
         errors.add("error 1");
         MatcherAssert.assertThat(
             "should keep the initial message",
-            new EzParseException("a message", errors).errors().get(0),
+            new EzParseException("a message", errors).errors().getFirst(),
             CoreMatchers.is("error 1")
         );
     }
@@ -81,7 +81,7 @@ public class EzParseExceptionTest {
             "should keep the initial message",
             new EzParseException(
                 "a message", errors, new NumberFormatException("error")
-            ).errors().get(0),
+            ).errors().getFirst(),
             CoreMatchers.is("error 1")
         );
     }

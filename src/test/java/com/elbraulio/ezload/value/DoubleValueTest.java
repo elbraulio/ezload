@@ -45,27 +45,27 @@ public class DoubleValueTest {
             new DoubleValue(4.0).accept(
                 new Action() {
                     @Override
-                    public void execute(Integer value) throws EzException {
+                    public void execute(Integer value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(Double value) throws EzException {
+                    public void execute(Double value) {
                         assertTrue(true);
                     }
 
                     @Override
-                    public void execute(String value) throws EzException {
+                    public void execute(String value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(LocalDateTime value) throws EzException {
+                    public void execute(LocalDateTime value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(LocalDate value) throws EzException {
+                    public void execute(LocalDate value) {
                         fail();
                     }
                 }

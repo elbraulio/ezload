@@ -72,7 +72,7 @@ public class EzInsertTest {
             "test",
             parser,
             Arrays.stream(new String[]{"hi!"}));
-        assertEquals(affected, 1L);
+        assertEquals(1L, affected);
     }
 
     @Test
@@ -155,6 +155,6 @@ public class EzInsertTest {
             "test",
             parser,
             Arrays.stream(new String[]{""}));
-        assertEquals(affected, 1L);
+        assertEquals(1L, affected);
     }
 }

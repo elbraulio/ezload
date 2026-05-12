@@ -60,7 +60,7 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.INTEGER);
         } catch (SQLException e) {
             throw new EzException(
-                    "setInt error with value '" + value + "': " + e.toString(),
+                    "setInt error with value '" + value + "': " + e,
                     e
             );
         }
@@ -76,7 +76,7 @@ public final class AddPreparedStatement implements Action {
         } catch (SQLException e) {
             throw new EzException(
                     "setDouble error with value '" + value + "': " +
-                            e.toString(),
+                            e,
                     e
             );
         }
@@ -92,7 +92,7 @@ public final class AddPreparedStatement implements Action {
         } catch (SQLException e) {
             throw new EzException(
                     "setString error with value '" + value + "': " +
-                            e.toString(),
+                            e,
                     e
             );
         }
@@ -108,7 +108,7 @@ public final class AddPreparedStatement implements Action {
         } catch (SQLException e) {
             throw new EzException(
                     "setTimestamp error with value '" + value + "': " +
-                            e.toString(),
+                            e,
                     e
             );
         }
@@ -124,7 +124,7 @@ public final class AddPreparedStatement implements Action {
         } catch (SQLException e) {
             throw new EzException(
                     "setDate error with value '" + value + "': " +
-                            e.toString(),
+                            e,
                     e
             );
         }

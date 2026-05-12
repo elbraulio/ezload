@@ -101,7 +101,7 @@ public final class DefaultParser implements Parser {
                     } catch (Exception e) {
                         errors.add(
                                 "column " + col.position() + ": " +
-                                        e.toString()
+                                        e
                         );
                     }
                 }

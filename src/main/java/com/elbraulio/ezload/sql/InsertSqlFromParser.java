@@ -61,7 +61,7 @@ public final class InsertSqlFromParser implements BuildSql {
         final List<Column> columns = this.parser.columns();
         // first column name if exists
         if (!columns.isEmpty()) {
-            query.append(columns.get(0).name());
+            query.append(columns.getFirst().name());
         }
         // rest of columns separated by ','
         for (int i = 1; i < columns.size(); i++) {
@@ -75,9 +75,7 @@ public final class InsertSqlFromParser implements BuildSql {
             query.append("?");
         }
         // a '?' character for remaining column
-        for (int i = 1; i < columns.size(); i++) {
-            query.append(",?");
-        }
+        query.repeat(",?", Math.max(0, columns.size() - 1));
         // end with ');'
         query.append(");");
         return query.toString();

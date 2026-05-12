@@ -22,27 +22,27 @@ public class DateValueTest {
             new DateValue(LocalDate.now()).accept(
                 new Action() {
                     @Override
-                    public void execute(Integer value) throws EzException {
+                    public void execute(Integer value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(Double value) throws EzException {
+                    public void execute(Double value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(String value) throws EzException {
+                    public void execute(String value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(LocalDateTime value) throws EzException {
+                    public void execute(LocalDateTime value) {
                         fail();
                     }
 
                     @Override
-                    public void execute(LocalDate value) throws EzException {
+                    public void execute(LocalDate value) {
                         assertTrue(true);
                     }
                 }

@@ -81,7 +81,7 @@ public class EzDoctorTest {
             .parser();
         List<EzError> errors = EzDoctor.check(parser, Stream.of(DATA));
         assertEquals(1, errors.size());
-        EzError error = errors.get(0);
+        EzError error = errors.getFirst();
         assertEquals("error at row 0: [column 1 does not accept value 'km/h']", error.toString());
     }
 }

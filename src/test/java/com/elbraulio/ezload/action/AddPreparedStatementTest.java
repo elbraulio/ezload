@@ -183,7 +183,7 @@ public class AddPreparedStatementTest {
         } catch (SQLException e) {
             fail();
         } catch (EzException e) {
-            assertEquals("setTimestamp error with value '" + value.toString() + "': java.sql.SQLException",
+            assertEquals("setTimestamp error with value '" + value + "': java.sql.SQLException",
                 e.getMessage());
         }
     }
@@ -218,7 +218,7 @@ public class AddPreparedStatementTest {
         } catch (SQLException e) {
             fail();
         } catch (EzException e) {
-            assertEquals("setDate error with value '" + value.toString() + "': java.sql.SQLException",
+            assertEquals("setDate error with value '" + value + "': java.sql.SQLException",
                 e.getMessage());
         }
     }
