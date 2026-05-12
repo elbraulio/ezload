@@ -71,7 +71,7 @@ public class DoubleValueTest {
                 }
             );
         } catch (EzException e) {
-            e.printStackTrace();
+            fail();
         }
     }
 }

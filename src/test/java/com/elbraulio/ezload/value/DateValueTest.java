@@ -48,7 +48,7 @@ public class DateValueTest {
                 }
             );
         } catch (EzException e) {
-            e.printStackTrace();
+            fail();
         }
     }
 }
