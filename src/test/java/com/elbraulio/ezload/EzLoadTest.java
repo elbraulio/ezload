@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,13 @@
 
 package com.elbraulio.ezload;
 
+import static org.junit.Assert.assertEquals;
+
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.transform.ToInt;
 import com.elbraulio.ezload.transform.ToString;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for {@link EzLoad}.
@@ -42,15 +42,15 @@ public class EzLoadTest {
     public void adColumnsWithSeparator() {
         String separator = ",";
         Parser parser = EzLoad.parse(separator, 2).withCol(
-                EzCol.integer(
-                        0, "int_val",
-                        new NoConstraint<>(), new ToInt()
-                )
+            EzCol.integer(
+                0, "int_val",
+                new NoConstraint<>(), new ToInt()
+            )
         ).withCol(
-                EzCol.string(
-                        1, "string_val",
-                        new NoConstraint<>(), new ToString()
-                )
+            EzCol.string(
+                1, "string_val",
+                new NoConstraint<>(), new ToString()
+            )
         ).parser();
         assertEquals(separator, parser.separator());
         assertEquals(2, parser.columns().size());

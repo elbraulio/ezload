@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ package com.elbraulio.ezload.column;
 import com.elbraulio.ezload.EzCol;
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.transform.ToInt;
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -40,40 +40,40 @@ public class NullableTest {
     @Test
     public void nullValuesDoesNotAffectTypes() {
         MatcherAssert.assertThat(
-                "accept null values",
-                new Nullable<>(
-                        "null",
-                        EzCol.integer(
-                                0, "c1", new NoConstraint<>(), new ToInt()
-                        )
-                ).isValid("null"),
-                Matchers.is(true)
+            "accept null values",
+            new Nullable<>(
+                "null",
+                EzCol.integer(
+                    0, "c1", new NoConstraint<>(), new ToInt()
+                )
+            ).isValid("null"),
+            CoreMatchers.is(true)
         );
     }
 
     @Test
     public void nullValuesDoesNotAffectValues() {
         MatcherAssert.assertThat(
-                "accept no null values",
-                new Nullable<>(
-                        "null",
-                        EzCol.integer(
-                                0, "c1", new NoConstraint<>(), new ToInt()
-                        )
-                ).parse("1"),
-                Matchers.is(1));
+            "accept no null values",
+            new Nullable<>(
+                "null",
+                EzCol.integer(
+                    0, "c1", new NoConstraint<>(), new ToInt()
+                )
+            ).parse("1"),
+            CoreMatchers.is(1));
     }
 
     @Test
     public void returnNullValues() {
         MatcherAssert.assertThat(
-                "identifies null values",
-                new Nullable<>(
-                        "null",
-                        EzCol.integer(
-                                0, "c1", new NoConstraint<>(), new ToInt()
-                        )
-                ).parse("null"),
-                Matchers.nullValue());
+            "identifies null values",
+            new Nullable<>(
+                "null",
+                EzCol.integer(
+                    0, "c1", new NoConstraint<>(), new ToInt()
+                )
+            ).parse("null"),
+            CoreMatchers.nullValue());
     }
 }

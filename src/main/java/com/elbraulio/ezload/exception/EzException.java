@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ public final class EzException extends Exception {
     /**
      * Ctor.
      *
-     * @param msg       exception message.
+     * @param msg exception message.
      * @param throwable chained exception.
      */
     public EzException(String msg, Throwable throwable) {

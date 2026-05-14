@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ public final class EzLoad {
      * Create a {@link ParseBuild} to build a {@link Parser}.
      *
      * @param expression separator expression.
-     * @param cols       number of columns.
+     * @param cols number of columns.
      * @return {@link ParseBuild}.
      */
     static public ParseBuild parse(String expression, int cols) {

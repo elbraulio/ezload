@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,15 @@
 
 package com.elbraulio.ezload.doctor;
 
+import static java.util.stream.Collectors.toList;
+
 import com.elbraulio.ezload.error.EzError;
 import com.elbraulio.ezload.error.RowError;
 import com.elbraulio.ezload.exception.EzParseException;
 import com.elbraulio.ezload.parse.Parser;
-
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Validates data model using a given Parser.
@@ -50,17 +49,18 @@ public final class DefaultDoctor {
     }
 
     /**
-     * Checks if a stream of data fits the parser's conditions. Includes a limit for number of errors.
+     * Checks if a stream of data fits the parser's conditions. Includes a limit for number of
+     * errors.
      *
-     * @param data        stream of data.
+     * @param data stream of data.
      * @param errorsLimit maximum number of errors to return.
      * @return list of errors. With a maximum of <code>errorsLimit</code> errors.
      */
     public List<EzError> check(Stream<String> data, int errorsLimit) {
         AtomicInteger row = new AtomicInteger();
         return data.flatMap(line -> getLineErrors(line, row.getAndIncrement()))
-                .limit(errorsLimit)
-                .collect(toList());
+            .limit(errorsLimit)
+            .collect(toList());
     }
 
     private Stream<EzError> getLineErrors(String line, int row) {

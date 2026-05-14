@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,11 @@ package com.elbraulio.ezload.line;
 
 import com.elbraulio.ezload.value.IntValue;
 import com.elbraulio.ezload.value.Value;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 import java.util.LinkedList;
 import java.util.List;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
  * Unit test for {@link DefaultLine}.
@@ -46,9 +45,9 @@ public class DefaultLineTest {
         final Line line = new DefaultLine(values);
         line.values().clear();
         MatcherAssert.assertThat(
-                "values are immutable",
-                line.values().size(),
-                Matchers.is(1)
+            "values are immutable",
+            line.values().size(),
+            CoreMatchers.is(1)
         );
     }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,23 @@
 
 package com.elbraulio.ezload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.elbraulio.ezload.constraint.NoConstraint;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.Parser;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit test for {@link EzInsert}.
@@ -61,16 +63,16 @@ public class EzInsertTest {
     @Test
     public void insertString() throws EzException {
         Parser parser = EzLoad.parse(",", 1)
-                .withCol(EzCol.string(0,
-                        "string_val",
-                        new NoConstraint<>()))
-                .parser();
+            .withCol(EzCol.string(0,
+                "string_val",
+                new NoConstraint<>()))
+            .parser();
         long affected = EzInsert.fromParser(
-                connection,
-                "test",
-                parser,
-                Arrays.stream(new String[]{"hi!"}));
-        assertEquals(affected, 1L);
+            connection,
+            "test",
+            parser,
+            Arrays.stream(new String[]{"hi!"}));
+        assertEquals(1L, affected);
     }
 
     @Test
@@ -78,17 +80,17 @@ public class EzInsertTest {
         int chunkSize = 1;
         doReturn(new int[]{chunkSize}).when(preparedStatement).executeBatch();
         Parser parser = EzLoad.parse(",", 1)
-                .withCol(EzCol.string(0,
-                        "string_val",
-                        new NoConstraint<>()))
-                .parser();
+            .withCol(EzCol.string(0,
+                "string_val",
+                new NoConstraint<>()))
+            .parser();
         String[] input = {"1", "b", "c"};
         long affected = EzInsert.fromParser(
-                connection,
-                "test",
-                parser,
-                Arrays.stream(input),
-                chunkSize);
+            connection,
+            "test",
+            parser,
+            Arrays.stream(input),
+            chunkSize);
         verify(preparedStatement, times(input.length / chunkSize)).executeBatch();
         assertEquals(affected, input.length);
     }
@@ -97,21 +99,21 @@ public class EzInsertTest {
     public void exceptionsIncludeDetails() {
         try {
             Parser parser = EzLoad.parse(",", 1)
-                    .withCol(EzCol.integer(0,
-                            "int_val",
-                            new NoConstraint<>()))
-                    .parser();
+                .withCol(EzCol.integer(0,
+                    "int_val",
+                    new NoConstraint<>()))
+                .parser();
             String[] input = {"hi!"};
             EzInsert.fromParser(
-                    connection,
-                    "test",
-                    parser,
-                    Arrays.stream(input));
+                connection,
+                "test",
+                parser,
+                Arrays.stream(input));
             fail("Exception must be thrown");
         } catch (EzException e) {
             assertEquals("errors on row 0 --> [column 0: java.lang" +
-                    ".NumberFormatException: For input " +
-                    "string: \"hi!\"]", e.getMessage());
+                ".NumberFormatException: For input " +
+                "string: \"hi!\"]", e.getMessage());
         }
     }
 
@@ -119,40 +121,40 @@ public class EzInsertTest {
     public void exceptionWithMultipleCols() {
         try {
             Parser parser = EzLoad.parse(",", 1)
-                    .withCol(EzCol.integer(1,
-                            "int_val",
-                            new NoConstraint<>()))
-                    .withCol(EzCol.string(0,
-                            "string_val",
-                            new NoConstraint<>()))
-                    .parser();
+                .withCol(EzCol.integer(1,
+                    "int_val",
+                    new NoConstraint<>()))
+                .withCol(EzCol.string(0,
+                    "string_val",
+                    new NoConstraint<>()))
+                .parser();
             String[] input = {"1,bye"};
             EzInsert.fromParser(
-                    connection,
-                    "test",
-                    parser,
-                    Arrays.stream(input));
+                connection,
+                "test",
+                parser,
+                Arrays.stream(input));
             fail("Exception must be thrown");
         } catch (EzException e) {
             assertEquals("errors on row 0 --> [column 1: java.lang" +
-                    ".NumberFormatException: For input " +
-                    "string: \"bye\"]", e.getMessage());
+                ".NumberFormatException: For input " +
+                "string: \"bye\"]", e.getMessage());
         }
     }
 
     @Test
     public void insertNullableInteger() throws EzException {
         Parser parser = EzLoad.parse(",", 1)
-                .withCol(EzCol.nullable("",
-                        EzCol.integer(0,
-                                "int_val",
-                                new NoConstraint<>())))
-                .parser();
+            .withCol(EzCol.nullable("",
+                EzCol.integer(0,
+                    "int_val",
+                    new NoConstraint<>())))
+            .parser();
         long affected = EzInsert.fromParser(
-                connection,
-                "test",
-                parser,
-                Arrays.stream(new String[]{""}));
-        assertEquals(affected, 1L);
+            connection,
+            "test",
+            parser,
+            Arrays.stream(new String[]{""}));
+        assertEquals(1L, affected);
     }
 }

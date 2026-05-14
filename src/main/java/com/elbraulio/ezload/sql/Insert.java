@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,14 +38,14 @@ import java.util.stream.Stream;
 public interface Insert {
 
     /**
-     * Executes the insert statement to the given <code>connection</code>
-     * from the source <code>Stream</code>.
+     * Executes the insert statement to the given <code>connection</code> from the source
+     * <code>Stream</code>.
      *
      * @param connection connection to data base.
-     * @param lines      source lines stream.
+     * @param lines source lines stream.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
     long execute(Connection connection, Stream<String> lines)
-            throws EzException;
+        throws EzException;
 }

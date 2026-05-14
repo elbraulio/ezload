@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,19 +37,19 @@ public class EzExceptionTest {
     @Test
     public void keepMessage() {
         MatcherAssert.assertThat(
-                "should keep the initial message",
-                new EzException("a message").getMessage(),
-                CoreMatchers.is("a message")
+            "should keep the initial message",
+            new EzException("a message").getMessage(),
+            CoreMatchers.is("a message")
         );
     }
 
     @Test
     public void keepChainedExceptionMessage() {
         MatcherAssert.assertThat(
-                "chain an exception and keep its message",
-                new EzException("message 2", new Exception("message 1"))
-                        .getMessage(),
-                CoreMatchers.is("message 2")
+            "chain an exception and keep its message",
+            new EzException("message 2", new Exception("message 1"))
+                .getMessage(),
+            CoreMatchers.is("message 2")
         );
     }
 }

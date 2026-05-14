@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,16 @@
 package com.elbraulio.ezload;
 
 import com.elbraulio.ezload.constraint.NoConstraint;
-import com.elbraulio.ezload.transform.*;
+import com.elbraulio.ezload.transform.ToDouble;
+import com.elbraulio.ezload.transform.ToInt;
+import com.elbraulio.ezload.transform.ToLocalDate;
+import com.elbraulio.ezload.transform.ToLocalDateTime;
+import com.elbraulio.ezload.transform.ToString;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Unit test for {@link EzCol}.
@@ -42,124 +45,124 @@ public class EzColTest {
     @Test
     public void intCol() {
         MatcherAssert.assertThat(
-                "integer as integer",
-                EzCol.integer(
-                        0, "name", new NoConstraint<>(), new ToInt()
-                ).parse("1"),
-                CoreMatchers.is(1)
+            "integer as integer",
+            EzCol.integer(
+                0, "name", new NoConstraint<>(), new ToInt()
+            ).parse("1"),
+            CoreMatchers.is(1)
         );
     }
 
     @Test
     public void optionalIntCol() {
         MatcherAssert.assertThat(
-                "integer as integer",
-                EzCol.integer(
-                        0, "name", new NoConstraint<>()
-                ).parse("1"),
-                CoreMatchers.is(1)
+            "integer as integer",
+            EzCol.integer(
+                0, "name", new NoConstraint<>()
+            ).parse("1"),
+            CoreMatchers.is(1)
         );
     }
 
     @Test
     public void stringCol() {
         MatcherAssert.assertThat(
-                "string as string",
-                EzCol.string(
-                        0, "name", new NoConstraint<>(), new ToString()
-                ).parse("1"),
-                CoreMatchers.is("1")
+            "string as string",
+            EzCol.string(
+                0, "name", new NoConstraint<>(), new ToString()
+            ).parse("1"),
+            CoreMatchers.is("1")
         );
     }
 
     @Test
     public void optionalStringCol() {
         MatcherAssert.assertThat(
-                "string as string",
-                EzCol.string(
-                        0, "name", new NoConstraint<>()
-                ).parse("1"),
-                CoreMatchers.is("1")
+            "string as string",
+            EzCol.string(
+                0, "name", new NoConstraint<>()
+            ).parse("1"),
+            CoreMatchers.is("1")
         );
     }
 
     @Test
     public void doubleCol() {
         MatcherAssert.assertThat(
-                "double as double",
-                EzCol.doublee(
-                        0, "name", new NoConstraint<>(), new ToDouble()
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
+            "double as double",
+            EzCol.doublee(
+                0, "name", new NoConstraint<>(), new ToDouble()
+            ).parse("1.8"),
+            CoreMatchers.is(1.8)
         );
     }
 
     @Test
     public void optionalDoubleCol() {
         MatcherAssert.assertThat(
-                "double as double",
-                EzCol.doublee(
-                        0, "name", new NoConstraint<>()
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
+            "double as double",
+            EzCol.doublee(
+                0, "name", new NoConstraint<>()
+            ).parse("1.8"),
+            CoreMatchers.is(1.8)
         );
     }
 
     @Test
     public void dateCol() {
         MatcherAssert.assertThat(
-                "date as date",
-                EzCol.date(
-                        0, "name", new NoConstraint<>(), new ToLocalDate()
-                ).parse("1991-04-27"),
-                CoreMatchers.is(LocalDate.of(1991, 4, 27))
+            "date as date",
+            EzCol.date(
+                0, "name", new NoConstraint<>(), new ToLocalDate()
+            ).parse("1991-04-27"),
+            CoreMatchers.is(LocalDate.of(1991, 4, 27))
         );
     }
 
     @Test
     public void optionalDateCol() {
         MatcherAssert.assertThat(
-                "date as date",
-                EzCol.date(
-                        0, "name", new NoConstraint<>()
-                ).parse("1991-04-27"),
-                CoreMatchers.is(LocalDate.of(1991, 4, 27))
+            "date as date",
+            EzCol.date(
+                0, "name", new NoConstraint<>()
+            ).parse("1991-04-27"),
+            CoreMatchers.is(LocalDate.of(1991, 4, 27))
         );
     }
 
     @Test
     public void dateTimeCol() {
         MatcherAssert.assertThat(
-                "dateTime as dateTime",
-                EzCol.dateTime(
-                        0, "name", new NoConstraint<>(), new ToLocalDateTime()
-                ).parse("1991-04-27T23:24:25.000000"),
-                CoreMatchers.is(LocalDateTime.of(1991, 4, 27, 23, 24, 25))
+            "dateTime as dateTime",
+            EzCol.dateTime(
+                0, "name", new NoConstraint<>(), new ToLocalDateTime()
+            ).parse("1991-04-27T23:24:25.000000"),
+            CoreMatchers.is(LocalDateTime.of(1991, 4, 27, 23, 24, 25))
         );
     }
 
     @Test
     public void optionalDateTimeCol() {
         MatcherAssert.assertThat(
-                "dateTime as dateTime",
-                EzCol.dateTime(
-                        0, "name", new NoConstraint<>()
-                ).parse("1991-04-27T23:24:25.000000"),
-                CoreMatchers.is(LocalDateTime.of(1991, 4, 27, 23, 24, 25))
+            "dateTime as dateTime",
+            EzCol.dateTime(
+                0, "name", new NoConstraint<>()
+            ).parse("1991-04-27T23:24:25.000000"),
+            CoreMatchers.is(LocalDateTime.of(1991, 4, 27, 23, 24, 25))
         );
     }
 
     @Test
     public void nullableCol() {
         MatcherAssert.assertThat(
-                "null col double as double",
-                EzCol.nullable(
-                        "NULL",
-                        EzCol.doublee(
-                                0, "name", new NoConstraint<>(), new ToDouble()
-                        )
-                ).parse("1.8"),
-                CoreMatchers.is(1.8)
+            "null col double as double",
+            EzCol.nullable(
+                "NULL",
+                EzCol.doublee(
+                    0, "name", new NoConstraint<>(), new ToDouble()
+                )
+            ).parse("1.8"),
+            CoreMatchers.is(1.8)
         );
     }
 }

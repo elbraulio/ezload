@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,10 @@ package com.elbraulio.ezload.column;
 import com.elbraulio.ezload.value.Value;
 
 /**
- * A Column represent the format that a value from a column should check.
+ * A Column represents the format that a value from a column should check.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0 moved from model package.
+ * @since 0.3.0 moved from the model package.
  */
 public interface Column<T> {
 
@@ -43,8 +43,7 @@ public interface Column<T> {
     T parse(String raw);
 
     /**
-     * Position from left to right of the column on a line separated by a
-     * expression. From 0 to n.
+     * Position from left to right of the column on a line separated by an expression. From 0 to n.
      *
      * @return position number.
      */
@@ -73,4 +72,6 @@ public interface Column<T> {
      * @return a {@link Value}.
      */
     <P extends T> Value value(P value);
+
+    Value valueFromRaw(String raw);
 }

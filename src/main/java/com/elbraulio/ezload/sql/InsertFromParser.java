@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,8 +53,8 @@ public final class InsertFromParser implements Insert {
     /**
      * Ctor.
      *
-     * @param parser    table name.
-     * @param buildSql  sql builder.
+     * @param parser table name.
+     * @param buildSql sql builder.
      * @param chunkSize size to split the batch.
      */
     public InsertFromParser(Parser parser, BuildSql buildSql, int chunkSize) {
@@ -66,14 +66,14 @@ public final class InsertFromParser implements Insert {
 
     @Override
     public long execute(Connection connection, Stream<String> lines)
-            throws EzException {
+        throws EzException {
         final Iterator<String> iterableLines = lines.iterator();
         int count = 0;
         long modified = 0L;
         try (
-                final PreparedStatement statement = connection.prepareStatement(
-                        this.buildSql.sql()
-                )
+            final PreparedStatement statement = connection.prepareStatement(
+                this.buildSql.sql()
+            )
         ) {
             while (iterableLines.hasNext()) {
                 final Line parsedLine = this.parser.parse(iterableLines.next());
@@ -92,10 +92,10 @@ public final class InsertFromParser implements Insert {
             }
             return modified;
         } catch (SQLException e) {
-            throw new EzException("Sql error: " + e.toString(), e);
+            throw new EzException("Sql error: " + e, e);
         } catch (EzParseException e) {
             throw new EzException(
-                    "errors on row " + count + " --> " + e.errors().toString()
+                "errors on row " + count + " --> " + e.errors()
             );
         }
     }

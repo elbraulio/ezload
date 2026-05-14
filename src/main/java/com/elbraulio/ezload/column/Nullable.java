@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ package com.elbraulio.ezload.column;
 import com.elbraulio.ezload.value.Value;
 
 /**
- * Allows a given column to return <code>null</code> values.
- * This overrides parse and isValid in order to support null values.
+ * Allows a given column to return <code>null</code> values. This overrides parse and isValid to
+ * support null values.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.4.0
@@ -42,7 +42,7 @@ public class Nullable<T> implements Column<T> {
      * Ctor.
      *
      * @param expression text that represents null.
-     * @param decorated  nullable {@link Column}.
+     * @param decorated nullable {@link Column}.
      */
     public Nullable(String expression, Column<T> decorated) {
         this.expression = expression;
@@ -52,8 +52,8 @@ public class Nullable<T> implements Column<T> {
     @Override
     public T parse(String raw) {
         return this.expression.equals(raw)
-                ? null
-                : this.decorated.parse(raw);
+            ? null
+            : this.decorated.parse(raw);
     }
 
     @Override
@@ -74,5 +74,10 @@ public class Nullable<T> implements Column<T> {
     @Override
     public <P extends T> Value value(P value) {
         return this.decorated.value(value);
+    }
+
+    @Override
+    public Value valueFromRaw(final String raw) {
+        return this.decorated.value(parse(raw));
     }
 }

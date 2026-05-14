@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,23 +30,23 @@ import com.elbraulio.ezload.parse.Parser;
 import java.util.List;
 
 /**
- * Build a SQL query from {@link Parser}. The column position is the same as the
- * list {@link Parser#columns()}.
+ * Build a SQL query from {@link Parser}. The column position is the same as the list
+ * {@link Parser#columns()}.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
  * @since 0.1.0
  */
-public final class SqlFromParser implements BuildSql {
+public final class InsertSqlFromParser implements BuildSql {
     private final String name;
     private final Parser parser;
 
     /**
      * Ctor.
      *
-     * @param name   table name.
-     * @param parser parser with columns format.
+     * @param name table name.
+     * @param parser parser with column format.
      */
-    public SqlFromParser(String name, Parser parser) {
+    public InsertSqlFromParser(String name, Parser parser) {
 
         this.name = name;
         this.parser = parser;
@@ -56,12 +56,12 @@ public final class SqlFromParser implements BuildSql {
     public String sql() {
         // start with 'INSERT INTO {table name}'
         final StringBuilder query = new StringBuilder(
-                "INSERT INTO " + this.name + " ("
+            "INSERT INTO " + this.name + " ("
         );
-        final List<Column> columns = this.parser.columns();
+        final List<Column<?>> columns = this.parser.columns();
         // first column name if exists
         if (!columns.isEmpty()) {
-            query.append(columns.get(0).name());
+            query.append(columns.getFirst().name());
         }
         // rest of columns separated by ','
         for (int i = 1; i < columns.size(); i++) {
@@ -75,9 +75,7 @@ public final class SqlFromParser implements BuildSql {
             query.append("?");
         }
         // a '?' character for remaining column
-        for (int i = 1; i < columns.size(); i++) {
-            query.append(",?");
-        }
+        query.repeat(",?", Math.max(0, columns.size() - 1));
         // end with ');'
         query.append(");");
         return query.toString();

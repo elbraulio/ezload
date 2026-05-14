@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +30,11 @@ import com.elbraulio.ezload.value.Value;
 import com.elbraulio.ezload.value.ValueFactory;
 
 /**
- * This implementation works as a generic representation of the format that a
- * column (or cell) stores.
+ * This implementation works as a generic representation of the format that a column (or cell)
+ * stores.
  *
  * @author Braulio Lopez (brauliop.3@gmail.com)
- * @since 0.3.0 moved from model package.
+ * @since 0.3.0 moved from the model package.
  */
 public final class GenericColumn<T> implements Column<T> {
     private final int position;
@@ -46,15 +46,15 @@ public final class GenericColumn<T> implements Column<T> {
     /**
      * Ctor.
      *
-     * @param position     position on file, from left to right starting from 0.
-     * @param name         column name.
-     * @param constraint   value constraint.
-     * @param transform    value transform.
+     * @param position position on file, from left to right starting from 0.
+     * @param name column name.
+     * @param constraint value constraint.
+     * @param transform value transform.
      * @param valueFactory value factory.
      */
     public GenericColumn(
-            int position, String name, Constraint<T> constraint,
-            Transform<T> transform, ValueFactory<T> valueFactory
+        int position, String name, Constraint<T> constraint,
+        Transform<T> transform, ValueFactory<T> valueFactory
     ) {
 
         this.position = position;
@@ -87,5 +87,10 @@ public final class GenericColumn<T> implements Column<T> {
     @Override
     public <P extends T> Value value(P value) {
         return this.valueFactory.newValue(value);
+    }
+
+    @Override
+    public Value valueFromRaw(final String raw) {
+        return this.valueFactory.newValue(this.parse(raw));
     }
 }

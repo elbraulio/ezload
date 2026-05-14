@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,12 @@ import com.elbraulio.ezload.column.Column;
 public interface ParseBuild {
 
     /**
-     * Add new column to the set of columns.
+     * Add a new column to the set of columns.
      *
      * @param col {@link Column}.
      * @return builder.
      */
-    ParseBuild withCol(Column col);
+    <T> ParseBuild withCol(Column<T> col);
 
     /**
      * Build the parser.

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,18 +37,18 @@ public class NoConstraintTest {
     @Test
     public void returnTrue() {
         MatcherAssert.assertThat(
-                "always return true",
-                new NoConstraint<>().isValid(false),
-                CoreMatchers.is(true)
+            "always return true",
+            new NoConstraint<>().isValid(false),
+            CoreMatchers.is(true)
         );
     }
 
     @Test
     public void supportDifferentTypes() {
         MatcherAssert.assertThat(
-                "No matters the type, it is the same result",
-                new NoConstraint<>().isValid(1),
-                CoreMatchers.is(new NoConstraint<>().isValid(false))
+            "No matters the type, it is the same result",
+            new NoConstraint<>().isValid(1),
+            CoreMatchers.is(new NoConstraint<>().isValid(false))
         );
     }
 }

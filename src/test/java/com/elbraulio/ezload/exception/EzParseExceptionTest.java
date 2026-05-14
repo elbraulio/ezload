@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,11 @@
 
 package com.elbraulio.ezload.exception;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 import java.util.LinkedList;
 import java.util.List;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 
 /**
  * Unit test for {@link EzParseException}.
@@ -41,11 +39,11 @@ public class EzParseExceptionTest {
     @Test
     public void exceptionMessages() {
         MatcherAssert.assertThat(
-                "should keep the initial message",
-                new EzParseException(
-                        "a message", new LinkedList<>()
-                ).getMessage(),
-                CoreMatchers.is("a message")
+            "should keep the initial message",
+            new EzParseException(
+                "a message", new LinkedList<>()
+            ).getMessage(),
+            CoreMatchers.is("a message")
         );
     }
 
@@ -54,9 +52,9 @@ public class EzParseExceptionTest {
         final List<String> errors = new LinkedList<>();
         errors.add("error 1");
         MatcherAssert.assertThat(
-                "should keep the initial message",
-                new EzParseException("a message", errors).errors().get(0),
-                CoreMatchers.is("error 1")
+            "should keep the initial message",
+            new EzParseException("a message", errors).errors().getFirst(),
+            CoreMatchers.is("error 1")
         );
     }
 
@@ -65,13 +63,13 @@ public class EzParseExceptionTest {
         final List<String> errors = new LinkedList<>();
         errors.add("error 1");
         final EzParseException exception = new EzParseException(
-                "a message", errors
+            "a message", errors
         );
         exception.errors().clear();
         MatcherAssert.assertThat(
-                "immutable errors",
-                exception.errors().size(),
-                Matchers.is(1)
+            "immutable errors",
+            exception.errors().size(),
+            CoreMatchers.is(1)
         );
     }
 
@@ -80,11 +78,11 @@ public class EzParseExceptionTest {
         final List<String> errors = new LinkedList<>();
         errors.add("error 1");
         MatcherAssert.assertThat(
-                "should keep the initial message",
-                new EzParseException(
-                        "a message", errors, new NumberFormatException("error")
-                ).errors().get(0),
-                CoreMatchers.is("error 1")
+            "should keep the initial message",
+            new EzParseException(
+                "a message", errors, new NumberFormatException("error")
+            ).errors().getFirst(),
+            CoreMatchers.is("error 1")
         );
     }
 }

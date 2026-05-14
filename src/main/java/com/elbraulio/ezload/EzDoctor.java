@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public final class EzDoctor {
      * Checks if a stream of data fits the parser's conditions.
      *
      * @param parser parser with data model.
-     * @param data   stream of data.
+     * @param data stream of data.
      * @return list of errors.
      */
     public static List<EzError> check(Parser parser, Stream<String> data) {
@@ -51,10 +51,11 @@ public final class EzDoctor {
     }
 
     /**
-     * Checks if a stream of data fits the parser's conditions. Includes a limit for number of errors.
+     * Checks if a stream of data fits the parser's conditions. Includes a limit for number of
+     * errors.
      *
-     * @param parser      parser with data model.
-     * @param data        stream of data.
+     * @param parser parser with data model.
+     * @param data stream of data.
      * @param errorsLimit maximum number of errors to return.
      * @return list of errors. With a maximum of <code>errorsLimit</code> errors.
      */

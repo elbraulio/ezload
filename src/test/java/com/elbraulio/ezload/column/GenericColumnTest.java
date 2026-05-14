@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,45 +39,45 @@ import org.junit.Test;
 public class GenericColumnTest {
 
     private final Column<String> col = new GenericColumn<>(
-            0, "column_name",
-            new NoConstraint<>(), new ToString(),
-            StringValue::new
+        0, "column_name",
+        new NoConstraint<>(), new ToString(),
+        StringValue::new
     );
 
     @Test
     public void plainTextValueWithNoConstrains() {
         MatcherAssert.assertThat(
-                "a plain text with no constrains and transformations" +
-                        "should keep the same",
-                col.parse("plain text"),
-                CoreMatchers.is("plain text")
+            "a plain text with no constrains and transformations" +
+                "should keep the same",
+            col.parse("plain text"),
+            CoreMatchers.is("plain text")
         );
     }
 
     @Test
     public void orderNotChange() {
         MatcherAssert.assertThat(
-                "position always is the same",
-                col.position(),
-                CoreMatchers.is(0)
+            "position always is the same",
+            col.position(),
+            CoreMatchers.is(0)
         );
     }
 
     @Test
     public void nameNotChange() {
         MatcherAssert.assertThat(
-                "name always is the same",
-                col.name(),
-                CoreMatchers.is("column_name")
+            "name always is the same",
+            col.name(),
+            CoreMatchers.is("column_name")
         );
     }
 
     @Test
     public void validationTrueWithNoConstrains() {
         MatcherAssert.assertThat(
-                "always is valid",
-                col.isValid("some input"),
-                CoreMatchers.is(true)
+            "always is valid",
+            col.isValid("some input"),
+            CoreMatchers.is(true)
         );
     }
 }

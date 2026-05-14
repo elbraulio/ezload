@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ package com.elbraulio.ezload;
 import com.elbraulio.ezload.exception.EzException;
 import com.elbraulio.ezload.parse.Parser;
 import com.elbraulio.ezload.sql.InsertFromParser;
-import com.elbraulio.ezload.sql.SqlFromParser;
+import com.elbraulio.ezload.sql.InsertSqlFromParser;
 
 import java.sql.Connection;
 import java.util.stream.Stream;
@@ -44,18 +44,18 @@ public final class EzInsert {
      * Insert a source to a data base.
      *
      * @param connection connection to data base.
-     * @param table      table name to insert.
-     * @param parser     source format.
-     * @param lines      read the source stream.
+     * @param table table name to insert.
+     * @param parser source format.
+     * @param lines read the source stream.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
     public static long fromParser(
-            Connection connection, String table, Parser parser,
-            Stream<String> lines
+        Connection connection, String table, Parser parser,
+        Stream<String> lines
     ) throws EzException {
         return new InsertFromParser(
-                parser, new SqlFromParser(table, parser), Integer.MAX_VALUE
+            parser, new InsertSqlFromParser(table, parser), Integer.MAX_VALUE
         ).execute(connection, lines);
     }
 
@@ -63,19 +63,19 @@ public final class EzInsert {
      * Insert a source to a data base.
      *
      * @param connection connection to data base.
-     * @param table      table name to insert.
-     * @param parser     source format.
-     * @param lines      read the source stream.
-     * @param chunkSize  chunk size to execute batch.
+     * @param table table name to insert.
+     * @param parser source format.
+     * @param lines read the source stream.
+     * @param chunkSize chunk size to execute batch.
      * @return total batch added to database.
      * @throws EzException EzLoad error.
      */
     public static long fromParser(
-            Connection connection, String table, Parser parser,
-            Stream<String> lines, int chunkSize
+        Connection connection, String table, Parser parser,
+        Stream<String> lines, int chunkSize
     ) throws EzException {
         return new InsertFromParser(
-                parser, new SqlFromParser(table, parser), chunkSize
+            parser, new InsertSqlFromParser(table, parser), chunkSize
         ).execute(connection, lines);
     }
 }

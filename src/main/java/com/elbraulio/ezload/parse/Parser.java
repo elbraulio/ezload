@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public interface Parser {
      *
      * @return columns.
      */
-    List<Column> columns();
+    List<Column<?>> columns();
 
     /**
      * Expression that defines how the data is separated in a single line.
@@ -57,7 +57,7 @@ public interface Parser {
      *
      * @param line raw line.
      * @return parsed line.
-     * @throws EzParseException when raw line has format errors.
+     * @throws EzParseException when a raw line has format errors.
      */
     Line parse(String line) throws EzParseException;
 }

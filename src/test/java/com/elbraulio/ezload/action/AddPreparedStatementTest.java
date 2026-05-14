@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,27 @@
 
 package com.elbraulio.ezload.action;
 
-import com.elbraulio.ezload.exception.EzException;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyDouble;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import com.elbraulio.ezload.exception.EzException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 /**
  * Unit test for {@link AddPreparedStatement}.
@@ -177,8 +183,8 @@ public class AddPreparedStatementTest {
         } catch (SQLException e) {
             fail();
         } catch (EzException e) {
-            assertEquals("setTimestamp error with value '" + value.toString() + "': java.sql.SQLException",
-                    e.getMessage());
+            assertEquals("setTimestamp error with value '" + value + "': java.sql.SQLException",
+                e.getMessage());
         }
     }
 
@@ -212,8 +218,8 @@ public class AddPreparedStatementTest {
         } catch (SQLException e) {
             fail();
         } catch (EzException e) {
-            assertEquals("setDate error with value '" + value.toString() + "': java.sql.SQLException",
-                    e.getMessage());
+            assertEquals("setDate error with value '" + value + "': java.sql.SQLException",
+                e.getMessage());
         }
     }
 

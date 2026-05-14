@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,11 @@
 package com.elbraulio.ezload.action;
 
 import com.elbraulio.ezload.exception.EzException;
-
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -43,7 +46,7 @@ public final class AddPreparedStatement implements Action {
     /**
      * Ctor.
      *
-     * @param psmt  prepared statement.
+     * @param psmt prepared statement.
      * @param index index to add value.
      */
     public AddPreparedStatement(PreparedStatement psmt, int index) {
@@ -60,8 +63,8 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.INTEGER);
         } catch (SQLException e) {
             throw new EzException(
-                    "setInt error with value '" + value + "': " + e.toString(),
-                    e
+                "setInt error with value '" + value + "': " + e,
+                e
             );
         }
     }
@@ -75,9 +78,9 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.DOUBLE);
         } catch (SQLException e) {
             throw new EzException(
-                    "setDouble error with value '" + value + "': " +
-                            e.toString(),
-                    e
+                "setDouble error with value '" + value + "': " +
+                    e,
+                e
             );
         }
     }
@@ -91,9 +94,9 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.VARCHAR);
         } catch (SQLException e) {
             throw new EzException(
-                    "setString error with value '" + value + "': " +
-                            e.toString(),
-                    e
+                "setString error with value '" + value + "': " +
+                    e,
+                e
             );
         }
     }
@@ -107,9 +110,9 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.TIMESTAMP);
         } catch (SQLException e) {
             throw new EzException(
-                    "setTimestamp error with value '" + value + "': " +
-                            e.toString(),
-                    e
+                "setTimestamp error with value '" + value + "': " +
+                    e,
+                e
             );
         }
     }
@@ -123,9 +126,9 @@ public final class AddPreparedStatement implements Action {
                 this.psmt.setNull(this.index, Types.TIMESTAMP);
         } catch (SQLException e) {
             throw new EzException(
-                    "setDate error with value '" + value + "': " +
-                            e.toString(),
-                    e
+                "setDate error with value '" + value + "': " +
+                    e,
+                e
             );
         }
     }

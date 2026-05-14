@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 - 2020 Braulio López
+ * Copyright (c) 2019 - 2026 Braulio López
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,12 +38,12 @@ import java.util.List;
 public final class DefaultParseBuild implements ParseBuild {
     private final String expression;
     private final int columnsNumber;
-    private final List<Column> columns;
+    private final List<Column<?>> columns;
 
     /**
      * Ctor.
      *
-     * @param expression    separator expression.
+     * @param expression separator expression.
      * @param columnsNumber number of columns.
      */
     public DefaultParseBuild(String expression, int columnsNumber) {
@@ -53,12 +53,12 @@ public final class DefaultParseBuild implements ParseBuild {
     /**
      * Ctor.
      *
-     * @param expression    separator expression.
+     * @param expression separator expression.
      * @param columnsNumber number of columns.
-     * @param columns       columns formats.
+     * @param columns columns formats.
      */
     public DefaultParseBuild(
-            String expression, int columnsNumber, List<Column> columns
+        String expression, int columnsNumber, List<Column<?>> columns
     ) {
 
         this.expression = expression;
@@ -67,7 +67,7 @@ public final class DefaultParseBuild implements ParseBuild {
     }
 
     @Override
-    public ParseBuild withCol(Column col) {
+    public <T> ParseBuild withCol(Column<T> col) {
         this.columns.add(col);
         return this;
     }
@@ -75,7 +75,7 @@ public final class DefaultParseBuild implements ParseBuild {
     @Override
     public Parser parser() {
         return new DefaultParser(
-                this.expression, this.columnsNumber, this.columns
+            this.expression, this.columnsNumber, this.columns
         );
     }
 }
