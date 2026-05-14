@@ -13,7 +13,7 @@ Load, verify and use your line-formatted files easily.
     <dependency>
         <groupId>com.elbraulio</groupId>
         <artifactId>ezload</artifactId>
-        <version>0.6.0</version>
+        <version>0.7.0</version>
     </dependency>
 </dependencies>
 <repositories>
@@ -28,7 +28,7 @@ Load, verify and use your line-formatted files easily.
 
 ```groovy
 dependencies {
-        implementation 'com.elbraulio:ezload:0.6.0'
+        implementation 'com.elbraulio:ezload:0.7.0'
 }
 allprojects {
 	repositories {
